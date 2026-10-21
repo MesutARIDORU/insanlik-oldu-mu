@@ -1,0 +1,1307 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%92%80%3C/text%3E%3C/svg%3E">
+<style>
+/* ------------------------------------------------------------------ notebook theme */
+:root {
+  --desk: #e6dfd0; --page: #fffdf6; --ink: #27241f; --pencil: #7c766b; --rule: #dbe6f2;
+  --red: #c8372b; --green: #2a8a52; --blue: #2c5fc9; --orange: #d06a26; --grey: #8f897f;
+  --highlight: rgba(255, 221, 64, .55); --highlight-soft: rgba(255, 221, 64, .30); --marker: rgba(255, 214, 51, .17);
+  --tint-orange: rgba(208, 106, 38, .11); --tint-green: rgba(42, 138, 82, .11); --tint-grey: rgba(120, 114, 106, .10);
+  --tint-blue: rgba(44, 95, 201, .10); --tint-red: rgba(200, 55, 43, .08);
+  --curl: #efe6d1; --card: #fffefb; --hole: var(--desk); --tape: rgba(234, 222, 188, .95); --sticky: #fff1a6; --sticky-ink: #2d2a24;
+  --margin-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='420'%3E%3Cpath d='M7 0 C8.4 50 5.6 105 7.2 160 S5.8 260 7.6 320 S6.2 395 7 420' fill='none' stroke='%23e2564b' stroke-width='2.6' stroke-linecap='round' opacity='.62'/%3E%3C/svg%3E");
+  --hand-title: "Marker Felt", "Caveat", "Segoe Print", "Ink Free", "Chalkboard SE", "Comic Sans MS", cursive;
+  --hand-text: "Noteworthy", "Patrick Hand", "Segoe Print", "Ink Free", "Chalkboard SE", "Comic Sans MS", cursive;
+  --font-book: "Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-airy: "Avenir Next", "Avenir", "Nunito Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-soft: "Optima", "Candara", "URW Classico", "Segoe UI", "Noto Sans", sans-serif;
+  --content-font: var(--font-airy); --content-size: 18.5px;
+}
+:root[data-font="soft"] { --content-font: var(--font-soft); --content-size: 19.5px; }
+:root[data-font="book"] { --content-font: var(--font-book); --content-size: 19.5px; }
+:root[data-font="hand"] { --content-font: var(--hand-text); --content-size: 21px; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --desk: #3b3028; --page: #25322a; --ink: #eeede4; --pencil: #b5b4a8; --rule: rgba(255, 255, 255, .07);
+    --red: #ff9b8f; --green: #8fe0ad; --blue: #9fbcff; --orange: #ffb27a; --grey: #a9a69c;
+    --highlight: rgba(255, 221, 64, .30); --highlight-soft: rgba(255, 221, 64, .16); --marker: rgba(255, 221, 64, .08);
+    --tint-orange: rgba(255, 178, 122, .14); --tint-green: rgba(143, 224, 173, .14); --tint-grey: rgba(200, 196, 186, .10);
+    --tint-blue: rgba(159, 188, 255, .14); --tint-red: rgba(255, 155, 143, .12);
+    --curl: #1d2721; --card: #2e3d33; --tape: rgba(196, 184, 150, .92);
+    --margin-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='420'%3E%3Cpath d='M7 0 C8.4 50 5.6 105 7.2 160 S5.8 260 7.6 320 S6.2 395 7 420' fill='none' stroke='%23ffb0a8' stroke-width='2.6' stroke-linecap='round' opacity='.45'/%3E%3C/svg%3E");
+    --hand-title: "Chalkduster", "Marker Felt", "Caveat", "Segoe Print", "Ink Free", "Comic Sans MS", cursive;
+  }
+}
+:root[data-theme="dark"] {
+  --desk: #3b3028; --page: #25322a; --ink: #eeede4; --pencil: #b5b4a8; --rule: rgba(255, 255, 255, .07);
+  --red: #ff9b8f; --green: #8fe0ad; --blue: #9fbcff; --orange: #ffb27a; --grey: #a9a69c;
+  --highlight: rgba(255, 221, 64, .30); --highlight-soft: rgba(255, 221, 64, .16); --marker: rgba(255, 221, 64, .08);
+  --tint-orange: rgba(255, 178, 122, .14); --tint-green: rgba(143, 224, 173, .14); --tint-grey: rgba(200, 196, 186, .10);
+  --tint-blue: rgba(159, 188, 255, .14); --tint-red: rgba(255, 155, 143, .12);
+  --curl: #1d2721; --card: #2e3d33; --tape: rgba(196, 184, 150, .92);
+  --margin-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='420'%3E%3Cpath d='M7 0 C8.4 50 5.6 105 7.2 160 S5.8 260 7.6 320 S6.2 395 7 420' fill='none' stroke='%23ffb0a8' stroke-width='2.6' stroke-linecap='round' opacity='.45'/%3E%3C/svg%3E");
+  --hand-title: "Chalkduster", "Marker Felt", "Caveat", "Segoe Print", "Ink Free", "Comic Sans MS", cursive;
+}
+* { box-sizing: border-box; }
+html { background: var(--desk); }
+body { margin: 0; color: var(--ink); font: 17px/1.5 var(--content-font); padding: 18px 16px 90px; }
+button, select, textarea, input { font: inherit; color: inherit; }
+
+/* ------------------------------------------------------------------ page */
+.page {
+  position: relative; max-width: 1180px; margin: 0 auto; min-height: calc(100vh - 140px);
+  background-color: var(--page); padding: 26px 48px 64px 118px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .06), 0 8px 22px rgba(70, 50, 20, .13);
+  border-radius: 2px 2px 2px 2px;
+  background-image: var(--margin-svg), repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--rule) 31px, var(--rule) 32px);
+  background-repeat: repeat-y, repeat;
+  background-position: 86px 0, 0 0;
+}
+.page[data-paper="grid"] {
+  background-image: var(--margin-svg), linear-gradient(to bottom, var(--rule) 1px, transparent 1px), linear-gradient(to right, var(--rule) 1px, transparent 1px);
+  background-size: auto, 16px 16px, 16px 16px;
+  background-repeat: repeat-y, repeat, repeat;
+  background-position: 86px 0, 0 0, 0 0;
+}
+.page[data-paper="plain"] { background-image: var(--margin-svg); background-repeat: repeat-y; background-position: 86px 0; }
+/* punch holes */
+.holes { position: absolute; left: 0; top: 0; bottom: 0; width: 64px; pointer-events: none;
+  background: radial-gradient(circle at 32px 50%, var(--hole) 0 8.5px, rgba(0, 0, 0, .16) 9.5px, transparent 11px) 0 40px / 64px 190px repeat-y; }
+/* curled corner and lifted-edge shadows */
+.page::after { content: ""; position: absolute; right: 0; bottom: 0; width: 46px; height: 46px;
+  background: linear-gradient(315deg, var(--desk) 0 50%, var(--curl) 50%, var(--page) 100%);
+  box-shadow: -3px -3px 7px -3px rgba(0, 0, 0, .22); border-top-left-radius: 9px; }
+.shadow { position: absolute; z-index: -1; bottom: 12px; width: 42%; height: 30px; box-shadow: 0 16px 14px rgba(40, 25, 5, .24); }
+.shadow.left { left: 14px; transform: rotate(-2.2deg); }
+.shadow.right { right: 14px; transform: rotate(2.2deg); }
+
+/* ------------------------------------------------------------------ header */
+header.top { margin-bottom: 26px; }
+.title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.menus { display: flex; gap: 4px; padding-top: 4px; }
+/* plain, borderless icons in faint ink */
+.icon-button { border: 0; background: none; padding: 6px; cursor: pointer; color: var(--blue); opacity: .45; border-radius: 50%; transition: opacity .15s, transform .15s; line-height: 0; }
+.icon-button svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.icon-button:hover, .icon-button:focus-visible, .icon-button[aria-expanded="true"] { opacity: 1; }
+.icon-button:hover { transform: rotate(-8deg); }
+#open-settings:hover { transform: rotate(30deg); }
+.icon-button:focus-visible { outline: 2px solid var(--highlight); outline-offset: 1px; }
+.product { font: 40px/1.1 var(--hand-title); margin: 0; letter-spacing: .3px; transform: rotate(-.6deg); transform-origin: left; display: inline-block; }
+.product b { color: var(--red); font-weight: inherit; }
+/* the logo: a hand-drawn skull before the title, the red question mark after it */
+.product .skull { width: 1.08em; height: 1.17em; vertical-align: -.2em; margin-right: .16em; transform: rotate(-7deg); color: var(--ink); }
+.skull .skull-head, .skull .skull-teeth { fill: none; stroke: currentColor; stroke-width: 2.7; stroke-linecap: round; stroke-linejoin: round; }
+.skull .skull-head.echo { stroke-width: 1.4; opacity: .35; }
+.skull .skull-fill { fill: currentColor; stroke: currentColor; stroke-width: 1; stroke-linejoin: round; }
+.underline-squiggle { display: block; width: 300px; max-width: 70vw; height: 12px; color: var(--red); margin: 2px 0 6px 4px; opacity: .8; }
+.meta { color: var(--pencil); font: 15.5px/1.5 var(--content-font); overflow-wrap: anywhere; }
+/* text profile: a pencil note under the title, written on the page's own lines */
+.profile { max-width: 780px; margin: 0 0 0 4px; color: var(--pencil); font: 15.5px/32px var(--content-font); }
+.profile[hidden] { display: none; }
+.profile .profile-name { font: 16px/32px var(--hand-title); color: var(--red); opacity: .85; margin-right: 6px; }
+.profile .profile-label { color: var(--ink); font-weight: 500; }
+.profile .profile-guess { font-style: italic; opacity: .8; }
+
+/* ------------------------------------------------------------------ hand-drawn boxes */
+.box {
+  font: 18px/1.2 var(--hand-title); background: transparent; color: var(--ink);
+  border: 2px solid var(--ink); padding: 5px 14px 6px; cursor: pointer;
+  border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px;
+  transition: transform .12s, box-shadow .12s, background-color .12s; white-space: nowrap;
+}
+.box { position: relative; }
+/* a second pen stroke, as if the box was drawn twice */
+.box::after { content: ""; position: absolute; inset: -3px -2px -1px -4px; pointer-events: none;
+  border: 1.5px solid var(--box-stroke, currentColor); opacity: .4; transform: rotate(.9deg);
+  border-radius: 14px 225px 14px 255px / 255px 14px 225px 14px; }
+.box:nth-child(3n+1) { transform: rotate(-.5deg); }
+.box:nth-child(3n) { transform: rotate(.6deg); }
+.box:hover { transform: rotate(-1.4deg) translateY(-1px); box-shadow: 2px 3px 0 rgba(0, 0, 0, .12); }
+.box:nth-child(even) { border-radius: 14px 225px 14px 255px / 255px 14px 225px 14px; }
+.box:nth-child(even)::after { border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px; transform: rotate(-.8deg); }
+.box.small { font-size: 15px; padding: 3px 10px 4px; border-width: 1.5px; }
+.box.highlighted, .box[aria-pressed="true"], .box[aria-selected="true"] {
+  background: linear-gradient(100deg, transparent 2%, var(--highlight) 5%, var(--highlight) 94%, transparent 98%);
+}
+.box.primary { background: var(--ink); color: var(--page); --box-stroke: var(--ink); }
+.box.primary:hover { box-shadow: 3px 4px 0 rgba(0, 0, 0, .18); }
+
+/* ------------------------------------------------------------------ panels: index cards */
+.panel {
+  position: absolute; z-index: 45; top: 70px; right: 40px; width: min(420px, calc(100vw - 32px));
+  background-color: #fffdf6; color: #2a2620; padding: 12px 20px 16px; transform: rotate(.5deg);
+  background-image: linear-gradient(to bottom, transparent 47px, rgba(214, 74, 64, .6) 47px, rgba(214, 74, 64, .6) 49px, transparent 49px);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .08), 0 18px 30px -12px rgba(0, 0, 0, .38);
+  font: 14px/1.5 var(--content-font);
+  --hand-title: "Marker Felt", "Caveat", "Segoe Print", "Ink Free", "Chalkboard SE", "Comic Sans MS", cursive;
+}
+.panel[hidden] { display: none; }
+.panel::before { content: ""; position: absolute; top: -11px; left: 50%; width: 92px; height: 22px; transform: translateX(-50%) rotate(2.5deg);
+  background: rgba(255, 255, 255, .7); box-shadow: 0 1px 2px rgba(0, 0, 0, .14); }
+.card-title { font: 24px/1 var(--hand-title); color: #2a2620; height: 37px; padding-top: 4px; transform: rotate(-.8deg); transform-origin: left; }
+.panel-close { position: absolute; top: 10px; right: 12px; border: 0; background: none; font-size: 20px; line-height: 1; cursor: pointer; color: rgba(42, 38, 32, .5); padding: 2px 4px; }
+.panel-close:hover { color: #2a2620; }
+.setting-row { display: grid; grid-template-columns: 84px minmax(0, 1fr); align-items: baseline; gap: 2px 10px; padding: 9px 0 8px; }
+.setting-row + .setting-row { border-top: 1px solid rgba(110, 150, 205, .32); }
+.setting-row.full { grid-template-columns: minmax(0, 1fr); }
+.setting-row[hidden] { display: none; }
+.setting-name { font: 14px/1.6 var(--hand-title); color: #a8453b; letter-spacing: .2px; }
+.setting-options { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.setting-note { grid-column: 1 / -1; margin: 4px 0 0; color: rgba(42, 38, 32, .65); font-size: 12.5px; line-height: 1.45; }
+.setting-row.full .setting-note { margin: 0; }
+/* option: plain text, the selected one is circled with a blue pen */
+.option { position: relative; border: 0; background: none; padding: 1px 4px; font: 14.5px/1.5 var(--content-font); color: rgba(42, 38, 32, .72); cursor: pointer; border-radius: 4px; }
+.option:hover { color: #2a2620; background: rgba(42, 38, 32, .05); }
+.option[aria-pressed="true"], .option[aria-selected="true"] { color: #1f4fb5; font-weight: 600; background: none; }
+.option[aria-pressed="true"]::after, .option[aria-selected="true"]::after {
+  content: ""; position: absolute; inset: -3px -7px -2px -6px; pointer-events: none;
+  border: 1.8px solid rgba(31, 79, 181, .75); border-radius: 55% 45% 52% 48% / 62% 50% 56% 44%; transform: rotate(-2.5deg);
+}
+.option:disabled { opacity: .35; cursor: not-allowed; background: none; }
+.option:focus-visible, .action:focus-visible { outline: 2px solid var(--highlight); outline-offset: 2px; }
+/* action: a small blue-ink link with an icon */
+.action { display: inline-flex; align-items: center; gap: 5px; border: 0; background: none; padding: 1px 2px; font: 14px/1.5 var(--content-font); color: #1f4fb5; cursor: pointer; }
+.action:hover { text-decoration: underline; text-underline-offset: 3px; }
+.action svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.action[hidden] { display: none; }
+/* note field written on the card's lines */
+.panel textarea.ruled-note { width: 100%; border: 0; border-radius: 0; resize: vertical; padding: 0 2px; margin-top: 2px; font: 14.5px/26px var(--content-font); color: #2a2620;
+  background: transparent repeating-linear-gradient(to bottom, transparent 0, transparent 25px, rgba(110, 150, 205, .38) 25px, rgba(110, 150, 205, .38) 26px); min-height: 78px; }
+.panel textarea.ruled-note:focus { outline: none; background-color: rgba(255, 230, 110, .12); }
+.panel .hint { color: rgba(42, 38, 32, .7); font-size: 13.5px; margin: 12px 0 6px; }
+.panel .checkbox-row { color: rgba(42, 38, 32, .7); font-size: 13px; margin-top: 6px; }
+.panel .checkbox-row input { accent-color: #1f4fb5; }
+.panel .shortcuts { margin-top: 10px; color: rgba(42, 38, 32, .65); font-size: 13px; }
+.panel kbd { font: 12.5px var(--hand-title); border: 1.3px solid rgba(42, 38, 32, .45); }
+.hint .sample-bold { color: var(--ink); }
+
+/* ------------------------------------------------------------------ text */
+.text { position: relative; max-width: 780px; font: var(--content-size)/32px var(--content-font); white-space: pre-wrap; overflow-wrap: anywhere; padding: 0; margin: 0 0 32px; }
+.empty { color: var(--pencil); }
+
+/* marked view: no colors or lines, only the changed words are emphasized */
+.chunk { cursor: pointer; outline: none; border-radius: 3px; transition: color .3s ease, opacity .3s ease; }
+.chunk:focus-visible { background: color-mix(in srgb, var(--highlight) 45%, transparent); }
+/* medium weight: Avenir Next has a Medium; Optima, Charter and the handwriting font have no in-between weight, so a thin stroke instead */
+.chunk b.changed, .hint .sample-bold {
+  font-weight: 500;
+  /* a very faint yellow highlighter behind it: the lower two thirds of the line, slightly soft edges */
+  background: linear-gradient(176deg, transparent 32%, var(--marker) 34%, var(--marker) 90%, transparent 92%);
+  border-radius: 2px; padding: 0 1px; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+:root[data-font="soft"] .chunk b.changed, :root[data-font="book"] .chunk b.changed, :root[data-font="hand"] .chunk b.changed,
+:root[data-font="soft"] .hint .sample-bold, :root[data-font="book"] .hint .sample-bold, :root[data-font="hand"] .hint .sample-bold { font-weight: 400; -webkit-text-stroke: .6px currentColor; }
+.chunk .deleted { color: var(--pencil); font-size: .78em; font-style: italic; margin-right: .5em; }
+.chunk.deletion { margin-left: .35em; }
+/* focus: while a note is open the rest of the text turns grey and the part being worked on stays dark */
+.text { transition: color .3s ease; }
+.text .diff-chunk { transition: color .3s ease, opacity .3s ease; }
+.text.focus { color: color-mix(in srgb, var(--ink) 42%, var(--page)); }
+.text.focus .chunk:not(.open), .text.focus .diff-chunk:not(.open) { opacity: .5; }
+.text.focus .chunk.open, .text.focus .diff-chunk.open { color: var(--ink); opacity: 1; }
+@keyframes pulse-ring { 0%, 100% { box-shadow: 0 0 0 2px transparent; } 50% { box-shadow: 0 0 0 3px var(--highlight); } }
+@media (prefers-reduced-motion: reduce) {
+  .diff-chunk.open { animation: none !important; }
+  .sticky-note.gliding { transition: none; }
+}
+
+/* before / after view: red pen */
+.diff-chunk { cursor: pointer; outline: none; border-radius: 3px; }
+.diff-chunk:focus-visible { box-shadow: 0 0 0 2px var(--highlight); }
+.diff-chunk.open { animation: pulse-ring 2.8s ease-in-out infinite; }
+.diff-chunk del { color: var(--red); background: var(--tint-red); text-decoration-thickness: 1px; text-decoration-color: rgba(200, 55, 43, .4); border-radius: 3px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.diff-chunk ins { text-decoration: none; color: var(--green); background: var(--tint-green); border-radius: 3px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.diff-chunk del ~ ins, .diff-chunk del ~ .custom { margin-left: 5px; }
+.diff-chunk .custom { display: none; color: var(--blue); background: var(--tint-blue); border-radius: 3px; }
+.diff-chunk.d-revert del { color: inherit; background: none; text-decoration: none; }
+.diff-chunk.d-revert ins { background: none; color: var(--pencil); text-decoration: line-through; opacity: .55; }
+.diff-chunk.d-custom del, .diff-chunk.d-custom ins { background: none; color: var(--pencil); text-decoration: line-through; opacity: .5; }
+.diff-chunk.d-custom .custom { display: inline; }
+
+/* ------------------------------------------------------------------ yellow sticky note */
+.sticky-note {
+  position: absolute; z-index: 40; width: min(360px, calc(100vw - 24px)); background: #ffe66e; color: #2a2620;
+  padding: 13px 13px 9px; font: 14px/1.5 var(--content-font); border-radius: 2px; transform: rotate(-.6deg);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .10), 0 14px 22px -10px rgba(0, 0, 0, .45);
+  background-image: linear-gradient(to bottom, #fff0a0 0%, #ffe66e 55%, #ffdf5c 100%);
+  --hand-title: "Marker Felt", "Caveat", "Segoe Print", "Ink Free", "Chalkboard SE", "Comic Sans MS", cursive;
+}
+.sticky-note[hidden] { display: none; }
+.sticky-note.gliding { transition: top .3s cubic-bezier(.2, .7, .2, 1), left .3s cubic-bezier(.2, .7, .2, 1); }
+.sticky-note::before { content: ""; position: absolute; top: -10px; left: 50%; width: 72px; height: 20px; transform: translateX(-50%) rotate(-3deg);
+  background: rgba(255, 255, 255, .7); box-shadow: 0 1px 2px rgba(0, 0, 0, .14); }
+.sticky-note .close { position: absolute; top: 3px; right: 5px; border: 0; background: none; font-size: 18px; line-height: 1; cursor: pointer; color: rgba(42, 38, 32, .6); padding: 2px 4px; }
+.sticky-note .close:hover { color: #2d2a24; }
+.sticky-note .reason { color: rgba(42, 38, 32, .78); font-size: 12.5px; line-height: 1.4; margin: 0 18px 8px 0; }
+.sticky-note .compare { display: grid; gap: 6px; }
+.sticky-note .version { position: relative; border-radius: 3px; padding: 4px 9px 6px; font-size: 14.5px; line-height: 1.5; max-height: 150px; overflow: auto;
+  overflow-wrap: anywhere; white-space: pre-wrap; transition: opacity .15s; }
+.sticky-note .version small { display: block; font: 11px/1.4 var(--hand-title); letter-spacing: .4px; }
+.sticky-note .version { color: #2a2620; }
+.sticky-note .version.before { background: #fde3df; }
+.sticky-note .version.after { background: #d9f1e1; }
+.sticky-note .version.custom { background: #dfe8fb; }
+.sticky-note .version.before small, .sticky-note .version.before.selected::after { color: #b5281c; }
+.sticky-note .version.after small, .sticky-note .version.after.selected::after { color: #1d6e40; }
+.sticky-note .version.custom small, .sticky-note .version.custom.selected::after { color: #2c5fc9; }
+.sticky-note .version.before.selected { box-shadow: inset 4px 0 0 #c8372b; }
+.sticky-note .version.after.selected { box-shadow: inset 4px 0 0 #2a8a52; }
+.sticky-note .version.custom.selected { box-shadow: inset 4px 0 0 #2c5fc9; }
+.sticky-note .version.selected::after { content: "✓"; position: absolute; top: 3px; right: 7px; font-size: 12px; font-weight: 700; }
+/* an unselected box is not made transparent (it gets muddy on yellow), only its color lightens */
+.sticky-note .version.faded { cursor: pointer; color: #8b8478; transition: color .15s, background-color .15s; }
+.sticky-note .version.before.faded { background: #fdefec; }
+.sticky-note .version.after.faded { background: #ebf7ef; }
+.sticky-note .version.faded mark.removed { color: #c98078; background: rgba(200, 55, 43, .07); }
+.sticky-note .version.faded mark.added { color: #74a98a; background: rgba(42, 138, 82, .09); }
+.sticky-note .version.faded:hover, .sticky-note .version.faded:focus-visible { color: #2a2620; outline: none; }
+.sticky-note .version.before.faded:hover, .sticky-note .version.before.faded:focus-visible { background: #fde3df; }
+.sticky-note .version.after.faded:hover, .sticky-note .version.after.faded:focus-visible { background: #d9f1e1; }
+.sticky-note .version.faded:hover mark.removed { color: #b0241a; }
+.sticky-note .version.faded:hover mark.added { color: #17663a; }
+/* changed words: removed ones red with a very faint strike, added ones green */
+.sticky-note mark { color: inherit; background: none; padding: 0 1px; border-radius: 2px; }
+.sticky-note mark.removed { color: #b0241a; background: rgba(200, 55, 43, .13); text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: rgba(200, 55, 43, .35); }
+.sticky-note .version.before.selected mark.removed { text-decoration: none; }
+.sticky-note mark.added { color: #17663a; background: rgba(42, 138, 82, .18); }
+.sticky-note .version.after.faded mark.added { text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: rgba(42, 138, 82, .45); }
+.sticky-note .empty { color: rgba(45, 42, 36, .55); font-style: italic; }
+/* suggest another: one suggestion per row, the arrow at the right end moves to the next */
+.sticky-note .suggest-area { display: grid; gap: 6px; }
+.sticky-note .suggest-row { display: flex; align-items: stretch; border-radius: 3px; background: #dfe8fb; }
+.sticky-note .suggest-row.in-use { box-shadow: inset 4px 0 0 #2c5fc9; }
+.sticky-note .suggest-text { flex: 1; min-width: 0; text-align: left; border: 0; background: none; padding: 5px 9px 6px; font: 14.5px/1.5 var(--content-font); color: #2d2a24; cursor: pointer; }
+.sticky-note .suggest-text:hover { color: #2c5fc9; }
+.sticky-note .suggest-next { flex: none; border: 0; border-left: 1px solid rgba(44, 95, 201, .18); background: none; color: #2c5fc9; cursor: pointer; padding: 0 9px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.sticky-note .suggest-next .arrow { font: 20px/1 var(--hand-title); }
+.sticky-note .suggest-next .counter { font-size: 10px; opacity: .7; }
+.sticky-note .suggest-next:hover { background: rgba(44, 95, 201, .10); }
+.sticky-note .suggest-wait { color: rgba(42, 38, 32, .78); font-size: 13px; display: flex; align-items: center; gap: 7px; }
+.sticky-note .suggest-wait::before { content: ""; width: 11px; height: 11px; border-radius: 50%; border: 2px solid rgba(44, 95, 201, .25); border-top-color: #2c5fc9; animation: spin .9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.sticky-note .suggest-error { color: #b5281c; font-size: 13px; }
+.sticky-note input[type="text"], .sticky-note textarea { width: 100%; font: 13.5px/1.45 var(--content-font); color: #2a2620; background: rgba(255, 255, 255, .72);
+  border: 1px solid rgba(45, 42, 36, .22); border-radius: 3px; padding: 5px 8px; resize: vertical; min-height: 0; }
+.sticky-note textarea { min-height: 44px; }
+.sticky-note input:focus, .sticky-note textarea:focus { outline: 2px solid rgba(44, 95, 201, .35); outline-offset: 0; }
+.sticky-note .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.sticky-note .suggest-button { border: 0; background: none; padding: 2px 0; cursor: pointer; color: #1f4fb5; font: 600 13.5px var(--content-font); }
+.sticky-note .suggest-button:hover { text-decoration: underline; text-underline-offset: 3px; }
+.sticky-note .add-note, .sticky-note .write-own { border: 0; background: none; padding: 2px 0; cursor: pointer; color: rgba(42, 38, 32, .65); font: 12.5px var(--content-font); justify-self: start; }
+.sticky-note .add-note:hover, .sticky-note .write-own:hover { color: #2d2a24; }
+.sticky-note .note-input { margin-top: 6px; }
+
+textarea, input[type="text"] { width: 100%; background: var(--page); border: 2px solid var(--ink); border-radius: 12px 225px 12px 255px / 255px 12px 225px 12px; padding: 8px 12px; resize: vertical; font: 16px/1.5 var(--content-font); }
+textarea { min-height: 72px; }
+textarea:focus, input:focus, .box:focus-visible, select:focus-visible { outline: 3px solid var(--highlight); outline-offset: 2px; }
+
+/* ------------------------------------------------------------------ table and measurement */
+.table-wrap { overflow-x: auto; margin-top: 10px; max-width: 980px; }
+table { border-collapse: collapse; width: 100%; font: 16px/1.45 var(--content-font); }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1.5px solid rgba(120, 110, 95, .35); }
+td + td, th + th { border-left: 1.5px solid rgba(120, 110, 95, .25); }
+th { font: 16px var(--hand-title); color: var(--pencil); font-weight: normal; border-bottom-width: 2.5px; border-bottom-color: var(--ink); }
+tr.row { cursor: pointer; }
+tr.row:hover td { background: var(--highlight-soft); }
+.clamp { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; max-width: 32ch; }
+td.num, th.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+select { font: 16px var(--hand-title); background: transparent; border: 1.5px solid var(--ink); border-radius: 255px 12px 225px 12px / 12px 225px 12px 255px; padding: 2px 8px; }
+.s-ok { color: var(--green); } .s-warn { color: var(--orange); } .s-alarm { color: var(--red); } .s-info { color: var(--pencil); }
+.general-reasons h3 { font: 17px var(--hand-title); color: var(--pencil); font-weight: normal; }
+
+.checkbox-row { display: flex; gap: 8px; align-items: center; color: var(--pencil); margin-top: 8px; font: 14.5px var(--content-font); }
+.checkbox-row input { width: 17px; height: 17px; accent-color: var(--ink); }
+.shortcuts { margin-top: 16px; color: var(--pencil); font: 14.5px/1.6 var(--content-font); }
+.shortcuts summary { cursor: pointer; font-family: var(--hand-title); }
+kbd { font: 14px var(--hand-title); border: 1.5px solid var(--pencil); border-radius: 12px 225px 12px 255px / 255px 12px 225px 12px; padding: 0 6px; }
+
+/* ------------------------------------------------------------------ plain feedback card in the corner */
+.dock {
+  position: fixed; right: 18px; bottom: 16px; z-index: 30; display: flex; align-items: center; gap: 8px;
+  padding: 5px 6px 5px 14px; background: var(--card); border: 1px solid rgba(120, 110, 95, .18); border-radius: 999px;
+  box-shadow: 0 4px 14px -6px rgba(0, 0, 0, .25); font: 14px/1.2 var(--content-font); color: var(--pencil);
+}
+.progress { white-space: nowrap; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--grey); flex: none; }
+.live-dot.on { background: var(--green); box-shadow: 0 0 0 3px var(--tint-green); }
+.box:disabled { opacity: .35; cursor: not-allowed; transform: none; box-shadow: none; }
+.send-button { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; color: var(--blue); font: 14.5px/1.2 var(--content-font);
+  padding: 5px 10px; border-radius: 999px; cursor: pointer; opacity: .8; transition: opacity .15s, background-color .15s; white-space: nowrap; }
+.send-button:hover, .send-button:focus-visible { opacity: 1; background: var(--tint-blue); }
+.send-button:focus-visible { outline: 2px solid var(--highlight); outline-offset: 1px; }
+.send-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ------------------------------------------------------------------ toast and preview dialog */
+#toast { position: fixed; left: 50%; bottom: 86px; transform: translateX(-50%) rotate(1deg) translateY(10px); background: var(--sticky); color: var(--sticky-ink);
+  padding: 10px 16px; font: 16px var(--content-font); opacity: 0; pointer-events: none; transition: .2s; z-index: 50; box-shadow: 0 10px 18px -8px rgba(0, 0, 0, .35); }
+#toast.show { opacity: 1; transform: translateX(-50%) rotate(1deg) translateY(0); }
+dialog { border: 0; background: var(--page); color: var(--ink); width: min(720px, calc(100vw - 32px)); padding: 26px 22px 18px; box-shadow: 0 20px 40px rgba(0, 0, 0, .3); font-family: var(--content-font); }
+dialog::before { content: ""; position: absolute; top: -10px; left: 50%; width: 110px; height: 24px; transform: translateX(-50%) rotate(2deg); background: var(--tape); }
+dialog textarea { min-height: 50vh; font: 13.5px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; border-radius: 4px; }
+dialog::backdrop { background: rgba(40, 30, 15, .35); }
+
+/* ------------------------------------------------------------------ narrow screens */
+@media (max-width: 720px) {
+  body { padding: 10px 8px 120px; }
+  .page { padding: 18px 14px 56px 44px; background-position: 22px 0, 0 0; }
+  .page[data-paper="grid"] { background-position: 22px 0, 0 0, 0 0; }
+  .page[data-paper="plain"] { background-position: 22px 0; }
+  .holes { display: none; }
+  .product { font-size: 30px; }
+  .menus { gap: 6px; padding-top: 2px; }
+  .panel { left: 10px; right: 10px; width: auto; top: 64px; }
+  .dock { right: 10px; bottom: 12px; }
+  .progress { display: none; }
+  .text { font-size: calc(var(--content-size) - 1.5px); }
+}
+@media print { .dock, .menus, .panel, .sticky-note { display: none !important; } body { padding-bottom: 0; } }
+</style>
+</head>
+<body>
+<div class="page" id="page" data-paper="lined">
+  <div class="holes" aria-hidden="true"></div>
+  <div class="shadow left" aria-hidden="true"></div>
+  <div class="shadow right" aria-hidden="true"></div>
+
+  <header class="top">
+    <div class="title-row">
+      <h1 class="product"><svg class="skull" viewBox="0 0 48 52" aria-hidden="true"><path class="skull-head" d="M24 4.5 C12.5 4 5.2 12.2 6.1 23.2 C6.6 29.1 9.1 32.3 12.2 34.1 L12.6 40.2 C13 42.3 14.9 43.4 17.1 43.3 L31.2 43.1 C33.2 43 35 41.9 35.4 39.9 L35.9 34 C39.1 32 41.7 28.8 42 22.7 C42.6 11.6 35.6 4.9 24 4.5 Z"/><path class="skull-head echo" d="M23.6 5.6 C13.4 5.4 6.6 13 7.2 23.4 C7.8 28.6 10.3 31.5 13 33.3"/><path class="skull-fill" d="M12.4 22.6 C12.6 19.3 15 17.6 17.6 17.9 C20.4 18.3 21.9 20.6 21.5 23.6 C21.1 26.4 19 28 16.6 27.7 C14.1 27.4 12.2 25.4 12.4 22.6 Z M26.6 23.3 C26.4 20.4 28.4 18 31.1 17.9 C33.8 17.9 35.7 20 35.6 22.8 C35.5 25.7 33.5 27.8 30.9 27.8 C28.4 27.7 26.8 25.9 26.6 23.3 Z M24.1 29.4 L21.6 34.2 L26.7 34.1 Z"/><path class="skull-teeth" d="M19.3 37.6 L19.1 43 M24.1 37.9 L24.2 43.2 M28.9 37.5 L29.1 42.9"/></svg>İnsanlık öldü mü<b>?</b></h1>
+      <div class="menus">
+        <button class="icon-button" id="open-edit" type="button" aria-expanded="false" aria-controls="panel-edit" aria-label="Düzenle" title="Düzenle">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 4.6 C16.3 3.7 17.6 3.8 18.6 4.8 L19.3 5.5 C20.2 6.4 20.3 7.7 19.4 8.6 L9.2 18.8 L4.3 19.8 L5.2 14.9 Z"/><path d="M13.6 6.5 L17.5 10.4"/></svg>
+        </button>
+        <button class="icon-button" id="open-settings" type="button" aria-expanded="false" aria-controls="panel-settings" aria-label="Ayarlar" title="Ayarlar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M12 3.2v2.5M12 18.3v2.5M3.2 12h2.5M18.3 12h2.5M5.8 5.8l1.8 1.8M16.4 16.4l1.8 1.8M5.8 18.2l1.8-1.8M16.4 7.6l1.8-1.8"/><path d="M12 5.6 C15.7 5.5 18.5 8.4 18.4 12.1 C18.3 15.7 15.6 18.5 11.9 18.4 C8.3 18.3 5.5 15.6 5.6 11.9 C5.7 8.4 8.4 5.7 12 5.6 Z"/></svg>
+        </button>
+      </div>
+    </div>
+    <svg class="underline-squiggle" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 8 C 60 2, 110 11, 165 6 S 250 3, 297 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+    <div class="profile" id="profile" hidden></div>
+  </header>
+
+  <article class="text" id="view-text"></article>
+  <article class="text" id="view-diff" hidden></article>
+  <div id="view-table" hidden>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th class="num">#</th><th>Önce</th><th>Sonra</th><th>Neden</th><th>Karar</th></tr></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+    <div class="general-reasons" id="general-reasons"></div>
+  </div>
+  <div id="view-measure" hidden>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ölçüm</th><th>Önce</th><th>Sonra</th></tr></thead>
+        <tbody id="measure-body"></tbody>
+      </table>
+    </div>
+    <p class="meta">Ölçümler kaba bir alarm zilidir, dedektör sonucu sayılmaz. ✓ temiz · ~ dikkat · ! alarm</p>
+  </div>
+
+  <div class="panel" id="panel-edit" role="dialog" aria-label="Düzenle" hidden>
+    <div class="card-title">Düzenle</div>
+    <button class="panel-close" type="button" aria-label="Kapat">×</button>
+    <p class="hint" id="hint"></p>
+    <div class="setting-row">
+      <span class="setting-name">Toplu karar</span>
+      <div class="setting-options">
+        <button class="action" id="accept-all" type="button">hepsi yeni haliyle kalsın</button>
+        <button class="action" id="revert-all" type="button">hepsini eskiye döndür</button>
+      </div>
+    </div>
+    <div class="setting-row full">
+      <span class="setting-name">Genel not</span>
+      <textarea id="general-note" class="ruled-note" aria-label="Genel not" rows="3" placeholder="İsteğe bağlı. Örneğin: ton biraz daha resmî olsun."></textarea>
+      <label class="checkbox-row"><input type="checkbox" id="include-text"> Geri bildirime uygulanmış metni de ekle</label>
+    </div>
+    <div class="setting-row">
+      <span class="setting-name">Dışa aktar</span>
+      <div class="setting-options">
+        <button class="action" id="show-feedback" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg>önizle</button>
+        <button class="action" id="copy-feedback" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6M15.8 5h1.4c1.1 0 2 .9 2 2v12.2c0 1.1-.9 2-2 2H6.8c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h1.4"/></svg>geri bildirimi kopyala</button>
+        <button class="action" id="copy-result" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11.5" height="12.5" rx="2"/><path d="M15.5 8V5.5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2V16c0 1.1.9 2 2 2h2"/></svg>sonucu kopyala</button>
+        <button class="action" id="download" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>indir (.txt)</button>
+      </div>
+    </div>
+    <details class="shortcuts">
+      <summary>Kısayollar</summary>
+      <p><kbd>j</kbd> / <kbd>k</kbd> sonraki, önceki değişiklik · <kbd>1</kbd> yeni hali · <kbd>2</kbd> eski hali · <kbd>3</kbd> başka öner · <kbd>Esc</kbd> kapat</p>
+    </details>
+  </div>
+
+  <div class="panel" id="panel-settings" role="dialog" aria-label="Ayarlar" hidden>
+    <div class="card-title">Ayarlar</div>
+    <button class="panel-close" type="button" aria-label="Kapat">×</button>
+    <div class="setting-row">
+      <span class="setting-name">Görünüm</span>
+      <div class="setting-options tabs" role="tablist">
+        <button class="option" role="tab" data-view="text" aria-selected="true">metin</button>
+        <button class="option" role="tab" data-view="diff" aria-selected="false">önce / sonra</button>
+        <button class="option" role="tab" data-view="table" aria-selected="false">tablo</button>
+        <button class="option" role="tab" data-view="measure" aria-selected="false">ölçüm</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <span class="setting-name">Kâğıt</span>
+      <div class="setting-options">
+        <button class="option" type="button" data-paper-pick="lined">çizgili</button>
+        <button class="option" type="button" data-paper-pick="grid">kareli</button>
+        <button class="option" type="button" data-paper-pick="plain">düz</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <span class="setting-name">Yazı</span>
+      <div class="setting-options">
+        <button class="option" type="button" data-font-pick="airy">ferah</button>
+        <button class="option" type="button" data-font-pick="soft">yumuşak</button>
+        <button class="option" type="button" data-font-pick="book">kitap</button>
+        <button class="option" type="button" data-font-pick="hand">el yazısı</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <span class="setting-name">Tema</span>
+      <div class="setting-options">
+        <button class="option" type="button" data-theme-pick="">sistem</button>
+        <button class="option" type="button" data-theme-pick="light">kâğıt</button>
+        <button class="option" type="button" data-theme-pick="dark">tahta</button>
+      </div>
+    </div>
+    <div class="setting-row" id="engine-section" hidden>
+      <span class="setting-name">Öneriler</span>
+      <div class="setting-options">
+        <button class="option" type="button" data-engine-pick="auto">otomatik</button>
+        <button class="option" type="button" data-engine-pick="agent">dinleyen ajan</button>
+        <button class="option" type="button" data-engine-pick="fork">oturum çatalı</button>
+        <button class="option" type="button" data-engine-pick="stateless">bağlamsız</button>
+      </div>
+      <p class="setting-note" id="engine-status"></p>
+    </div>
+    <div class="setting-row full">
+      <span class="setting-name">Bilgi</span>
+      <p class="setting-note" id="meta"></p>
+    </div>
+  </div>
+</div>
+
+<div class="dock" role="region" aria-label="Geri bildirim">
+  <span class="live-dot" id="live-dot" hidden></span>
+  <span class="progress" id="progress-text"></span>
+  <button class="send-button" id="send-feedback" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6M9.2 3.3h5.6c.6 0 1 .4 1 1v1.4c0 .6-.4 1-1 1H9.2c-.6 0-1-.4-1-1V4.3c0-.6.4-1 1-1Z"/><path d="M15.8 5h1.4c1.1 0 2 .9 2 2v12.2c0 1.1-.9 2-2 2H6.8c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h1.4"/><path d="M8.6 12.4h6.8M8.6 16h4.6"/></svg>
+    <span>Geri bildirimi kopyala</span>
+  </button>
+</div>
+
+<div class="sticky-note" id="note" role="dialog" aria-label="Değişiklik ayrıntısı" hidden></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<dialog id="preview-dialog">
+  <p style="margin:0 0 10px" id="preview-title"></p>
+  <textarea id="preview-text" readonly></textarea>
+  <p style="margin:12px 0 0;text-align:right"><button class="box" id="preview-close">Kapat</button></p>
+</dialog>
+
+<script>
+(function () {
+  "use strict";
+  var DATA = /*__DATA__*/null;
+  var LIVE = /*__LIVE__*/null;  // {token, agent, has_session, preferences} when served by the bridge; null when opened as a file
+  var AGENT_NAMES = { claude: "Claude", codex: "Codex", gemini: "Gemini" };
+  var ENGINE_NAMES = { auto: "otomatik", agent: "dinleyen ajan", fork: "oturum çatalı", stateless: "bağlamsız çağrı" };
+  function api(path, options) {
+    options = options || {};
+    options.headers = Object.assign({ "X-Token": LIVE.token, "Content-Type": "application/json" }, options.headers || {});
+    return fetch(path, options).then(function (r) { return r.json(); });
+  }
+  var S = DATA.segments;
+  var CHANGES = S.filter(function (s) { return s.t === "ch"; });
+  var NOTES = DATA.notes || [];
+  var STATE_KEY = "insanlik-oldu-mu:review:" + DATA.id;
+  var state = { decisions: {}, seen: {}, general: "", includeText: true, view: "text" };
+  try { var saved = localStorage.getItem(STATE_KEY); if (saved) state = Object.assign(state, JSON.parse(saved)); } catch (e) {}
+  if (["text", "diff", "table", "measure"].indexOf(state.view) < 0) state.view = "text";
+  function save() { try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch (e) {} }
+
+  // preferences (paper, font, theme, suggestion engine) belong to the user, not the document: valid on every page and live session
+  var PREF_KEY = "insanlik-oldu-mu:preferences";
+  var VALID = { paper: ["lined", "grid", "plain"], font: ["airy", "soft", "book", "hand"], theme: ["", "light", "dark"], engine: ["auto", "agent", "fork", "stateless"] };
+  function cleanPrefs(p) {
+    var c = {};
+    if (!p || typeof p !== "object") return c;
+    Object.keys(VALID).forEach(function (k) { if (VALID[k].indexOf(p[k]) >= 0) c[k] = p[k]; });
+    if (typeof p.time === "number") c.time = p.time;
+    return c;
+  }
+  var prefs = (function () {
+    var candidates = [cleanPrefs(DATA.preferences), cleanPrefs(LIVE && LIVE.preferences)];
+    try { var stored = localStorage.getItem(PREF_KEY); if (stored) candidates.push(cleanPrefs(JSON.parse(stored))); } catch (e) {}
+    var p = { paper: "lined", font: "airy", theme: "", engine: "auto", time: 0 };
+    candidates.sort(function (a, b) { return (a.time || 0) - (b.time || 0); }).forEach(function (c) { Object.assign(p, c); });
+    return p;
+  })();
+  function savePrefs() {
+    prefs.time = Date.now();
+    try { localStorage.setItem(PREF_KEY, JSON.stringify(prefs)); } catch (e) {}
+    if (LIVE) api("/api/preferences", { method: "POST", body: JSON.stringify(prefs) }).catch(function () {});
+  }
+  var $ = function (id) { return document.getElementById(id); };
+  var DECISION_LABELS = { accept: "Böyle kalsın", revert: "Eskisine dön", custom: "Başka öner" };
+  var LINE = 32;
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function decision(id) { return state.decisions[id] || { k: "accept", text: null, note: "" }; }
+  function setDecision(id, patch) { state.decisions[id] = Object.assign({}, decision(id), patch); save(); }
+  function markSeen(id) { if (!state.seen[id]) { state.seen[id] = 1; save(); } }
+  function findChange(id) { for (var i = 0; i < CHANGES.length; i++) if (CHANGES[i].id === id) return CHANGES[i]; return null; }
+  function indexOfChange(id) { for (var i = 0; i < CHANGES.length; i++) if (CHANGES[i].id === id) return i; return -1; }
+  function applied(s) {
+    var d = decision(s.id);
+    if (d.k === "revert") return s.d;
+    if (d.k === "custom") return d.text != null ? d.text : s.i;
+    return s.i;
+  }
+  function resultText() {
+    return S.map(function (s, n) {
+      if (s.t === "eq") return s.x;
+      var m = applied(s), next = S[n + 1];
+      // if the user wrote the sentence with its period and the unchanged part already has one, don't double it
+      if (decision(s.id).k === "custom" && next && next.t === "eq") {
+        var last = m.replace(/\s+$/, "").slice(-1);
+        if (last && ".,;:!?".indexOf(last) >= 0 && next.x.charAt(0) === last) m = m.replace(/\s*[.,;:!?]\s*$/, "");
+      }
+      return m;
+    }).join("");
+  }
+  function context(id, length) {
+    var u = length || 36, before = "", after = "";
+    for (var n = 0; n < S.length; n++) if (S[n].t === "ch" && S[n].id === id) {
+      if (S[n - 1] && S[n - 1].t === "eq") before = S[n - 1].x.replace(/\s+/g, " ").slice(-u);
+      if (S[n + 1] && S[n + 1].t === "eq") after = S[n + 1].x.replace(/\s+/g, " ").slice(0, u);
+    }
+    return [before, after];
+  }
+  function edgeWhitespace(t) {
+    var head = t.match(/^\s*/)[0];
+    var tail = t.slice(head.length).match(/\s*$/)[0];
+    return [head, t.slice(head.length, t.length - tail.length), tail];
+  }
+  function shorten(t, n) {
+    t = (t || "").replace(/\s+/g, " ").trim();
+    n = n || 220;
+    return t.length > n ? t.slice(0, Math.round(n * 0.6)) + " … " + t.slice(-Math.round(n * 0.3)) : t;
+  }
+  // word diff between two sentences: eq / del / ins pieces
+  function wordDiff(x, y) {
+    var A = x.match(/\s+|[^\s]+/g) || [], B = y.match(/\s+|[^\s]+/g) || [];
+    var n = A.length, m = B.length;
+    if (n * m > 160000) return null;
+    var w = m + 1, T = new Uint16Array((n + 1) * w);
+    for (var i = n - 1; i >= 0; i--) for (var j = m - 1; j >= 0; j--)
+      T[i * w + j] = A[i] === B[j] ? T[(i + 1) * w + j + 1] + 1 : Math.max(T[(i + 1) * w + j], T[i * w + j + 1]);
+    var out = [], i2 = 0, j2 = 0;
+    function push(t, v) { if (out.length && out[out.length - 1].t === t) out[out.length - 1].x += v; else out.push({ t: t, x: v }); }
+    while (i2 < n && j2 < m) {
+      if (A[i2] === B[j2]) { push("eq", A[i2]); i2++; j2++; }
+      else if (T[(i2 + 1) * w + j2] >= T[i2 * w + j2 + 1]) { push("del", A[i2]); i2++; }
+      else { push("ins", B[j2]); j2++; }
+    }
+    while (i2 < n) push("del", A[i2++]);
+    while (j2 < m) push("ins", B[j2++]);
+    // simplify whitespace-only changes standing on their own
+    return out.map(function (p) { return /^\s+$/.test(p.x) && p.t !== "eq" ? { t: "eq", x: p.t === "ins" ? p.x : "" } : p; })
+              .filter(function (p) { return p.x !== ""; });
+  }
+  // when most of a sentence changed, marking it word by word is just noise
+  function mostlyChanged(pieces) {
+    if (!pieces) return true;
+    var shared = 0, total = 0;
+    pieces.forEach(function (p) { var k = (p.x.match(/[^\s]+/g) || []).length; total += k; if (p.t === "eq") shared += 2 * k; });
+    return shared < 0.3 * total;
+  }
+  // draw one side of the diff: neighbouring changed words become one mark together with the space between them
+  function drawSide(container, pieces, kind, cls, tag) {
+    var seq = [];
+    pieces.forEach(function (p) { if (p.t === "eq" || p.t === kind) seq.push({ x: p.x, changed: p.t === kind }); });
+    // the space after a sentence end is not merged: if the line breaks there, the mark must not spill onto it
+    for (var i = 1; i < seq.length - 1; i++) if (!seq[i].changed && /^\s+$/.test(seq[i].x) && seq[i - 1].changed && seq[i + 1].changed && !/[.!?…:;]["”’»)]*$/.test(seq[i - 1].x)) seq[i].changed = true;
+    var buffer = "", changed = null;
+    function flush() {
+      if (!buffer) return;
+      if (!changed) container.appendChild(document.createTextNode(buffer));
+      else {
+        // the mark stops at the word: leading and trailing whitespace stay outside
+        var p = buffer.match(/^(\s*)([\s\S]*?)(\s*)$/);
+        if (p[1]) container.appendChild(document.createTextNode(p[1]));
+        if (p[2]) container.appendChild(el(tag || "mark", cls, p[2]));
+        if (p[3]) container.appendChild(document.createTextNode(p[3]));
+      }
+      buffer = "";
+    }
+    seq.forEach(function (p) { if (changed !== p.changed) { flush(); changed = p.changed; } buffer += p.x; });
+    flush();
+  }
+  function toast(message, ms) { var b = $("toast"); b.textContent = message; b.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(function () { b.classList.remove("show"); }, ms || 1900); }
+
+  // ------------------------------------------------ header
+  var M = DATA.measurement || {};
+  var P = DATA.profile;
+  $("meta").textContent = [DATA.title, DATA.mode, P && P.label,
+    CHANGES.length + " değişiklik",
+    M.words ? M.words[0] + " → " + M.words[1] + " kelime" : "",
+    M.alarms ? "alarm " + M.alarms[0] + " → " + M.alarms[1] : "",
+    DATA.date].filter(Boolean).join(" · ");
+  // the text profile on the page: what kind of text this is and how it was approached
+  if (P && P.label) {
+    var pr = $("profile");
+    pr.appendChild(el("span", "profile-name", "Metin tanımı:"));
+    pr.appendChild(el("span", "profile-label", P.label + (P.subtype ? " · " + P.subtype : "")));
+    var details = [P.sector ? "Alan: " + P.sector : "", P.audience ? "Kitle: " + P.audience : ""].filter(Boolean);
+    if (details.length) pr.appendChild(document.createTextNode(" · " + details.join(" · ")));
+    if (P.guessed) pr.appendChild(el("span", "profile-guess", " (tahmin)"));
+    if (P.approach) { pr.appendChild(document.createElement("br")); pr.appendChild(document.createTextNode(P.approach)); }
+    pr.hidden = false;
+  }
+  function writeHint(view) {
+    var h = $("hint");
+    h.innerHTML = "";
+    if (view === "diff") {
+      h.appendChild(document.createTextNode("Silinenler kırmızı kalemle çizili, eklenenler yeşil. Tıklayınca seçenekler çıkar."));
+      return;
+    }
+    h.appendChild(document.createTextNode("Değişen yerler "));
+    h.appendChild(el("b", "sample-bold", "kalın"));
+    h.appendChild(document.createTextNode(" yazılı. Tıklayınca önceki hali ve seçenekler çıkar."));
+  }
+
+  // ------------------------------------------------ marked view
+  var textChunks = {};
+  var textView = $("view-text");
+  if (!CHANGES.length) textView.appendChild(el("span", "empty", "İki metin arasında değişiklik yok."));
+  S.forEach(function (s) {
+    if (s.t === "eq") { textView.appendChild(document.createTextNode(s.x)); return; }
+    var oneSided = s.d && !s.i ? s.d : !s.d && s.i ? s.i : null;
+    var ws = oneSided != null ? edgeWhitespace(oneSided) : ["", "", ""];
+    if (ws[0]) textView.appendChild(document.createTextNode(ws[0]));
+    var lineStart = !textView.textContent || /\n$/.test(textView.textContent);  // at a line start [silindi] must not be indented
+    var span = el("span", "chunk");
+    span.dataset.id = s.id; span.tabIndex = 0; span.setAttribute("role", "button");
+    span.setAttribute("aria-label", "Değişiklik " + s.id);
+    textView.appendChild(span);
+    if (ws[2]) textView.appendChild(document.createTextNode(ws[2]));
+    textChunks[s.id] = { el: span, head: ws[0], tail: ws[2], lineStart: lineStart && !ws[0] };
+  });
+  function drawTextChunk(s) {
+    var c = textChunks[s.id], d = decision(s.id), m = applied(s);
+    if (d.k !== "custom") {
+      if (c.head && m.indexOf(c.head) === 0) m = m.slice(c.head.length);
+      if (c.tail && m.slice(-c.tail.length) === c.tail) m = m.slice(0, m.length - c.tail.length);
+    }
+    c.el.textContent = "";
+    if (!m.trim()) { c.el.appendChild(el("span", "deleted", "[silindi]")); c.el.title = "Burada bir kısım silindi"; c.el.classList.toggle("deletion", !c.lineStart); }
+    else {
+      c.el.removeAttribute("title"); c.el.classList.remove("deletion");
+      // only words that differ from the original are marked; a reverted part is plain text
+      var original = s.d || "";
+      if (d.k !== "custom") {
+        if (c.head && original.indexOf(c.head) === 0) original = original.slice(c.head.length);
+        if (c.tail && original.slice(-c.tail.length) === c.tail) original = original.slice(0, original.length - c.tail.length);
+      }
+      if (m === original) c.el.textContent = m;
+      else {
+        var pieces = original.trim() ? wordDiff(original, m) : null;
+        if (mostlyChanged(pieces)) c.el.appendChild(el("b", "changed", m));
+        else drawSide(c.el, pieces, "ins", "changed", "b");
+      }
+    }
+    c.el.classList.remove("d-accept", "d-revert", "d-custom");
+    c.el.classList.add("d-" + d.k);
+    c.el.classList.toggle("seen", !!state.seen[s.id]);
+  }
+
+  // ------------------------------------------------ before / after view
+  var diffChunks = {};
+  var diffView = $("view-diff");
+  if (!CHANGES.length) diffView.appendChild(el("span", "empty", "İki metin arasında değişiklik yok."));
+  S.forEach(function (s) {
+    if (s.t === "eq") { diffView.appendChild(document.createTextNode(s.x)); return; }
+    var oneSided = s.d && !s.i ? s.d : !s.d && s.i ? s.i : null;
+    var ws = oneSided != null ? edgeWhitespace(oneSided) : ["", "", ""];
+    if (ws[0]) diffView.appendChild(document.createTextNode(ws[0]));
+    var p = el("span", "diff-chunk");
+    p.dataset.id = s.id; p.tabIndex = 0; p.setAttribute("role", "button");
+    if (s.d) p.appendChild(el("del", "", oneSided != null ? ws[1] : s.d));
+    p.appendChild(el("span", "custom", ""));
+    if (s.i) p.appendChild(el("ins", "", oneSided != null ? ws[1] : s.i));
+    diffView.appendChild(p);
+    if (ws[2]) diffView.appendChild(document.createTextNode(ws[2]));
+    diffChunks[s.id] = p;
+  });
+  function drawDiffChunk(s) {
+    var p = diffChunks[s.id], d = decision(s.id);
+    p.classList.remove("d-accept", "d-revert", "d-custom");
+    p.classList.add("d-" + d.k);
+    p.querySelector(".custom").textContent = d.k === "custom" ? (d.text != null ? d.text : s.i) : "";
+  }
+
+  // ------------------------------------------------ table
+  var tableSelects = {};
+  CHANGES.forEach(function (s) {
+    var tr = el("tr", "row"); tr.dataset.id = s.id;
+    var n = s.note != null ? NOTES[s.note] : null;
+    tr.appendChild(el("td", "num", String(s.id)));
+    var t1 = el("td"); t1.appendChild(el("div", "clamp", s.d || "—")); tr.appendChild(t1);
+    var t2 = el("td"); t2.appendChild(el("div", "clamp", s.i || "(silindi)")); tr.appendChild(t2);
+    var t3 = el("td");
+    if (n) { t3.appendChild(el("div", "clamp", n.reason || "")); if (n.pattern) t3.appendChild(el("span", "tag", n.pattern)); }
+    else t3.appendChild(el("span", "empty", "gerekçe yok"));
+    tr.appendChild(t3);
+    var t4 = el("td"); var sel = el("select");
+    ["accept", "revert", "custom"].forEach(function (x) { var op = el("option", "", DECISION_LABELS[x]); op.value = x; sel.appendChild(op); });
+    sel.addEventListener("click", function (e) { e.stopPropagation(); });
+    sel.addEventListener("change", function () { setDecision(s.id, { k: sel.value }); markSeen(s.id); refresh(s.id); });
+    t4.appendChild(sel); tr.appendChild(t4);
+    tr.addEventListener("click", function (e) { e.stopPropagation(); showView("text"); select(s.id); });
+    $("table-body").appendChild(tr);
+    tableSelects[s.id] = sel;
+  });
+  var unattached = NOTES.filter(function (n) { return !n.parts || !n.parts.length; });
+  if (unattached.length) {
+    var gr = $("general-reasons");
+    gr.appendChild(el("h3", "", "Metnin geneline ait gerekçeler"));
+    var ul = el("ul");
+    unattached.forEach(function (n) { ul.appendChild(el("li", "", (n.reason || "") + (n.pattern ? " (" + n.pattern + ")" : ""))); });
+    gr.appendChild(ul);
+  }
+
+  // ------------------------------------------------ measurement
+  var MARKS = { ok: "✓", warn: "~", alarm: "!", info: "·" };
+  ((M && M.rows) || []).forEach(function (r) {
+    var tr = el("tr");
+    tr.appendChild(el("td", "", r.label));
+    tr.appendChild(el("td", "num s-" + r.status_before, MARKS[r.status_before] + " " + r.before));
+    tr.appendChild(el("td", "num s-" + r.status_after, MARKS[r.status_after] + " " + r.after));
+    $("measure-body").appendChild(tr);
+  });
+
+  // ------------------------------------------------ sticky note
+  var note = $("note");
+  var noteId = null, pinned = false, settleT = null;
+  var anchor = null;  // the line the note is attached to and the click's horizontal position
+
+  function targetEl(id) { return state.view === "diff" ? diffChunks[id] : textChunks[id] && textChunks[id].el; }
+
+  var suggestMode = {}, writeOwn = {};
+  function drawNote(id) {
+    var s = findChange(id), d = decision(id), n = s.note != null ? NOTES[s.note] : null, inSuggest = !!suggestMode[id];
+    note.innerHTML = "";
+    var close = el("button", "close", "×"); close.type = "button"; close.setAttribute("aria-label", "Kapat");
+    close.addEventListener("click", function () { closeNote(true); });
+    note.appendChild(close);
+    if (n && n.reason) note.appendChild(el("div", "reason", n.reason));
+
+    var before = (s.d || "").trim(), after = (s.i || "").trim();
+    var pieces = before && after ? wordDiff(before, after) : null;
+    // when most of the sentence changed, mark the old one as a whole and show the new one plain
+    var mostly = mostlyChanged(pieces);
+
+    // clicking a box picks that version: red is the old one, green the new one
+    function version(cls, label, selected, kind) {
+      var v = el("div", "version " + cls + (selected ? " selected" : " faded"));
+      v.appendChild(el("small", "", label));
+      if (!selected && kind) {
+        v.title = kind === "revert" ? "Eski hali kullan" : "Yeni hali kullan";
+        v.setAttribute("role", "button"); v.tabIndex = 0;
+        v.addEventListener("click", function () { decide(kind); });
+        v.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); decide(kind); } });
+      }
+      return v;
+    }
+    var a = version("before", "Önce", d.k === "revert", "revert");
+    if (!before) a.appendChild(el("span", "empty", "(yoktu, yeni eklendi)"));
+    else if (mostly) a.appendChild(el("mark", "removed", before));
+    else drawSide(a, pieces, "del", "removed");
+    var b = version("after", "Sonra", d.k === "accept", "accept");
+    if (!after) b.appendChild(el("span", "empty", "(silindi)"));
+    else if (mostly) b.appendChild(document.createTextNode(after));
+    else drawSide(b, pieces, "ins", "added");
+    var own = null;
+    if (d.k === "custom") {
+      own = version("custom", "Senin seçimin", true, null);
+      own.appendChild(el("span", "custom-text", (d.text != null ? d.text : after).trim() || "(boş)"));
+    }
+
+    var cmp = el("div", "compare");
+    if (!inSuggest) { cmp.appendChild(a); cmp.appendChild(b); if (own) cmp.appendChild(own); }
+    else { cmp.appendChild(d.k === "revert" ? a : d.k === "custom" ? own : b); cmp.appendChild(suggestArea(id)); }
+    note.appendChild(cmp);
+
+    var noteOpen = d.note || note.dataset.noteOpen === String(id);
+    if (noteOpen) {
+      var ni = el("input", "note-input"); ni.type = "text"; ni.id = "note-text"; ni.placeholder = "Not: neden? ne bekliyordun?"; ni.value = d.note || "";
+      ni.addEventListener("input", function () { setDecision(id, { note: ni.value }); progress(); });
+      note.appendChild(ni);
+    }
+    var footer = el("div", "footer");
+    var button = el("button", "suggest-button", inSuggest ? "‹ Önce / sonra" : "Başka öner"); button.type = "button";
+    button.addEventListener("click", function () {
+      if (inSuggest) { suggestMode[id] = false; drawNote(id); position(); } else suggestAnother(id);
+    });
+    footer.appendChild(button);
+    if (!noteOpen) {
+      var nb = el("button", "add-note", "not ekle"); nb.type = "button";
+      nb.addEventListener("click", function () { note.dataset.noteOpen = String(id); pinned = true; drawNote(id); position(); var x = $("note-text"); if (x) x.focus(); });
+      footer.appendChild(nb);
+    }
+    note.appendChild(footer);
+  }
+
+  // suggest another: the selected version stays, below it one suggestion per row with an arrow to the next one
+  function suggestArea(id) {
+    var box = el("div", "suggest-area");
+    var st = suggestions[id] || {};
+    var busy = st.status === "sending" || st.status === "pending";
+    if (LIVE) {
+      if (busy) box.appendChild(el("div", "suggest-wait", "öneri hazırlanıyor…"));
+      else if (st.status === "error") box.appendChild(el("div", "suggest-error", st.error || "Öneri alınamadı."));
+      else if (st.status === "ready" && st.list.length) {
+        var i = (st.shown || 0) % st.list.length, t = st.list[i], d = decision(id);
+        var row = el("div", "suggest-row" + (d.k === "custom" && d.text === t ? " in-use" : ""));
+        var m = el("button", "suggest-text", t); m.type = "button"; m.title = "Bunu kullan";
+        m.addEventListener("click", function () { setDecision(id, { k: "custom", text: t }); markSeen(id); refresh(id); drawNote(id); glideToPosition(); });
+        var next = el("button", "suggest-next"); next.type = "button"; next.title = "Sıradaki öneri"; next.setAttribute("aria-label", "Sıradaki öneri");
+        next.appendChild(el("span", "arrow", "›")); next.appendChild(el("span", "counter", (i + 1) + "/" + st.list.length));
+        next.addEventListener("click", function () { st.shown = i + 1; drawNote(id); position(); });
+        row.appendChild(m); row.appendChild(next); box.appendChild(row);
+      }
+      var req = el("input"); req.type = "text"; req.id = "suggest-request";
+      req.placeholder = "Ajana söyle: daha kısa, daha resmî… (Enter)";
+      req.value = st.requestText || "";
+      req.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); if (!busy) requestSuggestions(id, req.value.trim()); } });
+      box.appendChild(req);
+      if (!writeOwn[id]) {
+        var wo = el("button", "write-own", "ya da kendin yaz"); wo.type = "button";
+        wo.addEventListener("click", function () { writeOwn[id] = true; drawNote(id); position(); var t2 = $("custom-text-input"); if (t2) { t2.focus(); t2.setSelectionRange(t2.value.length, t2.value.length); } });
+        box.appendChild(wo);
+      }
+    }
+    if (!LIVE || writeOwn[id]) {
+      var ta = el("textarea"); ta.id = "custom-text-input"; ta.rows = 2; ta.placeholder = "Kendi önerini yaz";
+      var d2 = decision(id);
+      ta.value = d2.k === "custom" && d2.text != null ? d2.text : (findChange(id).i || "").trim();
+      ta.addEventListener("input", function () {
+        var first = decision(id).k !== "custom";
+        setDecision(id, { k: "custom", text: ta.value }); refresh(id, true);
+        if (first) { redrawNote(id); var t3 = $("custom-text-input"); if (t3) t3.setSelectionRange(t3.value.length, t3.value.length); }
+        else { var ct = note.querySelector(".custom-text"); if (ct) ct.textContent = ta.value.trim() || "(boş)"; }
+      });
+      box.appendChild(ta);
+    }
+    return box;
+  }
+  function suggestAnother(id) {
+    suggestMode[id] = true; pinned = true;
+    if (LIVE && !(suggestions[id] && suggestions[id].status)) requestSuggestions(id, "");
+    else { drawNote(id); position(); }
+    keepVisible();
+    if (!LIVE) { var t = $("custom-text-input"); if (t) { t.focus({ preventScroll: true }); t.setSelectionRange(t.value.length, t.value.length); } }
+  }
+
+  // if the pointer is over a line, remember that line and the pointer's horizontal position
+  function findAnchor(h, px, py) {
+    var rs = h.getClientRects();
+    if (px >= 0) for (var i = 0; i < rs.length; i++) {
+      if (py >= rs[i].top - 3 && py <= rs[i].bottom + 3) return { line: i, dx: px - rs[i].left };
+    }
+    return { line: 0, dx: 0 };
+  }
+  // ------------------------------------------------ suggestions from the agent (bridge only)
+  var suggestions = {};
+  function redrawNote(id) {
+    if (noteId !== id) return;
+    var focused = document.activeElement && document.activeElement.id;
+    drawNote(id); position();
+    if (focused && $(focused)) $(focused).focus({ preventScroll: true });
+  }
+  function requestSuggestions(id, requestText) {
+    var s = findChange(id), n = s.note != null ? NOTES[s.note] : null, ctx = context(id, 220);
+    suggestions[id] = { status: "sending", requestText: requestText };
+    pinned = true; redrawNote(id);
+    api("/api/suggest", { method: "POST", body: JSON.stringify({
+      part: id, before: s.d, after: s.i, context_before: ctx[0], context_after: ctx[1],
+      reason: n ? n.reason : "", pattern: n ? n.pattern : "", request: requestText, engine: prefs.engine || "auto"
+    }) }).then(function (r) {
+      if (r.error) { suggestions[id] = { status: "error", error: r.error, requestText: requestText }; redrawNote(id); return; }
+      suggestions[id] = { status: "pending", request: r.request, engine: r.engine, requestText: requestText };
+      redrawNote(id); pollSuggestions(id);
+    }).catch(function () { suggestions[id] = { status: "error", error: "Köprüye ulaşılamadı.", requestText: requestText }; redrawNote(id); });
+  }
+  function pollSuggestions(id) {
+    var st = suggestions[id];
+    if (!st || st.status !== "pending") return;
+    api("/api/suggestions/" + st.request).then(function (r) {
+      if (r.status === "ready") { suggestions[id] = Object.assign({}, st, { status: "ready", list: r.suggestions, shown: 0 }); redrawNote(id); keepVisible(); }
+      else if (r.status === "error") { suggestions[id] = Object.assign({}, st, { status: "error", error: r.error }); redrawNote(id); }
+      else setTimeout(function () { pollSuggestions(id); }, 1500);
+    }).catch(function () { setTimeout(function () { pollSuggestions(id); }, 3000); });
+  }
+
+  function position() {
+    if (noteId == null) return;
+    var h = targetEl(noteId);
+    if (!h) return;
+    var rs = h.getClientRects();
+    if (!rs.length) return;
+    var c = anchor || { line: 0, dx: 0 };
+    var pointerLine = rs[Math.min(c.line, rs.length - 1)];
+    var nw = note.offsetWidth, nh = note.offsetHeight;
+    // visible area without the scrollbar
+    var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+    var dock = document.querySelector(".dock").offsetHeight + 24;
+    // the note sits below the whole changed part so the text stays readable; for a very long part, below the clicked line
+    var long = rs[rs.length - 1].bottom - rs[0].top > vh * 0.45;
+    var below = long ? pointerLine : rs[rs.length - 1], above = long ? pointerLine : rs[0];
+    var align = pointerLine.left + Math.min(c.dx, pointerLine.width);
+    var x = Math.min(Math.max(12, align - 48), vw - nw - 12);
+    var y = below.bottom + 10;
+    if (vh - dock - below.bottom < nh + 12 && above.top > nh + 14) y = above.top - nh - 10;
+    note.style.left = Math.round(x + window.scrollX) + "px";
+    note.style.top = Math.round(y + window.scrollY) + "px";
+  }
+
+  // if the note grew past the bottom of the screen, scroll so all of it is visible
+  function keepVisible() {
+    var r = note.getBoundingClientRect();
+    var dockH = document.querySelector(".dock").offsetHeight + 24;
+    var vh = document.documentElement.clientHeight - dockH;
+    if (r.bottom <= vh) return;
+    // at the end of the document there is nothing left to scroll: add temporary space while the note is open
+    var needed = r.bottom + window.scrollY + dockH + 16;
+    var pageBottom = $("page").getBoundingClientRect().bottom + window.scrollY;
+    if (needed - pageBottom > 90) document.body.style.paddingBottom = Math.ceil(needed - pageBottom) + "px";
+    window.scrollBy({ top: r.bottom - vh + 8, behavior: "smooth" });
+  }
+  function openNote(id, pin, point) {
+    var previous = noteId;
+    noteId = id;
+    var h0 = targetEl(id);
+    if (h0 && (previous !== id || point)) anchor = point ? findAnchor(h0, point.x, point.y) : { line: 0, dx: 0 };
+    if (pin) pinned = true;
+    if (previous !== id) { delete note.dataset.noteOpen; suggestMode[id] = false; writeOwn[id] = false; }
+    drawNote(id);
+    note.hidden = false;
+    document.querySelectorAll(".open").forEach(function (x) { x.classList.remove("open"); });
+    var h = targetEl(id); if (h) h.classList.add("open");
+    (state.view === "diff" ? diffView : textView).classList.add("focus");
+    position();
+    clearTimeout(settleT);
+    if (pin) { markSeen(id); refresh(id); }
+    else settleT = setTimeout(function () { if (noteId === id) { markSeen(id); refresh(id); } }, 1200);
+  }
+  function closeNote(force) {
+    if (pinned && !force) return;
+    clearTimeout(settleT);
+    note.hidden = true; noteId = null; pinned = false;
+    textView.classList.remove("focus"); diffView.classList.remove("focus");
+    document.body.style.paddingBottom = "";
+    document.querySelectorAll(".open").forEach(function (x) { x.classList.remove("open"); });
+  }
+  function select(id) {
+    var h = targetEl(id);
+    if (h) h.scrollIntoView({ block: "center", behavior: "smooth" });
+    openNote(id, true);
+    setTimeout(position, 350);
+  }
+  function step(direction) {
+    if (!CHANGES.length) return;
+    if (state.view === "table" || state.view === "measure") showView("text");
+    var i = noteId != null ? indexOfChange(noteId) : -1;
+    i = i < 0 ? (direction > 0 ? 0 : CHANGES.length - 1) : Math.min(CHANGES.length - 1, Math.max(0, i + direction));
+    select(CHANGES[i].id);
+  }
+  // when the text changes, the note glides to its new place
+  var glideT = null;
+  function glideToPosition() {
+    note.classList.add("gliding");
+    position();
+    clearTimeout(glideT);
+    glideT = setTimeout(function () { note.classList.remove("gliding"); }, 340);
+  }
+  function decide(kind) {
+    if (noteId == null) return;
+    var id = noteId;
+    if (kind === "custom") { suggestAnother(id); return; }
+    setDecision(id, { k: kind }); markSeen(id);
+    pinned = true;
+    refresh(id);
+    drawNote(id); glideToPosition();
+    keepVisible();
+  }
+
+  function chunkEvents(container) {
+    // the note opens on click only; hovering opens nothing
+    container.addEventListener("click", function (e) {
+      var p = e.target.closest("[data-id]"); if (!p) return;
+      e.stopPropagation();
+      var id = +p.dataset.id;
+      if (!note.hidden && noteId === id) { closeNote(true); return; }  // clicking the open part again closes its note
+      openNote(id, true, { x: e.clientX, y: e.clientY });
+    });
+    container.addEventListener("keydown", function (e) {
+      var p = e.target.closest && e.target.closest("[data-id]");
+      if (p && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openNote(+p.dataset.id, true); }
+    });
+  }
+  chunkEvents(textView); chunkEvents(diffView);
+  note.addEventListener("click", function (e) { e.stopPropagation(); });
+  document.addEventListener("click", function () { if (!note.hidden) closeNote(true); });
+
+  // ------------------------------------------------ refresh
+  function progress() {
+    var count = { accept: 0, revert: 0, custom: 0 };
+    CHANGES.forEach(function (s) { count[decision(s.id).k]++; });
+    var seen = 0; CHANGES.forEach(function (s) { if (state.seen[s.id]) seen++; });
+    var parts = [seen + "/" + CHANGES.length + " incelendi"];
+    if (count.revert) parts.push(count.revert + " eskisine döndü");
+    if (count.custom) parts.push(count.custom + " öneri");
+    $("progress-text").textContent = parts.join(" · ");
+  }
+  function refresh(id, typing) {
+    var list = id != null ? [findChange(id)] : CHANGES;
+    list.forEach(function (s) { drawTextChunk(s); drawDiffChunk(s); tableSelects[s.id].value = decision(s.id).k; });
+    progress();
+    if (typing) setTimeout(glideToPosition, 0);
+  }
+
+  // sit the text on the page's ruled lines: measure the font's baseline so the letters rest on the line
+  function measureBaseline(a) {
+    var probe = document.createElement("div");
+    var st = getComputedStyle(a);
+    probe.style.cssText = "position:absolute;visibility:hidden;left:0;top:0;white-space:nowrap;";
+    probe.style.fontFamily = st.fontFamily; probe.style.fontSize = st.fontSize; probe.style.lineHeight = st.lineHeight;
+    probe.appendChild(document.createTextNode("Hxğ"));
+    var mark = document.createElement("span");
+    mark.style.cssText = "display:inline-block;width:1px;height:0;vertical-align:baseline;";
+    probe.appendChild(mark);
+    a.appendChild(probe);
+    var b = mark.getBoundingClientRect().top - probe.getBoundingClientRect().top;
+    probe.remove();
+    return b;
+  }
+  function alignToLines() {
+    var pageTop = $("page").getBoundingClientRect().top;
+    // the profile note sits in the header, so it is aligned first; the text below then aligns after it
+    [$("profile"), textView, diffView].forEach(function (a) {
+      if (a.hidden) return;
+      // padding instead of margin: the margin collapses with the header's bottom margin and swallows the offset
+      a.style.paddingTop = "0px";
+      var baseline = measureBaseline(a);
+      var top = a.getBoundingClientRect().top - pageTop;
+      // last pixel of each ruled band; letters sit 1 px above the line so they don't touch it
+      var rule = LINE - 2;
+      var m = ((rule - (top + baseline)) % LINE + LINE) % LINE;
+      a.style.paddingTop = m.toFixed(2) + "px";
+    });
+  }
+  // the header font loads late and moves the text; realign whenever the header's size changes
+  if (window.ResizeObserver) new ResizeObserver(function () { alignToLines(); }).observe(document.querySelector("header.top"));
+  window.addEventListener("load", function () { alignToLines(); position(); });
+
+  // ------------------------------------------------ feedback
+  function feedback() {
+    var count = { accept: 0, revert: 0, custom: 0 };
+    CHANGES.forEach(function (s) { count[decision(s.id).k]++; });
+    var r = [];
+    r.push("[İnsanlık öldü mü? · geri bildirim]");
+    r.push("Metin: " + [DATA.title, DATA.mode].filter(Boolean).join(" · "));
+    r.push("Özet: " + CHANGES.length + " değişiklikten " + count.accept + " böyle kalsın, " + count.revert + " eskisine dön, " + count.custom + " başka öneri");
+    CHANGES.forEach(function (s) {
+      var d = decision(s.id);
+      if (d.k === "accept" && !(d.note || "").trim()) return;
+      r.push("");
+      r.push("#" + s.id + " " + (d.k === "revert" ? "ESKİSİNE DÖN" : d.k === "custom" ? "BAŞKA ÖNERİ" : "BÖYLE KALSIN, NOTLU"));
+      if (s.d) r.push('  önce: "' + shorten(s.d) + '"');
+      if (s.i) r.push('  öneri: "' + shorten(s.i) + '"');
+      if (d.k === "custom") r.push('  kullanıcının önerisi: "' + (d.text != null ? d.text : s.i) + '"');
+      if ((d.note || "").trim()) r.push("  not: " + d.note.trim());
+    });
+    if (state.general.trim()) { r.push(""); r.push("Genel not: " + state.general.trim()); }
+    if (state.includeText) { r.push(""); r.push("[Kararlar uygulanmış metin]"); r.push(resultText()); r.push("[/metin]"); }
+    return r.join("\n");
+  }
+  function showText(text, title) {
+    $("preview-title").textContent = title;
+    $("preview-text").value = text;
+    $("preview-dialog").showModal();
+    $("preview-text").select();
+  }
+  function copy(text, message) {
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+      ta.remove();
+      if (ok) toast(message); else showText(text, "Otomatik kopyalama çalışmadı. Metni seçip kopyala:");
+    }
+    if (navigator.clipboard && window.isSecureContext !== false) navigator.clipboard.writeText(text).then(function () { toast(message); }, fallback);
+    else fallback();
+  }
+  $("send-feedback").addEventListener("click", function () {
+    if (LIVE) sendToAgent(); else copy(feedback(), "Geri bildirim kopyalandı. Sohbete yapıştırabilirsin.");
+  });
+  $("copy-feedback").addEventListener("click", function () { copy(feedback(), "Geri bildirim kopyalandı. Sohbete yapıştırabilirsin."); });
+  function sendToAgent() {
+    api("/api/send", { method: "POST", body: JSON.stringify({ text: feedback() }) }).then(function (r) {
+      if (r.status === "delivered") toast("Ajana gönderildi. Sohbette işleniyor.", 3200);
+      else if (r.status === "saved") toast("Kaydedildi. Sohbete dönüp “devam” yazman yeterli.", 4200);
+      else toast(r.error || "Gönderilemedi.", 3200);
+    }).catch(function () { copy(feedback(), "Köprüye ulaşılamadı, geri bildirimi kopyaladım. Sohbete yapıştırabilirsin."); });
+  }
+  var lastStatus = null;
+  function pollStatus() {
+    api("/api/status").then(function (r) { lastStatus = r; drawStatus(); }).catch(function () { lastStatus = null; drawStatus(); });
+  }
+  function engineExplanation() {
+    if (!lastStatus) return "Köprüye ulaşılamıyor. Geri bildirimi kopyalayıp sohbete yapıştırabilirsin.";
+    var e = lastStatus.engines, picked = prefs.engine || "auto", name = AGENT_NAMES[lastStatus.agent] || "Ajan";
+    var active = picked !== "auto" ? (e[picked] ? picked : null) : (e.agent ? "agent" : e.fork ? "fork" : e.stateless ? "stateless" : null);
+    if (!active) return picked === "agent" ? "Ajan şu an dinlemiyor. Sohbette ajandan bridge.py wait komutunu çalıştırmasını isteyebilirsin."
+                                          : "Şu an öneri üretebilecek bir yol yok.";
+    var detail = {
+      agent: "Sohbetteki " + name + " dinliyor, öneriyi o yazacak.",
+      fork: name + " sohbetinin bir kopyası açılır. Bütün bağlamı bilir ama uzun sohbetlerde yavaş ve maliyetli olabilir.",
+      stateless: name + " sohbet geçmişi olmadan çağrılır. Daha hızlıdır ama metnin geçmişini bilmez."
+    }[active];
+    return "Şu an: " + ENGINE_NAMES[active] + ". " + detail;
+  }
+  function drawStatus() {
+    if (!LIVE) return;
+    var dot = $("live-dot"), listening = !!(lastStatus && lastStatus.agent_listening);
+    dot.hidden = false;
+    dot.classList.toggle("on", listening);
+    dot.title = !lastStatus ? "Köprüye ulaşılamıyor" : listening ? "Ajan dinliyor" : "Ajan dinlemiyor";
+    document.querySelectorAll("[data-engine-pick]").forEach(function (b) {
+      var e = b.getAttribute("data-engine-pick");
+      b.disabled = e !== "auto" && !(lastStatus && lastStatus.engines[e]);
+      b.setAttribute("aria-pressed", (prefs.engine || "auto") === e ? "true" : "false");
+    });
+    $("engine-status").textContent = engineExplanation();
+  }
+  document.querySelectorAll("[data-engine-pick]").forEach(function (b) {
+    b.addEventListener("click", function () { prefs.engine = b.getAttribute("data-engine-pick"); savePrefs(); drawStatus(); });
+  });
+  if (LIVE) {
+    $("send-feedback").querySelector("span").textContent = "Ajana gönder";
+    $("send-feedback").querySelector("svg").innerHTML = '<path d="M4.5 12.2 19.6 4.6c.5-.2 1 .3.8.8l-7.6 15.1c-.3.5-1 .4-1.1-.1l-1.5-5.6c-.1-.3-.3-.5-.6-.6L4.6 13c-.5-.2-.6-.9-.1-.8Z"/><path d="M10.4 13.6 15.2 8.8"/>';
+    $("copy-feedback").hidden = false;
+    $("engine-section").hidden = false;
+    pollStatus();
+    setInterval(pollStatus, 6000);
+  }
+  $("show-feedback").addEventListener("click", function () { showText(feedback(), "Sohbete yapıştırılacak geri bildirim:"); });
+  $("copy-result").addEventListener("click", function () { copy(resultText(), "Sonuç metni kopyalandı."); });
+  $("download").addEventListener("click", function () {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([resultText()], { type: "text/plain;charset=utf-8" }));
+    a.download = "insanlik-oldu-mu-sonuc.txt";
+    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  });
+  $("accept-all").addEventListener("click", function () { CHANGES.forEach(function (s) { setDecision(s.id, { k: "accept" }); }); refresh(); if (noteId != null) drawNote(noteId); toast("Bütün öneriler kabul edildi."); });
+  $("revert-all").addEventListener("click", function () { CHANGES.forEach(function (s) { setDecision(s.id, { k: "revert" }); }); refresh(); if (noteId != null) drawNote(noteId); toast("Bütün değişiklikler geri alındı."); });
+  $("preview-close").addEventListener("click", function () { $("preview-dialog").close(); });
+  var gnote = $("general-note"); gnote.value = state.general || "";
+  gnote.addEventListener("input", function () { state.general = gnote.value; save(); });
+  var inc = $("include-text"); inc.checked = !!state.includeText;
+  inc.addEventListener("change", function () { state.includeText = inc.checked; save(); });
+  window.insanlikOlduMu = { feedback: feedback, resultText: resultText };
+
+  // ------------------------------------------------ view, paper, font, theme
+  function showView(view) {
+    state.view = view; save();
+    closeNote(true);
+    document.querySelectorAll(".tabs [role=tab]").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.view === view ? "true" : "false"); });
+    textView.hidden = view !== "text"; diffView.hidden = view !== "diff";
+    $("view-table").hidden = view !== "table"; $("view-measure").hidden = view !== "measure";
+    writeHint(view);
+    alignToLines();
+  }
+  document.querySelectorAll(".tabs [role=tab]").forEach(function (b) { b.addEventListener("click", function () { showView(b.dataset.view); closePanel(); }); });
+
+  // ------------------------------------------------ edit and settings panels
+  var openPanelName = null;
+  function openPanel(name) {
+    if (openPanelName === name) { closePanel(); return; }
+    closePanel();
+    closeNote(true);
+    openPanelName = name;
+    $("panel-" + name).hidden = false;
+    $("open-" + name).setAttribute("aria-expanded", "true");
+  }
+  function closePanel() {
+    if (!openPanelName) return;
+    $("panel-" + openPanelName).hidden = true;
+    $("open-" + openPanelName).setAttribute("aria-expanded", "false");
+    openPanelName = null;
+  }
+  ["edit", "settings"].forEach(function (name) {
+    $("open-" + name).addEventListener("click", function (e) { e.stopPropagation(); openPanel(name); });
+    var p = $("panel-" + name);
+    p.addEventListener("click", function (e) { e.stopPropagation(); });
+    p.querySelector(".panel-close").addEventListener("click", closePanel);
+  });
+  document.addEventListener("click", closePanel);
+  function markPicked(attr, value) {
+    document.querySelectorAll("[" + attr + "]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute(attr) === value ? "true" : "false"); });
+  }
+  function applyPaper() {
+    $("page").setAttribute("data-paper", prefs.paper);
+    markPicked("data-paper-pick", prefs.paper);
+  }
+  document.querySelectorAll("[data-paper-pick]").forEach(function (b) { b.addEventListener("click", function () { prefs.paper = b.getAttribute("data-paper-pick"); savePrefs(); applyPaper(); }); });
+  function applyFont() {
+    document.documentElement.setAttribute("data-font", prefs.font);
+    markPicked("data-font-pick", prefs.font);
+    alignToLines(); position();
+  }
+  document.querySelectorAll("[data-font-pick]").forEach(function (b) { b.addEventListener("click", function () { prefs.font = b.getAttribute("data-font-pick"); savePrefs(); applyFont(); }); });
+  function applyTheme() {
+    if (prefs.theme) document.documentElement.setAttribute("data-theme", prefs.theme); else document.documentElement.removeAttribute("data-theme");
+    markPicked("data-theme-pick", prefs.theme);
+    alignToLines();
+  }
+  document.querySelectorAll("[data-theme-pick]").forEach(function (b) { b.addEventListener("click", function () { prefs.theme = b.getAttribute("data-theme-pick"); savePrefs(); applyTheme(); }); });
+
+  document.addEventListener("keydown", function (e) {
+    var t = e.target.tagName;
+    if (t === "TEXTAREA" || t === "INPUT" || t === "SELECT" || e.metaKey || e.ctrlKey || e.altKey) { if (e.key === "Escape") e.target.blur(); return; }
+    if (e.key === "j") { e.preventDefault(); step(1); }
+    else if (e.key === "k") { e.preventDefault(); step(-1); }
+    else if (e.key === "1") decide("accept");
+    else if (e.key === "2") decide("revert");
+    else if (e.key === "3") { e.preventDefault(); decide("custom"); }
+    else if (e.key === "Escape") { if (openPanelName) closePanel(); else closeNote(true); }
+  });
+  window.addEventListener("resize", function () { alignToLines(); position(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { alignToLines(); position(); });
+
+  applyTheme();
+  applyPaper();
+  applyFont();
+  showView(state.view);
+  refresh();
+})();
+</script>
+</body>
+</html>

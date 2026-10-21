@@ -1,0 +1,7 @@
+interface:
+  display_name: "İnsanlık öldü mü?"
+  short_description: "Türkçe metindeki yapay zeka izlerini temizler"
+  icon_small: "./assets/icon-small.svg"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#DD2E44"
+  default_prompt: "$insanlik-oldu-mu ile şu metni doğallaştır: "

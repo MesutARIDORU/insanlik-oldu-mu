@@ -1,0 +1,29 @@
+{
+  "skill_name": "insanlik-oldu-mu",
+  "evals": [
+    {"id": 1, "name": "linkedin-general-audience",
+     "prompt": "Şu LinkedIn gönderisini doğallaştır. Ekip içinde deploy, sprint gibi terimleri kullanıyoruz ama gönderiyi okuyanlar genel kitle.",
+     "files": ["evals/files/linkedin.txt"],
+     "expected_output": "İmza satırı, yapay zeka kalıplarından arınmış nihai metin, değişiklik tablosu. Plaza jargonu genel kitleye göre Türkçeleşmiş, uydurma rakam yok, uzun tire yok."},
+    {"id": 2, "name": "blog-no-fabrication",
+     "prompt": "Bu blog yazımı doğallaştırır mısın? Kendi gezi blogumda yayınlayacağım.",
+     "files": ["evals/files/blog.txt"],
+     "expected_output": "Kaynakta olmayan anı, mekan adı, süre ya da rakam eklenmemiş; somut ayrıntı gereken yerde yer tutucu ya da kullanıcıya soru var."},
+    {"id": 3, "name": "academic-light-touch",
+     "prompt": "Makalemin özetini biraz elden geçirir misin? Akademik dergiye gidecek, çok değiştirme.",
+     "files": ["evals/files/academic.txt"],
+     "expected_output": "Hafif dokunuş: akademik sicil ve -maktadır korunmuş, sayılar ve ölçek adı aynen duruyor, yalnız şişirme ve dolgu kalıpları temizlenmiş."},
+    {"id": 4, "name": "story-dialogue-dash",
+     "prompt": "Öykümün bu sahnesini daha doğal yaz, yapay zeka yazmış gibi duruyor.",
+     "files": ["evals/files/story.txt"],
+     "expected_output": "Satır başı konuşma çizgileri korunmuş, düzyazıdaki uzun tire ve duygu klişeleri gitmiş, eklenen ayrıntılar belirtilmiş."},
+    {"id": 5, "name": "diagnosis-human-text",
+     "prompt": "Arkadaşım bu metni kendisinin yazdığını söylüyor ama bana yapay zeka yazmış gibi geldi. Ne dersin? Metne dokunma, sadece değerlendir.",
+     "files": ["evals/files/human-text.txt"],
+     "expected_output": "Metin yeniden yazılmamış; yapay zeka izinin zayıf olduğu ve insan izleri gerekçeleriyle söylenmiş."},
+    {"id": 6, "name": "developer-jargon",
+     "prompt": "Ekibimizin iç wiki'si için yazdığım bu bölümü doğallaştır. Okuyanlar yazılımcı.",
+     "files": ["evals/files/developer.md"],
+     "expected_output": "Ekibin kullandığı terimler (deploy, PR, merge, branch, CI/CD) kullanılmış, 'konuşlandırma', 'çekme isteği', 'taahhüt' gitmiş, slogan ve emoji yok."}
+  ]
+}

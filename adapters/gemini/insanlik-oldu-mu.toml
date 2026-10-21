@@ -1,0 +1,8 @@
+description = "İnsanlık öldü mü? Türkçe metindeki yapay zeka izlerini temizler"
+
+prompt = """
+Önce <SKILL-YOLU>/SKILL.md dosyasını oku ve oradaki talimata uy. Betikler <SKILL-YOLU>/scripts altında,
+referans dosyaları <SKILL-YOLU>/references altında. Aşağıdaki isteği o talimata göre ele al.
+
+{{args}}
+"""

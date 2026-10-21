@@ -1,5 +1,10 @@
 # Değişiklik günlüğü
 
+## 1.2.2 · Kurulum anlatımı
+
+- **Kurulum belgeleri:** README ve INSTALL.md artık `npx skills`'in gerçekte gösterdiği ekranları anlatıyor. Etkileşimli kurulumda Codex ve Gemini CLI her zaman dahil, Claude Code ise seçili gelmiyor. Belgeler onu nasıl işaretleyeceğini söylüyor. Hızlı başlangıç, üç ajana da soru sormadan kuran tek komutla açılıyor: `npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli`.
+- **Ayar betiği (`scripts/install.py`):** README'de kurulumun parçası gibi duran menüsü kalktı, betik isteğe bağlı bir adım olarak ayrı anlatılıyor. Depodan çalışırken `npx skills`'e geçtiği yerde Claude Code'un nasıl seçileceğini söylüyor.
+
 ## 1.2.1 · İlk yayın
 
 Türkçe metindeki yapay zeka izlerini bulan ve metni, bilgisine dokunmadan, doğal Türkçeyle yeniden kuran ajan skill'i. Claude Code, Codex ve Gemini CLI'da çalışır, `npx skills` ile kurulur. Kod, dosya ve klasör adları, betik komutları ve seçenekleri İngilizce. Kullanıcının gördüğü her şey Türkçe.

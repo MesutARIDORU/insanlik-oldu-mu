@@ -15,10 +15,10 @@ Okuduğun duyurunun, gönderinin ya da e-postanın bir makineden çıktığını
 **1. Kur.** Terminale şunu yapıştır:
 
 ```bash
-npx skills add MesutARIDORU/insanlik-oldu-mu -g
+npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli
 ```
 
-Komut hangi yapay zeka araçlarına kurulacağını sorar: Claude Code, Codex, Gemini CLI ve diğerleri. Skill, öbür skill'lerinle aynı ortak klasöre (`~/.agents/skills`) kurulur. Gerekenler Node.js ve Python 3.
+Komut skill'i Claude Code, Codex ve Gemini CLI'a soru sormadan kurar. Gerekenler Node.js ve Python 3. Başka ajanlara da kurmak ya da listeden seçmek istersen [Kurulum](#kurulum) bölümüne bak.
 
 **2. Kullan.** Ajana metni ver ve ne istediğini söyle:
 
@@ -113,42 +113,47 @@ Teslimde önce ve sonra değerleri yan yana durur.
 
 İnsanlık öldü mü? Claude Code, Codex ve Gemini CLI ile çalışır. Gerekenler: Node.js (`npx` için) ve Python 3.8 ya da daha yenisi. Betikler yalnız Python'un standart kütüphanesini kullanır, ek paket kurulmaz.
 
-### 1. Kur
+Kurulumu `npx skills` yapar. Skill ortak `~/.agents/skills` klasörüne tek kopya olarak iner ve kilit dosyasına (`~/.agents/.skill-lock.json`) yazılır. Codex ve Gemini CLI skill'i bu klasörden okur, Claude Code'a da bu klasöre giden bir bağlantı kurulur. Bilgisayarındaki öbür skill'ler de bu yolla kuruluysa hepsi aynı yerde durur.
+
+### Tek komutla
+
+```bash
+npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli
+```
+
+Soru sormaz. Sonunda şu özeti görürsün:
+
+```
+◇  Installed 1 skill
+│  ✓ ~/.agents/skills/insanlik-oldu-mu
+│    universal: Codex, Gemini CLI
+│    symlinked: Claude Code
+```
+
+### Listeden seçerek
 
 ```bash
 npx skills add MesutARIDORU/insanlik-oldu-mu -g
 ```
 
-`npx skills` hangi ajanlara kurulacağını sorar. Claude Code, Codex ve Gemini CLI'ı orada işaretle. Skill ortak `~/.agents/skills` klasörüne tek kopya olarak kurulur, kilit dosyasına (`~/.agents/.skill-lock.json`) yazılır ve seçtiğin ajanlara bağlanır. Bilgisayarındaki öbür skill'ler de bu yolla kuruluysa hepsi aynı yerde durur.
+Komut sırayla şunları sorar:
 
-### 2. Ayarları yap (isteğe bağlı)
+1. **Which agents do you want to install to?** Listenin üstündeki "Universal" bölümünde Codex, Gemini CLI ve ortak klasörü okuyan öbür ajanlar var. Bunlar her zaman dahildir, seçmen gerekmez. **Claude Code bu bölümde değil, seçili de gelmez.** Alttaki "Search" alanına `claude` yaz, Claude Code'u boşluk tuşuyla işaretle, Enter'a bas. Bunu atlarsan skill Claude Code'a kurulmaz.
+2. **Installation method:** Yalnızca ek bir ajan seçtiysen sorulur. "Symlink (Recommended)" seçili gelir, Enter'a bas.
+3. **Proceed with installation?** Önce kurulumun özetini ve skill'in güvenlik taramasını gösterir. "Yes" seçili gelir, Enter'a bas.
+
+### İsteğe bağlı ayarlar
+
+Kurulum bu kadar, skill kullanıma hazır. Şu üç şeyi istersen kurulan kopyadaki ayar betiği yapar:
+- **Claude Code:** Skill'i ve betiklerini her seferinde onay sormadan çalıştırsın diye izin ekler. Önce ayar dosyanın yedeğini alır.
+- **Codex:** Çok sayıda skill yüklüyse Codex bu skill'i kendiliğinden seçmeyebilir. Betik, Codex'in genel talimatlarına üç satırlık bir yönlendirme notu ekler.
+- **Gemini CLI:** `/insanlik-oldu-mu` komutunu ekler.
 
 ```bash
 python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py
 ```
 
-Bu betik skill'i yeniden kurmaz, yalnızca ayarları yapar. Önce hangi araçlar için ayar yapılacağını sorar:
-
-```
-Hangi araçlar için ayar yapılsın?
-  1) [x] Claude Code  bulundu · 2.1.300 (Claude Code) · bağlantı ve betik izinleri
-  2) [x] Codex        bulundu · codex-cli 0.162.1 · yönlendirme notu
-  3) [x] Gemini CLI   bulundu · 0.60.0 · /insanlik-oldu-mu komutu
-? Numaraları virgülle yaz (örnek: 1,2). Enter: işaretliler, 0: hiçbiri:
-```
-
-Sonra her adımdan önce ayrıca onay ister:
-- **Claude Code:** Skill'e ve betiklerine izin ekler. Eklersen Claude onları her seferinde sormadan çalıştırır. Betik önce ayar dosyanın yedeğini alır.
-- **Codex:** Codex'in genel talimatlarına üç satırlık bir yönlendirme notu ekler. Not, Codex'in bu skill'i kendiliğinden seçmesini sağlar.
-- **Gemini CLI:** `/insanlik-oldu-mu` komutunu yazar.
-
-En sonda kısa bir deneme yapar: ölçüm, inceleme sayfası ve canlı köprü. Soru sormadan çalıştırmak için seçenekleri komuta ekle:
-
-```bash
-python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py --targets claude,codex --permissions --codex-routing
-```
-
-Node.js yoksa depoyu klonlayıp kurulum betiğini çalıştırabilirsin. Adımlar [INSTALL.md](INSTALL.md) dosyasında.
+Betik skill'i yeniden kurmaz. Her ayardan önce ayrıca sorar, onay vermediğin hiçbir dosyaya dokunmaz. Seçenekleri ve Node.js olmadan kurulum [INSTALL.md](INSTALL.md) dosyasında.
 
 ### Kurulduğunu nasıl anlarım?
 
@@ -159,8 +164,8 @@ Ajana Türkçe bir metin ver ve "doğallaştır" de. Skill devreye girdiyse sohb
 | Araç | Kendiliğinden devreye girer | Adıyla çağırmak için |
 |---|---|---|
 | Claude Code | Evet | `/insanlik-oldu-mu` |
-| Codex | Ayar adımında yönlendirme notunu eklersen evet. Not yoksa ve çok sayıda skill yüklüyse seçmeyebilir | `$insanlik-oldu-mu` |
-| Gemini CLI | Hayır | `/insanlik-oldu-mu` |
+| Codex | Ayar betiğiyle yönlendirme notunu eklersen evet. Not yoksa ve çok sayıda skill yüklüyse seçmeyebilir | `$insanlik-oldu-mu` |
+| Gemini CLI | Skill'i ortak klasörden okur, kendiliğinden seçmesi denenmedi | `/insanlik-oldu-mu` (ayar betiği ekler) |
 
 ### Güncelleme ve kaldırma
 
@@ -176,7 +181,7 @@ Kaldırmak için:
 npx skills remove insanlik-oldu-mu -g
 ```
 
-Ayar adımında eklenen izinlerin ve notun nasıl silineceği ve AGENTS.md okuyan öbür araçlar için elle kurulum [INSTALL.md](INSTALL.md) dosyasında.
+Ayar betiğinin eklediği izinlerin ve notun nasıl silineceği, AGENTS.md okuyan öbür araçlar için elle kurulum [INSTALL.md](INSTALL.md) dosyasında.
 
 ## Kullanım
 
@@ -252,7 +257,7 @@ Ayrıntılı kaynak listesi [references/sources.md](references/sources.md) dosya
 - **Review page:** An optional notebook-style page marks only the changed words, in medium weight with a faint yellow highlighter. For each change the user can keep it, revert it or ask the agent for alternatives.
 - **Live bridge:** A local bridge connects the page to Claude Code, Codex or Gemini CLI, either through the listening agent, a forked session or a stateless call.
 
-Install with `npx skills add MesutARIDORU/insanlik-oldu-mu -g`; it asks which agents (Claude Code, Codex, Gemini CLI…) to install into. Optional settings (Claude Code permissions, Codex routing note, Gemini command): `python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py`.
+Install for Claude Code, Codex and Gemini CLI with `npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli`. In the interactive `npx skills add MesutARIDORU/insanlik-oldu-mu -g`, Codex and Gemini CLI are always included but Claude Code has to be selected by hand. Optional settings (Claude Code permissions, Codex routing note, Gemini command): `python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py`.
 
 ## Lisans
 

@@ -247,7 +247,8 @@ def install_shared(selected):
         ids = [CLI_AGENT_IDS[t] for t in selected if t in CLI_AGENT_IDS]
         cmd += ["-y"] + (["-a"] + ids if ids else [])
     else:
-        print("  npx skills hangi ajanlara bağlanacağını soracak. Claude Code, Codex ve Gemini CLI'ı orada işaretle.")
+        print("  npx skills hangi ajanlara kurulacağını soracak. Codex ve Gemini CLI kendiliğinden seçili gelir.")
+        print("  Claude Code seçili gelmez: Search alanına claude yazıp boşluk tuşuyla işaretle, sonra Enter.")
     if ARGS.dry_run:
         say("·", "Ortak klasör: şu komut çalıştırılacaktı (deneme çalışması): " + " ".join(cmd))
         return os.path.join(SHARED_DIR, NAME)
@@ -317,7 +318,7 @@ def migrate_legacy_files():
 
 def write_config(agents, installs):
     config = {
-        "version": "1.2.1",
+        "version": "1.2.2",
         "skill_dir": SKILL_ROOT,
         "installs": installs,
         "agents": agents,

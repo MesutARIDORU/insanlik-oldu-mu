@@ -44,7 +44,7 @@ import urllib.parse
 import urllib.request
 import webbrowser
 
-VALID_PREFERENCES = {"paper": {"lined", "grid", "plain"}, "font": {"airy", "soft", "book", "hand"},
+VALID_PREFERENCES = {"paper": {"lined", "grid", "plain"}, "type": {"hand", "airy", "soft", "book"},
                      "theme": {"", "light", "dark"}, "engine": {"auto", "agent", "fork", "stateless"}}
 ENGINES = ("agent", "fork", "stateless")
 IDLE_SHUTDOWN = 3 * 60 * 60  # seconds

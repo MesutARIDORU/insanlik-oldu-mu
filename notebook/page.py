@@ -31,6 +31,7 @@ Uses only the Python 3 standard library.
 """
 
 import argparse
+import base64
 import datetime
 import difflib
 import hashlib
@@ -43,7 +44,7 @@ import sys
 import tempfile
 
 from . import languages
-from .product import TEMPLATE
+from .product import HERE, TEMPLATE
 
 TOKEN_RE = re.compile(r"\w+|[^\w\s]|\s+")
 LANGUAGE = "en"  # set by build_page from the product
@@ -416,6 +417,55 @@ def as_script_json(value):
             .replace("\u2028", "\\u2028").replace("\u2029", "\\u2029"))
 
 
+FONTS_DIR = os.path.join(HERE, "fonts")
+# the handwriting face (Patrick Hand, SIL Open Font License, see fonts/OFL.txt), embedded so the page needs nothing from outside
+FONTS = [
+    ("patrick-hand-latin.woff2", "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"),
+    ("patrick-hand-latin-ext.woff2", "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF"),
+]
+
+
+def font_faces():
+    """@font-face rules with the font files inlined; a missing file is skipped and the page falls back to the system's handwriting face."""
+    rules = []
+    for name, ranges in FONTS:
+        try:
+            with open(os.path.join(FONTS_DIR, name), "rb") as f:
+                data = base64.b64encode(f.read()).decode("ascii")
+        except OSError:
+            continue
+        rules.append('@font-face { font-family: "Patrick Hand"; font-style: normal; font-weight: 400; font-display: swap; '
+                     'src: url(data:font/woff2;base64,%s) format("woff2"); unicode-range: %s; }' % (data, ranges))
+    return "\n".join(rules)
+
+
+TEXTURES_DIR = os.path.join(HERE, "textures")
+# paper grain, masking tape and a highlighter stroke, from the notebook's texture pack: (file, media type, CSS variable)
+TEXTURES = [
+    ("grain.png", "image/png", "--grain"),
+    ("tape.webp", "image/webp", "--tape-image"),
+    ("marker.webp", "image/webp", "--marker-image"),
+    ("wood.jpg", "image/jpeg", "--wood-image"),
+]
+
+
+def texture_rules():
+    """The textures as CSS variables with the files inlined; a missing file leaves the page's drawn fallback in place."""
+    values = []
+    for name, media, var in TEXTURES:
+        try:
+            with open(os.path.join(TEXTURES_DIR, name), "rb") as f:
+                data = base64.b64encode(f.read()).decode("ascii")
+        except OSError:
+            continue
+        values.append("%s: url(data:%s;base64,%s);" % (var, media, data))
+        if var == "--marker-image":
+            values.append("--divider-drawn: hidden;")  # the highlighter image replaces the drawn divider
+        if var == "--wood-image":
+            values.append("--wood-size: 1000px auto; --wood-seams: none;")  # a real desk has its own grain, no drawn planks
+    return ":root { %s }" % " ".join(values) if values else ""
+
+
 def render(product, data):
     """Fills the template: {{key}} with the product's texts, then the slots with the page data and the product's settings."""
     with open(TEMPLATE, encoding="utf-8") as f:
@@ -434,6 +484,8 @@ def render(product, data):
         "/*__STRINGS__*/null": as_script_json(product.page_strings()),
         "/*__PRODUCT__*/null": as_script_json(settings),
         "/*__DATA__*/null": as_script_json(data),
+        "/*__FONTS__*/": font_faces(),
+        "/*__TEXTURES__*/": texture_rules(),
     }
     # one pass, so nothing filled in (a title, the user's text) is read again as a slot
     return re.sub("|".join(re.escape(k) for k in slots), lambda m: slots[m.group()], page)

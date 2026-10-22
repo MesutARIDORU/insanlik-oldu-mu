@@ -1,5 +1,16 @@
 # Değişiklik günlüğü
 
+## 1.6.0 · Masadaki defter
+
+- **Yeni görünüm:** İnceleme sayfası ahşap bir masada duran, delikli, çizgili bir defter yaprağı. Metin, başlık ve kart Patrick Hand el yazısıyla yazılıyor. Font ve dokular (kâğıt, bant, fosforlu kalem, ahşap) sayfanın içine gömülü, sayfa dışarıya istek atmıyor.
+- **Metin:** Değişen kelimelerin arkasında yeşil bir fosforlu kalem var. Onaylanan değişikliğin eski hali üstü çizili olarak yeni halin hemen üstünde ya da önünde kalıyor.
+- **Kenar boşluğu:** Her değişikliğin ortasında numaralı bir yuvarlak var, birden çok satıra yayılan değişikliği turuncu bir küme parantezi sarıyor. Gerekçenin ilk cümlesi sağ kenara küçük bir okla not düşülüyor. Yan yana duran değişikliklerin yuvarlakları üst üste binmiyor, alt alta diziliyor.
+- **Kart:** Bantlı bir not kâğıdı. "Öneriyi uygula" (`1`) değişikliği onaylayıp sıradakini açıyor, altında "Kalsın" (`2`) ve "Kendim düzenleyeyim" (`3`) var. Başka seçenekler yanlarındaki okla seçiliyor. Uzun bir kartın içeriği bandın altında kayıyor.
+- **Seçenek balonu:** Değişen bir kısmın üstüne gelince el çizimi bir konuşma balonu açılıyor, yazısı başlığın altındaki çizginin kırmızısı. Balon metindeki seçeneğin adını ve sırasını gösteriyor. ‹ › seçenekler arasında geziyor, ▾ hepsini listeliyor. Canlı köprüyle açılan sayfada seçenek yoksa listeden ajana istek gönderilebiliyor. Balon son hal önizlemesinde de çıkıyor.
+- **İlerleme:** Son satır onaylanan değişiklikleri sayıyor: "3 / 5 onaylandı".
+- **Ayarlar:** Yazı tipi ayarı yeni bir adla saklanıyor ve varsayılanı el yazısı. Eski ayar yok sayıldığı için herkes yeni sayfayı bir kez varsayılan haliyle görüyor.
+- **Gerekçeler:** Gerekçenin ilk cümlesi kenar notu olduğu için SKILL.md onu kısa tutmayı ve ayrıntıyı ikinci cümleye bırakmayı istiyor.
+
 ## 1.5.0 · Defterde yeni dokunuşlar
 
 - **Yerinde seçenekler:** Değişen bir kısmın üstüne gelince başında küçük oklar çıkıyor. Oklar önerilen hal, daha kısa, daha resmî, daha sıcak ve eski hal arasında metnin içinde geziyor, seçeneğin adı yanda kısa süre görünüyor. Oklar kısmın başında durduğu için metin kısalıp uzasa da yerinden oynamıyor.

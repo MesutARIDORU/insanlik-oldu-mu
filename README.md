@@ -81,20 +81,21 @@ Skill önce iskeleti değiştirir, sonra boşalan yere Türkçenin kendi ritmini
 
 **Son söz senin.** Metin ve değişiklik tablosu hemen gelir. Ardından skill sohbette sorar: "Değişiklikleri önizleme sayfasında görmek ister misin?" Seçenekler "Önizle" ve "Gerek yok". Claude Code bunu tıklanabilir seçenekler olarak gösterir. Codex ve Gemini CLI'da cevabı yazman yeterli.
 
-Önizlemeyi seçersen değişiklikler defter görünümlü bir sayfada açılıyor:
-- Metinde yalnızca değişen kelimeler işaretli: orta kalınlıkta, arkalarında çok hafif sarı bir fosforlu kalem. Silinen yerde küçük bir "[silindi]" notu duruyor.
-- Bir cümleye tıklayınca not kartı açılıyor. Kartta üç bölüm var:
-  - **Neydi:** Cümlenin eski hali, çıkarılan kısımların üstü çizili.
-  - **Önerilen:** Yeni hali, eklenen kelimeler kalın.
+Önizlemeyi seçersen değişiklikler ahşap bir masada duran defter yaprağında açılıyor:
+- Değişen kelimelerin arkasında yeşil bir fosforlu kalem var. Onayladığın değişikliğin eski hali, üstü çizili olarak yeni halin hemen üstünde kalıyor. Silinen yerde küçük bir "[silindi]" notu duruyor.
+- Kenarda her değişikliğin numaralı bir yuvarlağı var. Birden çok satıra yayılan değişikliği turuncu bir küme parantezi sarıyor, gerekçesinin ilk cümlesi sağ kenara kısa bir not olarak düşülüyor.
+- Bir cümleye tıklayınca bantlı not kartı açılıyor. Kartta üç bölüm var:
+  - **Neydi:** Cümlenin eski hali, üstü çizili.
+  - **Önerilen:** Yeni hali, altında gerekçesi.
   - **Başka seçenekler:** Aynı cümlenin daha kısa, daha resmî ve daha sıcak hali.
 
-  "Kalsın", "Eskisine dön", beğendiğin seçeneğin yanındaki "Kullan" ya da "Kendim yazayım" ile karar verirsin. Kartın üstündeki oklarla değişiklikler arasında gezersin.
+  "Öneriyi uygula" değişikliği onaylayıp sıradakine geçer. "Kalsın" eski hali bırakır, "Kendim düzenleyeyim" cümleyi senin yazmana açar, başka bir seçeneği yanındaki okla alırsın. Klavyede 1, 2 ve 3 aynı işi görür. Kartın üstündeki oklarla değişiklikler arasında gezersin.
 - Kart geniş ekranda defterin sağında, üst hizada açılıyor ve sayfa kaydırılırken yerinde kalıyor. İnce kesik bir çizgi onu cümleye bağlıyor. Ajanın içindeki tarayıcı gibi dar bir pencerede kart cümlenin altında, telefonda ekranın altından açılıyor.
-- Kenar boşluğundaki işaretler ve kâğıdın son satırı hangi değişikliğe baktığını, hangisini eskisine döndürdüğünü gösteriyor. Köşeli parantezle sorulan bilgiler turuncu ve sayılıyor. "1 soru açık" yazısına tıklayınca sıradaki soruya gidiyorsun.
-- Değişen bir kısmın üstüne gelince başında küçük oklar çıkıyor. Oklarla önerilen hal, daha kısa, daha resmî, daha sıcak ve eski hal arasında metnin içinde gezersin. Seçeneğin adı okların yanında kısa süre görünür.
-- Başlığın yanındaki göz düğmesi ya da `p` tuşu kararların uygulanmış son halini tertemiz gösterir. Orada da değişen kısmın üstüne gelince aynı oklar çıkar.
+- Kâğıdın son satırı kaç değişikliği onayladığını gösteriyor. Köşeli parantezle sorulan bilgiler turuncu ve sayılıyor. "1 soru açık" yazısına tıklayınca sıradaki soruya gidiyorsun.
+- Değişen bir kısmın üstüne gelince el çizimi bir balon açılıyor. Balonda metinde duran seçeneğin adı yazıyor. ‹ › oklarıyla önerilen hal, daha kısa, daha resmî, daha sıcak ve eski hal arasında metnin içinde gezersin, ▾ ile hepsini liste halinde görüp birini seçersin.
+- Başlığın yanındaki göz düğmesi ya da `p` tuşu kararların uygulanmış son halini tertemiz gösterir. Orada da değişen kısmın üstüne gelince aynı balon çıkar.
 
-![İnceleme sayfası: metin defterde, not kartı sağda; kartta eski hali, önerilen hali ve daha kısa, daha resmî, daha sıcak seçenekleri](assets/review-page.png)
+![İnceleme sayfası: ahşap masada defter sayfası, sağda bantlı not kartı, değişen cümlenin üstünde seçenek balonu](assets/review-page.png)
 
 **Sayfa ajanla konuşuyor.** Canlı açıldığında:
 - Kartın altındaki kutuya "daha samimi", "deyimle söyle" gibi bir istek yazarsan ajan iki üç seçenek daha getirir.
@@ -271,7 +272,7 @@ Ayrıntılı kaynak listesi [references/sources.md](references/sources.md) dosya
 - **Flow:** 35 rules built on Turkish grammar (word order, mood and certainty, reduplication, address) guide the rewrite.
 - **Sectors:** Guides for nine fields (software, finance, health, education, law, public sector, e-commerce, HR, marketing) say who reads the text, which terms stay and which facts must never change.
 - **Delivery:** Every rewrite comes with a change table and a numeric audit.
-- **Review page:** An optional notebook-style page marks only the changed words, in medium weight with a faint yellow highlighter. For each change the user can keep it, revert it or ask the agent for alternatives.
+- **Review page:** An optional page, a notebook sheet on a wooden desk, marks the changed words with a green highlighter and keeps each approved original struck through above the new text. For each change the user can apply the suggestion, keep the original, pick another version, edit it or ask the agent for alternatives.
 - **Live bridge:** A local bridge connects the page to Claude Code, Codex or Gemini CLI, either through the listening agent, a forked session or a stateless call.
 - **Shared kit:** The page and the bridge come from [notebook-review](https://github.com/MesutARIDORU/notebook-review), which the English skill [Still Human?](https://github.com/MesutARIDORU/still-human) uses too. A copy lives in `notebook/` and is synced daily.
 

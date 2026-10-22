@@ -12,7 +12,7 @@ description: >
   bir mesaj yapıştırdığında kullan. Metin İngilizceyse ya da yalnızca çeviri isteniyorsa kullanma.
 license: MIT
 metadata:
-  version: "1.5.0"
+  version: "1.6.0"
   gorunen-ad: "İnsanlık öldü mü?"
 compatibility: Dosya okuyabilen her ajan. Betikler için Python 3 gerekir, Python yoksa ölçümler elle yapılır.
 allowed-tools:
@@ -353,15 +353,16 @@ Varsayılan teslim biçimi aşağıda. Kullanıcı yalnız metni isterse yalnız
 
 Kullanıcı teslimden sonraki soruda "Önizle"yi seçtiyse, sayfayı kendisi istediyse ya da sonradan "önizle" yazdıysa etkileşimli bir inceleme sayfası üret. Bunun için Python çalıştırabilmen ve dosya yazabilmen gerekir.
 
-Sayfa tek bir HTML dosyası ve görünüşü bir defter sayfası:
-- Metinde yalnızca değişen kelimeler işaretli: orta kalınlıkta ve arkalarında çok hafif sarı bir fosforlu kalem. Silinen yerde küçük bir "[silindi]" notu duruyor. Köşeli parantezli sorular turuncu.
-- Cümleye tıklayınca bir not kartı açılıyor. Kart üç şeyi gösteriyor: "Neydi" (çıkarılan kısımların üstü çizili), "Önerilen" (eklenen kelimeler kalın) ve "Başka seçenekler" (aynı cümlenin daha kısa, daha resmî ve daha sıcak hali). Kullanıcı "Kalsın", "Eskisine dön", bir seçeneğin yanındaki "Kullan" ya da "Kendim yazayım" ile karar veriyor, not ekleyebiliyor.
-- Kart geniş ekranda defterin sağında üst hizada, dar ekranda cümlenin altında, telefonda ekranın altından açılıyor. Kenar boşluğundaki işaretler ve kâğıdın son satırı hangi değişikliğe bakıldığını gösteriyor.
-- Değişen bir kısmın üstüne gelince başında çıkan oklarla seçenekler metnin içinde değiştirilebiliyor. Göz düğmesi (ya da `p` tuşu) kararların uygulanmış son halini işaretsiz gösteriyor.
+Sayfa tek bir HTML dosyası ve görünüşü ahşap masada duran bir defter yaprağı:
+- Metinde değişen kelimelerin arkasında yeşil bir fosforlu kalem var. Kullanıcının onayladığı değişikliğin eski hali üstü çizili olarak yeni halin üstünde kalıyor. Silinen yerde küçük bir "[silindi]" notu duruyor. Köşeli parantezli sorular turuncu.
+- Kenarda her değişikliğin numaralı bir yuvarlağı var. Gerekçenin ilk cümlesi sağ kenarda kısa bir not olarak duruyor.
+- Cümleye tıklayınca bantlı bir not kartı açılıyor. Kart üç şeyi gösteriyor: "Neydi" (eski hal, üstü çizili), "Önerilen" (yeni hal ve gerekçe) ve "Başka seçenekler" (aynı cümlenin daha kısa, daha resmî ve daha sıcak hali). Kullanıcı "Öneriyi uygula", "Kalsın", "Kendim düzenleyeyim" ya da bir seçeneğin yanındaki okla karar veriyor, not ekleyebiliyor.
+- Kart geniş ekranda defterin sağında üst hizada, dar ekranda cümlenin altında, telefonda ekranın altından açılıyor. Kâğıdın son satırı kaç değişikliğin onaylandığını gösteriyor.
+- Değişen bir kısmın üstüne gelince açılan balonla seçenekler metnin içinde değiştirilebiliyor. Göz düğmesi (ya da `p` tuşu) kararların uygulanmış son halini işaretsiz gösteriyor.
 - Kullanıcı kararlarını verip "Ajana gönder"e basıyor. Sayfa köprüsüz açıldıysa düğmenin adı "Geri bildirimi kopyala" olur ve kullanıcı metni sohbete yapıştırır.
 
 Sayfayı üretmek için iki adım var. Orijinal metin 1. adımda "before", nihai metin 4. adımda "after" adıyla saklandı. Ayrıca dosya yazman gerekmez.
-1. Gerekçeleri JSON olarak hazırla. Sayfa değişiklikleri cümle cümle böldüğü için **her değişen cümleye bir kayıt** aç. "before" ve "after" alanlarına cümleleri metinde geçtiği gibi, harfi harfine yaz. Kayıtları metindeki sırayla diz. Sayfa bu kayıtları çapa olarak kullanır, böylece ağır yeniden yazımda da her eski cümle kendi yenisiyle eşleşir. Silinen cümlede "after" boş kalır.
+1. Gerekçeleri JSON olarak hazırla. Sayfa değişiklikleri cümle cümle böldüğü için **her değişen cümleye bir kayıt** aç. "before" ve "after" alanlarına cümleleri metinde geçtiği gibi, harfi harfine yaz. Kayıtları metindeki sırayla diz. Sayfa bu kayıtları çapa olarak kullanır, böylece ağır yeniden yazımda da her eski cümle kendi yenisiyle eşleşir. Silinen cümlede "after" boş kalır. Gerekçenin ilk cümlesi sayfanın kenarına not olarak yazıldığı için onu kısa tut, ayrıntıyı ikinci cümleye bırak: "Karşıtlıkla parlatma. Bilgi aynen korundu, kalıp gitti."
 
    Silinmeyen her cümleye "alternatives" alanında aynı cümlenin üç halini daha yaz: daha kısa, daha resmî ve daha sıcak. Kart bunları "Başka seçenekler" olarak gösterir, kullanıcı tek tıkla seçer. Seçenekler de aynı kurallara uyar: kaynakta olmayan bilgi girmez, iddianın gücü değişmez, yer tutucular yerinde kalır. Bir hal metnin türüne uymuyorsa (şartnamede "daha sıcak" gibi) onu yazma.
    ```json

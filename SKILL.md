@@ -12,7 +12,7 @@ description: >
   bir mesaj yapıştırdığında kullan. Metin İngilizceyse ya da yalnızca çeviri isteniyorsa kullanma.
 license: MIT
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
   gorunen-ad: "İnsanlık öldü mü?"
 compatibility: Dosya okuyabilen her ajan. Betikler için Python 3 gerekir, Python yoksa ölçümler elle yapılır.
 allowed-tools:
@@ -499,3 +499,4 @@ Bu örnekte hitap ("Değerli ekip arkadaşlarım") olduğu gibi kaldı. Yazarın
 | `scripts/review.py` | Etkileşimli inceleme sayfası (5. adımdaki soruya "Önizle" denirse), `--live` ile köprülü |
 | `scripts/bridge.py` | Canlı köprü: `wait`, `reply`, `status`, `close` |
 | `scripts/install.py` | Kurulum: skill'i ajanlara bağlar, köprüyü ayarlar, dener |
+| `notebook/`, `notebook.json` | İnceleme sayfasının ve köprünün ortak çekirdeği, skill'in kimliği. notebook-review deposundan kopyalanır, okuman ya da değiştirmen gerekmez. `review.py` ve `bridge.py` bunları kullanır |

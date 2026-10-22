@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="tr">
+<html lang="__LANG__">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -376,19 +376,19 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
 
   <header class="top">
     <div class="title-row">
-      <h1 class="product"><svg class="skull" viewBox="0 0 48 52" aria-hidden="true"><path class="skull-head" d="M24 4.5 C12.5 4 5.2 12.2 6.1 23.2 C6.6 29.1 9.1 32.3 12.2 34.1 L12.6 40.2 C13 42.3 14.9 43.4 17.1 43.3 L31.2 43.1 C33.2 43 35 41.9 35.4 39.9 L35.9 34 C39.1 32 41.7 28.8 42 22.7 C42.6 11.6 35.6 4.9 24 4.5 Z"/><path class="skull-head echo" d="M23.6 5.6 C13.4 5.4 6.6 13 7.2 23.4 C7.8 28.6 10.3 31.5 13 33.3"/><path class="skull-fill" d="M12.4 22.6 C12.6 19.3 15 17.6 17.6 17.9 C20.4 18.3 21.9 20.6 21.5 23.6 C21.1 26.4 19 28 16.6 27.7 C14.1 27.4 12.2 25.4 12.4 22.6 Z M26.6 23.3 C26.4 20.4 28.4 18 31.1 17.9 C33.8 17.9 35.7 20 35.6 22.8 C35.5 25.7 33.5 27.8 30.9 27.8 C28.4 27.7 26.8 25.9 26.6 23.3 Z M24.1 29.4 L21.6 34.2 L26.7 34.1 Z"/><path class="skull-teeth" d="M19.3 37.6 L19.1 43 M24.1 37.9 L24.2 43.2 M28.9 37.5 L29.1 42.9"/></svg>İnsanlık öldü mü<b>?</b></h1>
+      <h1 class="product"><svg class="skull" viewBox="0 0 48 52" aria-hidden="true"><path class="skull-head" d="M24 4.5 C12.5 4 5.2 12.2 6.1 23.2 C6.6 29.1 9.1 32.3 12.2 34.1 L12.6 40.2 C13 42.3 14.9 43.4 17.1 43.3 L31.2 43.1 C33.2 43 35 41.9 35.4 39.9 L35.9 34 C39.1 32 41.7 28.8 42 22.7 C42.6 11.6 35.6 4.9 24 4.5 Z"/><path class="skull-head echo" d="M23.6 5.6 C13.4 5.4 6.6 13 7.2 23.4 C7.8 28.6 10.3 31.5 13 33.3"/><path class="skull-fill" d="M12.4 22.6 C12.6 19.3 15 17.6 17.6 17.9 C20.4 18.3 21.9 20.6 21.5 23.6 C21.1 26.4 19 28 16.6 27.7 C14.1 27.4 12.2 25.4 12.4 22.6 Z M26.6 23.3 C26.4 20.4 28.4 18 31.1 17.9 C33.8 17.9 35.7 20 35.6 22.8 C35.5 25.7 33.5 27.8 30.9 27.8 C28.4 27.7 26.8 25.9 26.6 23.3 Z M24.1 29.4 L21.6 34.2 L26.7 34.1 Z"/><path class="skull-teeth" d="M19.3 37.6 L19.1 43 M24.1 37.9 L24.2 43.2 M28.9 37.5 L29.1 42.9"/></svg>__PRODUCT_TITLE_HTML__</h1>
       <div class="menus">
-        <button class="icon-button" id="open-edit" type="button" aria-expanded="false" aria-controls="panel-edit" aria-label="Düzenle" title="Düzenle">
+        <button class="icon-button" id="open-edit" type="button" aria-expanded="false" aria-controls="panel-edit" aria-label="{{menu.edit}}" title="{{menu.edit}}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 4.6 C16.3 3.7 17.6 3.8 18.6 4.8 L19.3 5.5 C20.2 6.4 20.3 7.7 19.4 8.6 L9.2 18.8 L4.3 19.8 L5.2 14.9 Z"/><path d="M13.6 6.5 L17.5 10.4"/></svg>
         </button>
-        <button class="icon-button" id="open-settings" type="button" aria-expanded="false" aria-controls="panel-settings" aria-label="Ayarlar" title="Ayarlar">
+        <button class="icon-button" id="open-settings" type="button" aria-expanded="false" aria-controls="panel-settings" aria-label="{{menu.settings}}" title="{{menu.settings}}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.1"/><path d="M12 3.2v2.5M12 18.3v2.5M3.2 12h2.5M18.3 12h2.5M5.8 5.8l1.8 1.8M16.4 16.4l1.8 1.8M5.8 18.2l1.8-1.8M16.4 7.6l1.8-1.8"/><path d="M12 5.6 C15.7 5.5 18.5 8.4 18.4 12.1 C18.3 15.7 15.6 18.5 11.9 18.4 C8.3 18.3 5.5 15.6 5.6 11.9 C5.7 8.4 8.4 5.7 12 5.6 Z"/></svg>
         </button>
       </div>
     </div>
     <svg class="underline-squiggle" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 8 C 60 2, 110 11, 165 6 S 250 3, 297 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
     <div class="profile" id="profile" hidden></div>
-    <p class="wide-hint" id="wide-hint" hidden>Pencere dar olduğu için kartlar metnin üstünde açılıyor. Kartı yanda görmek için pencereyi genişlet ya da sayfayı tarayıcıda aç.<button type="button" id="copy-address">Adresi kopyala</button><button type="button" class="x" id="hide-hint" aria-label="Bu notu gizle">×</button></p>
+    <p class="wide-hint" id="wide-hint" hidden>{{hint.narrow}}<button type="button" id="copy-address">{{hint.copy_address}}</button><button type="button" class="x" id="hide-hint" aria-label="{{hint.hide}}">×</button></p>
   </header>
   <div class="marks" id="marks"></div>
 
@@ -397,7 +397,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   <div id="view-table" hidden>
     <div class="table-wrap">
       <table>
-        <thead><tr><th class="num">#</th><th>Önce</th><th>Sonra</th><th>Neden</th><th>Karar</th></tr></thead>
+        <thead><tr><th class="num">#</th><th>{{table.before}}</th><th>{{table.after}}</th><th>{{table.reason}}</th><th>{{table.decision}}</th></tr></thead>
         <tbody id="table-body"></tbody>
       </table>
     </div>
@@ -406,117 +406,117 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   <div id="view-measure" hidden>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Ölçüm</th><th>Önce</th><th>Sonra</th></tr></thead>
+        <thead><tr><th>{{measure.title}}</th><th>{{table.before}}</th><th>{{table.after}}</th></tr></thead>
         <tbody id="measure-body"></tbody>
       </table>
     </div>
-    <p class="meta">Ölçümler kaba bir alarm zilidir, dedektör sonucu sayılmaz. ✓ temiz · ~ dikkat · ! alarm</p>
+    <p class="meta">{{measure.note}}</p>
   </div>
 
-  <div class="panel" id="panel-edit" role="dialog" aria-label="Düzenle" hidden>
-    <div class="card-title">Düzenle</div>
-    <button class="panel-close" type="button" aria-label="Kapat">×</button>
+  <div class="panel" id="panel-edit" role="dialog" aria-label="{{menu.edit}}" hidden>
+    <div class="card-title">{{menu.edit}}</div>
+    <button class="panel-close" type="button" aria-label="{{common.close}}">×</button>
     <p class="hint" id="hint"></p>
     <div class="setting-row">
-      <span class="setting-name">Toplu karar</span>
+      <span class="setting-name">{{edit.all_at_once}}</span>
       <div class="setting-options">
-        <button class="action" id="accept-all" type="button">hepsi yeni haliyle kalsın</button>
-        <button class="action" id="revert-all" type="button">hepsini eskiye döndür</button>
+        <button class="action" id="accept-all" type="button">{{edit.keep_all}}</button>
+        <button class="action" id="revert-all" type="button">{{edit.revert_all}}</button>
       </div>
     </div>
     <div class="setting-row full">
-      <span class="setting-name">Genel not</span>
-      <textarea id="general-note" class="ruled-note" aria-label="Genel not" rows="3" placeholder="İsteğe bağlı. Örneğin: ton biraz daha resmî olsun."></textarea>
-      <label class="checkbox-row"><input type="checkbox" id="include-text"> Geri bildirime uygulanmış metni de ekle</label>
+      <span class="setting-name">{{edit.general_note}}</span>
+      <textarea id="general-note" class="ruled-note" aria-label="{{edit.general_note}}" rows="3" placeholder="{{edit.general_note_placeholder}}"></textarea>
+      <label class="checkbox-row"><input type="checkbox" id="include-text"> {{edit.include_text}}</label>
     </div>
     <div class="setting-row">
-      <span class="setting-name">Dışa aktar</span>
+      <span class="setting-name">{{edit.export}}</span>
       <div class="setting-options">
-        <button class="action" id="show-feedback" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg>önizle</button>
-        <button class="action" id="copy-feedback" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6M15.8 5h1.4c1.1 0 2 .9 2 2v12.2c0 1.1-.9 2-2 2H6.8c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h1.4"/></svg>geri bildirimi kopyala</button>
-        <button class="action" id="copy-result" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11.5" height="12.5" rx="2"/><path d="M15.5 8V5.5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2V16c0 1.1.9 2 2 2h2"/></svg>sonucu kopyala</button>
-        <button class="action" id="download" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>indir (.txt)</button>
+        <button class="action" id="show-feedback" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg>{{edit.preview}}</button>
+        <button class="action" id="copy-feedback" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6M15.8 5h1.4c1.1 0 2 .9 2 2v12.2c0 1.1-.9 2-2 2H6.8c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h1.4"/></svg>{{edit.copy_feedback}}</button>
+        <button class="action" id="copy-result" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11.5" height="12.5" rx="2"/><path d="M15.5 8V5.5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2V16c0 1.1.9 2 2 2h2"/></svg>{{edit.copy_result}}</button>
+        <button class="action" id="download" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>{{edit.download}}</button>
       </div>
     </div>
     <details class="shortcuts">
-      <summary>Kısayollar</summary>
-      <p><kbd>→</kbd> <kbd>←</kbd> ya da <kbd>j</kbd> <kbd>k</kbd> sonraki, önceki değişiklik · <kbd>1</kbd> kalsın · <kbd>2</kbd> eskisine dön · <kbd>3</kbd> kendim yazayım · <kbd>Esc</kbd> kapat</p>
+      <summary>{{edit.shortcuts}}</summary>
+      <p>{{edit.shortcuts_html}}</p>
     </details>
   </div>
 
-  <div class="panel" id="panel-settings" role="dialog" aria-label="Ayarlar" hidden>
-    <div class="card-title">Ayarlar</div>
-    <button class="panel-close" type="button" aria-label="Kapat">×</button>
+  <div class="panel" id="panel-settings" role="dialog" aria-label="{{menu.settings}}" hidden>
+    <div class="card-title">{{menu.settings}}</div>
+    <button class="panel-close" type="button" aria-label="{{common.close}}">×</button>
     <div class="setting-row">
-      <span class="setting-name">Görünüm</span>
+      <span class="setting-name">{{settings.view}}</span>
       <div class="setting-options tabs" role="tablist">
-        <button class="option" role="tab" data-view="text" aria-selected="true">metin</button>
-        <button class="option" role="tab" data-view="diff" aria-selected="false">önce / sonra</button>
-        <button class="option" role="tab" data-view="table" aria-selected="false">tablo</button>
-        <button class="option" role="tab" data-view="measure" aria-selected="false">ölçüm</button>
+        <button class="option" role="tab" data-view="text" aria-selected="true">{{settings.view_text}}</button>
+        <button class="option" role="tab" data-view="diff" aria-selected="false">{{settings.view_diff}}</button>
+        <button class="option" role="tab" data-view="table" aria-selected="false">{{settings.view_table}}</button>
+        <button class="option" role="tab" data-view="measure" aria-selected="false">{{settings.view_measure}}</button>
       </div>
     </div>
     <div class="setting-row">
-      <span class="setting-name">Kâğıt</span>
+      <span class="setting-name">{{settings.paper}}</span>
       <div class="setting-options">
-        <button class="option" type="button" data-paper-pick="lined">çizgili</button>
-        <button class="option" type="button" data-paper-pick="grid">kareli</button>
-        <button class="option" type="button" data-paper-pick="plain">düz</button>
+        <button class="option" type="button" data-paper-pick="lined">{{settings.paper_lined}}</button>
+        <button class="option" type="button" data-paper-pick="grid">{{settings.paper_grid}}</button>
+        <button class="option" type="button" data-paper-pick="plain">{{settings.paper_plain}}</button>
       </div>
     </div>
     <div class="setting-row">
-      <span class="setting-name">Yazı</span>
+      <span class="setting-name">{{settings.font}}</span>
       <div class="setting-options">
-        <button class="option" type="button" data-font-pick="airy">ferah</button>
-        <button class="option" type="button" data-font-pick="soft">yumuşak</button>
-        <button class="option" type="button" data-font-pick="book">kitap</button>
-        <button class="option" type="button" data-font-pick="hand">el yazısı</button>
+        <button class="option" type="button" data-font-pick="airy">{{settings.font_airy}}</button>
+        <button class="option" type="button" data-font-pick="soft">{{settings.font_soft}}</button>
+        <button class="option" type="button" data-font-pick="book">{{settings.font_book}}</button>
+        <button class="option" type="button" data-font-pick="hand">{{settings.font_hand}}</button>
       </div>
     </div>
     <div class="setting-row">
-      <span class="setting-name">Tema</span>
+      <span class="setting-name">{{settings.theme}}</span>
       <div class="setting-options">
-        <button class="option" type="button" data-theme-pick="">sistem</button>
-        <button class="option" type="button" data-theme-pick="light">kâğıt</button>
-        <button class="option" type="button" data-theme-pick="dark">tahta</button>
+        <button class="option" type="button" data-theme-pick="">{{settings.theme_system}}</button>
+        <button class="option" type="button" data-theme-pick="light">{{settings.theme_light}}</button>
+        <button class="option" type="button" data-theme-pick="dark">{{settings.theme_dark}}</button>
       </div>
     </div>
     <div class="setting-row" id="engine-section" hidden>
-      <span class="setting-name">Öneriler</span>
+      <span class="setting-name">{{settings.suggestions}}</span>
       <div class="setting-options">
-        <button class="option" type="button" data-engine-pick="auto">otomatik</button>
-        <button class="option" type="button" data-engine-pick="agent">dinleyen ajan</button>
-        <button class="option" type="button" data-engine-pick="fork">oturum çatalı</button>
-        <button class="option" type="button" data-engine-pick="stateless">bağlamsız</button>
+        <button class="option" type="button" data-engine-pick="auto">{{engine.auto}}</button>
+        <button class="option" type="button" data-engine-pick="agent">{{engine.agent}}</button>
+        <button class="option" type="button" data-engine-pick="fork">{{engine.fork}}</button>
+        <button class="option" type="button" data-engine-pick="stateless">{{engine.stateless}}</button>
       </div>
       <p class="setting-note" id="engine-status"></p>
     </div>
     <div class="setting-row full">
-      <span class="setting-name">Bilgi</span>
+      <span class="setting-name">{{settings.about}}</span>
       <p class="setting-note" id="meta"></p>
     </div>
   </div>
 </div>
 
-<div class="dock" role="region" aria-label="Geri bildirim">
+<div class="dock" role="region" aria-label="{{dock.label}}">
   <span class="live-dot" id="live-dot" hidden></span>
   <span class="progress" id="progress-text"></span>
   <span class="segs" id="segs" aria-hidden="true"></span>
   <span class="questions" id="questions" hidden></span>
-  <button class="accept-rest" id="accept-rest" type="button" hidden>Kalanları kabul et</button>
+  <button class="accept-rest" id="accept-rest" type="button" hidden>{{dock.accept_rest}}</button>
   <button class="send-button" id="send-feedback" type="button">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6M9.2 3.3h5.6c.6 0 1 .4 1 1v1.4c0 .6-.4 1-1 1H9.2c-.6 0-1-.4-1-1V4.3c0-.6.4-1 1-1Z"/><path d="M15.8 5h1.4c1.1 0 2 .9 2 2v12.2c0 1.1-.9 2-2 2H6.8c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h1.4"/><path d="M8.6 12.4h6.8M8.6 16h4.6"/></svg>
-    <span>Geri bildirimi kopyala</span>
+    <span>{{dock.copy_feedback}}</span>
   </button>
 </div>
 
-<div class="sticky-note" id="note" role="dialog" aria-label="Değişiklik ayrıntısı" hidden></div>
+<div class="sticky-note" id="note" role="dialog" aria-label="{{card.label}}" hidden></div>
 <div class="leader" id="leader" hidden></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <dialog id="preview-dialog">
   <p style="margin:0 0 10px" id="preview-title"></p>
   <textarea id="preview-text" readonly></textarea>
-  <p style="margin:12px 0 0;text-align:right"><button class="box" id="preview-close">Kapat</button></p>
+  <p style="margin:12px 0 0;text-align:right"><button class="box" id="preview-close">{{common.close}}</button></p>
 </dialog>
 
 <script>
@@ -524,8 +524,18 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   "use strict";
   var DATA = /*__DATA__*/null;
   var LIVE = /*__LIVE__*/null;  // {token, agent, has_session, preferences} when served by the bridge; null when opened as a file
+  var STRINGS = /*__STRINGS__*/null;  // the page's texts in the product's language (strings/<language>.json)
+  var PRODUCT = /*__PRODUCT__*/null;  // {name, slug, language, patterns}
+  // the text for key with {placeholders} filled in; a {one, other} entry picks the form for values.n
+  function msg(key, values) {
+    var s = STRINGS[key];
+    if (s == null) return key;
+    if (typeof s === "object" && !Array.isArray(s)) s = values && values.n === 1 ? s.one : s.other;
+    if (typeof s !== "string") return s;
+    return s.replace(/\{(\w+)\}/g, function (m, k) { return values && values[k] != null ? String(values[k]) : m; });
+  }
   var AGENT_NAMES = { claude: "Claude", codex: "Codex", gemini: "Gemini" };
-  var ENGINE_NAMES = { auto: "otomatik", agent: "dinleyen ajan", fork: "oturum çatalı", stateless: "bağlamsız çağrı" };
+  var ENGINE_NAMES = { auto: msg("engine.auto"), agent: msg("engine.agent"), fork: msg("engine.fork"), stateless: msg("engine.stateless_call") };
   function api(path, options) {
     options = options || {};
     options.headers = Object.assign({ "X-Token": LIVE.token, "Content-Type": "application/json" }, options.headers || {});
@@ -534,14 +544,14 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   var S = DATA.segments;
   var CHANGES = S.filter(function (s) { return s.t === "ch"; });
   var NOTES = DATA.notes || [];
-  var STATE_KEY = "insanlik-oldu-mu:review:" + DATA.id;
+  var STATE_KEY = PRODUCT.slug + ":review:" + DATA.id;
   var state = { decisions: {}, seen: {}, general: "", includeText: true, view: "text" };
   try { var saved = localStorage.getItem(STATE_KEY); if (saved) state = Object.assign(state, JSON.parse(saved)); } catch (e) {}
   if (["text", "diff", "table", "measure"].indexOf(state.view) < 0) state.view = "text";
   function save() { try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch (e) {} }
 
   // preferences (paper, font, theme, suggestion engine) belong to the user, not the document: valid on every page and live session
-  var PREF_KEY = "insanlik-oldu-mu:preferences";
+  var PREF_KEY = PRODUCT.slug + ":preferences";
   var VALID = { paper: ["lined", "grid", "plain"], font: ["airy", "soft", "book", "hand"], theme: ["", "light", "dark"], engine: ["auto", "agent", "fork", "stateless"] };
   function cleanPrefs(p) {
     var c = {};
@@ -563,14 +573,9 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     if (LIVE) api("/api/preferences", { method: "POST", body: JSON.stringify(prefs) }).catch(function () {});
   }
   var $ = function (id) { return document.getElementById(id); };
-  var DECISION_LABELS = { accept: "Böyle kalsın", revert: "Eskisine dön", custom: "Başka öner" };
-  var PATTERN_NAMES = {"Y1": "Kafiyeli yüklem", "Y2": "Eş boy cümleler", "Y3": "Kesik vuruş zinciri", "Y4": "Açılış tekrarı", "Y5": "Ad tekrarı ve eşanlamlı döngüsü", "Y6": "Mühürlü paragraf", "Y7": "Başa dönen kapanış", "Y8": "Üçleme alışkanlığı", "Y9": "Kopuk mantık",
-    "R1": "Karşıtlıkla parlatma", "R2": "Etiketli anons", "R3": "Kendi sorup kendi cevaplama", "R4": "Sahte aralık", "R5": "Vecize ve sahte şiir", "R6": "Önem şişirmesi", "R7": "Boş doğru", "R8": "Zarf-fiil kuyruğu", "R9": "Kılık değiştiren kalıp",
-    "S1": "Yapay zeka kelime kümesi", "S2": "Moda teknoloji sözleri", "S3": "Terim karmaşası", "S4": "Bürokratik ek yığını", "S5": "Süslü koşaç", "S6": "Dolgu ve aşırı ihtiyat", "S7": "Edilgen kaçış", "S8": "Sicil savrulması", "S9": "Broşür dili", "S10": "Hep en olası kelime", "S11": "Çeviri Türkçesi",
-    "T1": "Sohbet artığı", "T2": "Yağcılık", "T3": "Terapist sesi", "T4": "Sahte samimiyet kancası", "T5": "Anons ve rehber sesi", "T6": "Klişe giriş", "T7": "Kalıp kapanış",
-    "B1": "Uzun tire", "B2": "Noktalı virgül göçü", "B3": "Kalın vurgu enflasyonu", "B4": "Etiketli madde listesi", "B5": "Emoji süsü", "B6": "Başlık düzeni", "B7": "Parantez açıklama takıntısı", "B8": "Yazım tutarsızlığı",
-    "G1": "Belirsiz otorite", "G2": "Uydurma vaka ve rakam", "G3": "Boşluk doldurma", "G4": "Şablon zorluklar paragrafı", "G5": "Kurgu klişesi", "G6": "Aşırı düzeltme izi"};
-  // placeholders such as [ilk haftanın ortalama yanıt süresi?] are questions for the writer
+  var DECISION_LABELS = { accept: msg("decision.accept"), revert: msg("decision.revert"), custom: msg("decision.custom") };
+  var PATTERN_NAMES = PRODUCT.patterns || {};
+  // placeholders such as [average reply time in the first week?] are questions for the writer
   var QUESTION_RE = /\[[^\]\n]{1,160}\?\]/g;
   var LINE = 32;
 
@@ -694,18 +699,18 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   var M = DATA.measurement || {};
   var P = DATA.profile;
   $("meta").textContent = [DATA.title, DATA.mode, P && P.label,
-    CHANGES.length + " değişiklik",
-    M.words ? M.words[0] + " → " + M.words[1] + " kelime" : "",
-    M.alarms ? "alarm " + M.alarms[0] + " → " + M.alarms[1] : "",
+    msg("meta.changes", { n: CHANGES.length }),
+    M.words ? msg("meta.words", { a: M.words[0], b: M.words[1] }) : "",
+    M.alarms ? msg("meta.alarms", { a: M.alarms[0], b: M.alarms[1] }) : "",
     DATA.date].filter(Boolean).join(" · ");
   // the text profile on the page: what kind of text this is and how it was approached
   if (P && P.label) {
     var pr = $("profile");
-    pr.appendChild(el("span", "profile-name", "Metin tanımı:"));
+    pr.appendChild(el("span", "profile-name", msg("profile.label")));
     pr.appendChild(el("span", "profile-label", P.label + (P.subtype ? " · " + P.subtype : "")));
-    var details = [P.sector ? "Alan: " + P.sector : "", P.audience ? "Kitle: " + P.audience : ""].filter(Boolean);
+    var details = [P.sector ? msg("profile.sector", { x: P.sector }) : "", P.audience ? msg("profile.audience", { x: P.audience }) : ""].filter(Boolean);
     if (details.length) pr.appendChild(document.createTextNode(" · " + details.join(" · ")));
-    if (P.guessed) pr.appendChild(el("span", "profile-guess", " (tahmin)"));
+    if (P.guessed) pr.appendChild(el("span", "profile-guess", msg("profile.guess")));
     if (P.approach) { pr.appendChild(document.createElement("br")); pr.appendChild(document.createTextNode(P.approach)); }
     pr.hidden = false;
   }
@@ -713,27 +718,27 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     var h = $("hint");
     h.innerHTML = "";
     if (view === "diff") {
-      h.appendChild(document.createTextNode("Silinenler kırmızı kalemle çizili, eklenenler yeşil. Tıklayınca seçenekler çıkar."));
+      h.appendChild(document.createTextNode(msg("hint.diff")));
       return;
     }
-    h.appendChild(document.createTextNode("Değişen yerler "));
-    h.appendChild(el("b", "sample-bold", "kalın"));
-    h.appendChild(document.createTextNode(" yazılı. Tıklayınca önceki hali ve seçenekler çıkar."));
+    h.appendChild(document.createTextNode(msg("hint.text_before")));
+    h.appendChild(el("b", "sample-bold", msg("hint.text_bold")));
+    h.appendChild(document.createTextNode(msg("hint.text_after")));
   }
 
   // ------------------------------------------------ marked view
   var textChunks = {};
   var textView = $("view-text");
-  if (!CHANGES.length) textView.appendChild(el("span", "empty", "İki metin arasında değişiklik yok."));
+  if (!CHANGES.length) textView.appendChild(el("span", "empty", msg("text.no_changes")));
   S.forEach(function (s) {
     if (s.t === "eq") { textView.appendChild(document.createTextNode(s.x)); return; }
     var oneSided = s.d && !s.i ? s.d : !s.d && s.i ? s.i : null;
     var ws = oneSided != null ? edgeWhitespace(oneSided) : ["", "", ""];
     if (ws[0]) textView.appendChild(document.createTextNode(ws[0]));
-    var lineStart = !textView.textContent || /\n$/.test(textView.textContent);  // at a line start [silindi] must not be indented
+    var lineStart = !textView.textContent || /\n$/.test(textView.textContent);  // at a line start [deleted] must not be indented
     var span = el("span", "chunk");
     span.dataset.id = s.id; span.tabIndex = 0; span.setAttribute("role", "button");
-    span.setAttribute("aria-label", "Değişiklik " + s.id);
+    span.setAttribute("aria-label", msg("text.change_label", { n: s.id }));
     textView.appendChild(span);
     if (ws[2]) textView.appendChild(document.createTextNode(ws[2]));
     textChunks[s.id] = { el: span, head: ws[0], tail: ws[2], lineStart: lineStart && !ws[0] };
@@ -745,7 +750,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
       if (c.tail && m.slice(-c.tail.length) === c.tail) m = m.slice(0, m.length - c.tail.length);
     }
     c.el.textContent = "";
-    if (!m.trim()) { c.el.appendChild(el("span", "deleted", "[silindi]")); c.el.title = "Burada bir kısım silindi"; c.el.classList.toggle("deletion", !c.lineStart); }
+    if (!m.trim()) { c.el.appendChild(el("span", "deleted", msg("text.deleted"))); c.el.title = msg("text.deleted_title"); c.el.classList.toggle("deletion", !c.lineStart); }
     else {
       c.el.removeAttribute("title"); c.el.classList.remove("deletion");
       // only words that differ from the original are marked; a reverted part is plain text
@@ -770,7 +775,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   // ------------------------------------------------ before / after view
   var diffChunks = {};
   var diffView = $("view-diff");
-  if (!CHANGES.length) diffView.appendChild(el("span", "empty", "İki metin arasında değişiklik yok."));
+  if (!CHANGES.length) diffView.appendChild(el("span", "empty", msg("text.no_changes")));
   S.forEach(function (s) {
     if (s.t === "eq") { diffView.appendChild(document.createTextNode(s.x)); return; }
     var oneSided = s.d && !s.i ? s.d : !s.d && s.i ? s.i : null;
@@ -799,10 +804,10 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     var n = s.note != null ? NOTES[s.note] : null;
     tr.appendChild(el("td", "num", String(s.id)));
     var t1 = el("td"); t1.appendChild(el("div", "clamp", s.d || "—")); tr.appendChild(t1);
-    var t2 = el("td"); t2.appendChild(el("div", "clamp", s.i || "(silindi)")); tr.appendChild(t2);
+    var t2 = el("td"); t2.appendChild(el("div", "clamp", s.i || msg("table.deleted"))); tr.appendChild(t2);
     var t3 = el("td");
     if (n) { t3.appendChild(el("div", "clamp", n.reason || "")); if (n.pattern) t3.appendChild(el("span", "tag", n.pattern)); }
-    else t3.appendChild(el("span", "empty", "gerekçe yok"));
+    else t3.appendChild(el("span", "empty", msg("table.no_reason")));
     tr.appendChild(t3);
     var t4 = el("td"); var sel = el("select");
     ["accept", "revert", "custom"].forEach(function (x) { var op = el("option", "", DECISION_LABELS[x]); op.value = x; sel.appendChild(op); });
@@ -816,7 +821,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   var unattached = NOTES.filter(function (n) { return !n.parts || !n.parts.length; });
   if (unattached.length) {
     var gr = $("general-reasons");
-    gr.appendChild(el("h3", "", "Metnin geneline ait gerekçeler"));
+    gr.appendChild(el("h3", "", msg("table.general_reasons")));
     var ul = el("ul");
     unattached.forEach(function (n) { ul.appendChild(el("li", "", (n.reason || "") + (n.pattern ? " (" + n.pattern + ")" : ""))); });
     gr.appendChild(ul);
@@ -845,9 +850,9 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     var s = findChange(id), d = decision(id), n = s.note != null ? NOTES[s.note] : null, i = indexOfChange(id);
     note.innerHTML = "";
     var head = el("div", "head"), nav = el("span", "nav");
-    var prev = el("button", "", "‹"); prev.type = "button"; prev.setAttribute("aria-label", "Önceki değişiklik"); prev.disabled = i <= 0;
+    var prev = el("button", "", "‹"); prev.type = "button"; prev.setAttribute("aria-label", msg("card.previous")); prev.disabled = i <= 0;
     prev.addEventListener("click", function () { step(-1); });
-    var next = el("button", "", "›"); next.type = "button"; next.setAttribute("aria-label", "Sonraki değişiklik"); next.disabled = i >= CHANGES.length - 1;
+    var next = el("button", "", "›"); next.type = "button"; next.setAttribute("aria-label", msg("card.next")); next.disabled = i >= CHANGES.length - 1;
     next.addEventListener("click", function () { step(1); });
     nav.appendChild(prev); nav.appendChild(document.createTextNode((i + 1) + " / " + CHANGES.length)); nav.appendChild(next);
     head.appendChild(nav);
@@ -857,7 +862,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
       head.appendChild(pn);
     }
     note.appendChild(head);
-    var close = el("button", "close", "×"); close.type = "button"; close.setAttribute("aria-label", "Kapat");
+    var close = el("button", "close", "×"); close.type = "button"; close.setAttribute("aria-label", msg("common.close"));
     close.addEventListener("click", function () { closeNote(true); });
     note.appendChild(close);
 
@@ -866,16 +871,16 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     // when most of the sentence changed, the old one is struck through as a whole and the new one shown plain
     var mostly = mostlyChanged(pieces);
 
-    note.appendChild(el("span", "cap", "Neydi"));
+    note.appendChild(el("span", "cap", msg("card.was")));
     var was = el("p", "was");
-    if (!before) was.appendChild(el("span", "gone", "Burada bir şey yoktu, yeni eklendi."));
+    if (!before) was.appendChild(el("span", "gone", msg("card.was_empty")));
     else if (mostly || !after) was.appendChild(el("s", "", before));
     else drawSide(was, pieces, "del", "", "s");
     note.appendChild(was);
 
-    note.appendChild(el("span", "cap", "Önerilen"));
+    note.appendChild(el("span", "cap", msg("card.suggested")));
     var now = el("p", "now");
-    if (!after) now.appendChild(el("span", "gone", "Bu kısım çıkarıldı."));
+    if (!after) now.appendChild(el("span", "gone", msg("card.suggested_empty")));
     else if (mostly || !before) now.appendChild(document.createTextNode(after));
     else drawSide(now, pieces, "ins", "", "b");
     markQuestions(now);
@@ -883,18 +888,18 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     if (n && n.reason) note.appendChild(el("p", "why", n.reason));
 
     if (d.k === "custom") {
-      note.appendChild(el("span", "cap", "Senin seçimin"));
-      var mine = el("p", "mine", ((d.text != null ? d.text : after) || "").trim() || "(boş)");
+      note.appendChild(el("span", "cap", msg("card.yours")));
+      var mine = el("p", "mine", ((d.text != null ? d.text : after) || "").trim() || msg("card.empty"));
       markQuestions(mine);
       note.appendChild(mine);
     }
 
     var row = el("div", "buttons");
-    var keep = el("button", "btn" + (d.k === "accept" ? " on" : ""), "Kalsın"); keep.type = "button";
+    var keep = el("button", "btn" + (d.k === "accept" ? " on" : ""), msg("card.keep")); keep.type = "button";
     keep.addEventListener("click", function () { decide("accept"); });
-    var back = el("button", "btn" + (d.k === "revert" ? " on" : ""), "Eskisine dön"); back.type = "button";
+    var back = el("button", "btn" + (d.k === "revert" ? " on" : ""), msg("card.revert")); back.type = "button";
     back.addEventListener("click", function () { decide("revert"); });
-    var own = el("button", "link", "Kendim yazayım"); own.type = "button";
+    var own = el("button", "link", msg("card.write_own")); own.type = "button";
     own.addEventListener("click", function () {
       writeOwn[id] = !writeOwn[id]; pinned = true; redrawNote(id);
       var t = $("custom-text-input"); if (t) { t.focus({ preventScroll: true }); t.setSelectionRange(t.value.length, t.value.length); }
@@ -908,31 +913,31 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
 
     var noteOpen = d.note || note.dataset.noteOpen === String(id);
     if (noteOpen) {
-      var ni = el("input", "note-input"); ni.type = "text"; ni.id = "note-text"; ni.placeholder = "Ajana not: neden? ne bekliyordun?"; ni.value = d.note || "";
+      var ni = el("input", "note-input"); ni.type = "text"; ni.id = "note-text"; ni.placeholder = msg("card.note_placeholder"); ni.value = d.note || "";
       ni.addEventListener("input", function () { setDecision(id, { note: ni.value }); progress(); });
       note.appendChild(ni);
     } else {
-      var foot = el("div", "foot"), nb = el("button", "small-link", "Not ekle"); nb.type = "button";
+      var foot = el("div", "foot"), nb = el("button", "small-link", msg("card.add_note")); nb.type = "button";
       nb.addEventListener("click", function () { note.dataset.noteOpen = String(id); pinned = true; drawNote(id); position(); var x = $("note-text"); if (x) x.focus(); });
       foot.appendChild(nb); note.appendChild(foot);
     }
   }
   function ownEditor(id) {
     var wrap = el("div", "own-editor");
-    var ta = el("textarea"); ta.id = "custom-text-input"; ta.rows = 2; ta.placeholder = "Bu kısmı kendin yaz";
+    var ta = el("textarea"); ta.id = "custom-text-input"; ta.rows = 2; ta.placeholder = msg("card.write_placeholder");
     var d2 = decision(id);
     ta.value = d2.k === "custom" && d2.text != null ? d2.text : (findChange(id).i || "").trim();
     ta.addEventListener("input", function () {
       var first = decision(id).k !== "custom";
       setDecision(id, { k: "custom", text: ta.value }); markSeen(id); refresh(id, true);
       if (first) { redrawNote(id); var t3 = $("custom-text-input"); if (t3) t3.setSelectionRange(t3.value.length, t3.value.length); }
-      else { var ct = note.querySelector(".mine"); if (ct) ct.textContent = ta.value.trim() || "(boş)"; }
+      else { var ct = note.querySelector(".mine"); if (ct) ct.textContent = ta.value.trim() || msg("card.empty"); }
     });
     wrap.appendChild(ta);
     return wrap;
   }
   // other options as whole sentences: from the agent's notes (shorter, more formal, warmer) and, with the bridge, on request
-  var USUAL_KINDS = ["Daha kısa", "Daha resmî", "Daha sıcak"];
+  var USUAL_KINDS = msg("card.usual_kinds");
   function alternativesArea(id, n) {
     var list = [];
     ((n && n.alternatives) || []).forEach(function (a) {
@@ -940,33 +945,33 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
       else if (typeof a === "string" && a.trim()) list.push({ kind: "", text: a.trim() });
     });
     var st = suggestions[id] || {};
-    if (st.status === "ready") st.list.forEach(function (t, k) { list.push({ kind: (st.kinds && st.kinds[k]) || "Öneri", text: String(t).trim() }); });
+    if (st.status === "ready") st.list.forEach(function (t, k) { list.push({ kind: (st.kinds && st.kinds[k]) || msg("card.suggestion"), text: String(t).trim() }); });
     if (!list.length && !LIVE) return null;
     var box = el("div", "more"), d = decision(id);
-    box.appendChild(el("span", "cap", "Başka seçenekler"));
+    box.appendChild(el("span", "cap", msg("card.options")));
     list.forEach(function (a) {
       var used = d.k === "custom" && (d.text || "").trim() === a.text;
       var row = el("div", "alt" + (used ? " in-use" : ""));
       row.appendChild(el("span", "kind", a.kind));
       var t = el("span", "alt-text", a.text); markQuestions(t); row.appendChild(t);
-      var use = el("button", "use", used ? "Seçili" : "Kullan"); use.type = "button";
+      var use = el("button", "use", used ? msg("card.in_use") : msg("card.use")); use.type = "button";
       if (!used) use.addEventListener("click", function () { setDecision(id, { k: "custom", text: a.text }); markSeen(id); writeOwn[id] = false; refresh(id); drawNote(id); glideToPosition(); });
       row.appendChild(use);
       box.appendChild(row);
     });
     if (LIVE) {
       var busy = st.status === "sending" || st.status === "pending";
-      if (busy) box.appendChild(el("div", "suggest-wait", "Seçenekler hazırlanıyor…"));
-      else if (st.status === "error") box.appendChild(el("div", "suggest-error", st.error || "Seçenek alınamadı."));
+      if (busy) box.appendChild(el("div", "suggest-wait", msg("card.preparing")));
+      else if (st.status === "error") box.appendChild(el("div", "suggest-error", st.error || msg("card.options_error")));
       if (!list.length && !busy) {
-        var fetch1 = el("button", "btn fetch", "Kısa, resmî ve sıcak hallerini göster"); fetch1.type = "button";
-        fetch1.addEventListener("click", function () { requestSuggestions(id, "Üç seçenek yaz, bu sırayla: daha kısa, daha resmî, daha sıcak.", USUAL_KINDS); });
+        var fetch1 = el("button", "btn fetch", msg("card.fetch_usual")); fetch1.type = "button";
+        fetch1.addEventListener("click", function () { requestSuggestions(id, msg("card.usual_request"), USUAL_KINDS); });
         box.appendChild(fetch1);
       }
       var ask = el("div", "ask");
       var req = el("input"); req.type = "text"; req.id = "suggest-request"; req.value = st.status !== "ready" && st.requestText && st.kinds == null ? st.requestText : "";
-      req.placeholder = "Başka bir şey iste: daha samimi, deyimle, iki cümleye böl…";
-      var go = el("button", "btn", "Öner"); go.type = "button"; go.disabled = busy;
+      req.placeholder = msg("card.ask_placeholder");
+      var go = el("button", "btn", msg("card.suggest")); go.type = "button"; go.disabled = busy;
       function send() { var v = req.value.trim(); if (!busy && v) requestSuggestions(id, v, null); }
       req.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); send(); } });
       go.addEventListener("click", send);
@@ -1004,7 +1009,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
       if (r.error) { suggestions[id] = { status: "error", error: r.error, requestText: requestText }; redrawNote(id); return; }
       suggestions[id] = { status: "pending", request: r.request, engine: r.engine, requestText: requestText, kinds: kinds, label: label };
       redrawNote(id); pollSuggestions(id);
-    }).catch(function () { suggestions[id] = { status: "error", error: "Köprüye ulaşılamadı.", requestText: requestText }; redrawNote(id); });
+    }).catch(function () { suggestions[id] = { status: "error", error: msg("card.bridge_unreachable"), requestText: requestText }; redrawNote(id); });
   }
   function pollSuggestions(id) {
     var st = suggestions[id];
@@ -1012,7 +1017,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     api("/api/suggestions/" + st.request).then(function (r) {
       if (r.status === "ready") {
         // labels by position only when the agent answered with exactly the variants asked for
-        var kinds = st.kinds && r.suggestions.length === st.kinds.length ? st.kinds : r.suggestions.map(function () { return st.label ? st.label.charAt(0).toUpperCase() + st.label.slice(1) : "Öneri"; });
+        var kinds = st.kinds && r.suggestions.length === st.kinds.length ? st.kinds : r.suggestions.map(function () { return st.label ? st.label.charAt(0).toUpperCase() + st.label.slice(1) : msg("card.suggestion"); });
         suggestions[id] = Object.assign({}, st, { status: "ready", list: r.suggestions, kinds: kinds });
         redrawNote(id); keepVisible();
       }
@@ -1183,21 +1188,21 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     return state.seen[id] ? "ok" : "wait";
   }
   var MARK_GLYPHS = { now: "→", wait: "•", ok: "✓", back: "↺", own: "✎" };
-  var MARK_TITLES = { now: "açık", wait: "bakılmadı", ok: "kalsın", back: "eskisine döndü", own: "senin yazdığın" };
+  var MARK_TITLES = { now: msg("mark.now"), wait: msg("mark.wait"), ok: msg("mark.ok"), back: msg("mark.back"), own: msg("mark.own") };
   function progress() {
     var count = { accept: 0, revert: 0, custom: 0 }, seen = 0;
     CHANGES.forEach(function (s) { count[decision(s.id).k]++; if (state.seen[s.id]) seen++; });
     var pt = $("progress-text");
     pt.textContent = seen + " / " + CHANGES.length;
-    var parts = [seen + "/" + CHANGES.length + " incelendi"];
-    if (count.revert) parts.push(count.revert + " eskisine döndü");
-    if (count.custom) parts.push(count.custom + " senin yazdığın");
+    var parts = [msg("progress.reviewed", { seen: seen, total: CHANGES.length })];
+    if (count.revert) parts.push(msg("progress.reverted", { n: count.revert }));
+    if (count.custom) parts.push(msg("progress.own", { n: count.custom }));
     pt.title = parts.join(" · ");
     var segs = $("segs");
     segs.innerHTML = "";
     CHANGES.forEach(function (s) { var st = markState(s.id), i = el("i", st); i.title = "#" + s.id + " " + MARK_TITLES[st]; segs.appendChild(i); });
     var q = (resultText().match(QUESTION_RE) || []).length;
-    $("questions").textContent = q ? q + " soru açık" : "";
+    $("questions").textContent = q ? msg("progress.questions", { n: q }) : "";
     $("questions").hidden = !q;
     $("accept-rest").hidden = seen === CHANGES.length;
   }
@@ -1219,7 +1224,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
       var b = el("button", "mark " + st, MARK_GLYPHS[st]); b.type = "button";
       b.style.top = row.top + "px";
       b.title = MARK_TITLES[st];
-      b.setAttribute("aria-label", "Değişiklik " + id + ": " + MARK_TITLES[st]);
+      b.setAttribute("aria-label", msg("text.change_label", { n: id }) + ": " + MARK_TITLES[st]);
       b.addEventListener("click", function (e) { e.stopPropagation(); select(id); });
       marks.appendChild(b);
     });
@@ -1230,17 +1235,17 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     CHANGES.forEach(function (s) { if (!state.seen[s.id]) { state.seen[s.id] = 1; n++; } });
     save(); refresh();
     if (noteId != null) drawNote(noteId);
-    toast(n + " değişiklik bu haliyle kabul edildi.");
+    toast(msg("toast.kept_rest", { n: n }));
   });
   // in a narrow window (an agent's browser pane, for example) suggest a wider one
-  var HINT_KEY = "insanlik-oldu-mu:wide-hint";
+  var HINT_KEY = PRODUCT.slug + ":wide-hint";
   function drawHint() {
     var off = false;
     try { off = localStorage.getItem(HINT_KEY) === "off"; } catch (e) {}
     var vw = document.documentElement.clientWidth, hint = $("wide-hint"), hidden = off || vw <= 640 || layoutMode() === "side";
     if (hint.hidden !== hidden) { hint.hidden = hidden; alignToLines(); }
   }
-  $("copy-address").addEventListener("click", function () { copy(location.href, "Adres kopyalandı. Tarayıcına yapıştırabilirsin."); });
+  $("copy-address").addEventListener("click", function () { copy(location.href, msg("toast.address_copied")); });
   $("hide-hint").addEventListener("click", function () { try { localStorage.setItem(HINT_KEY, "off"); } catch (e) {} drawHint(); });
   function refresh(id, typing) {
     var list = id != null ? [findChange(id)] : CHANGES;
@@ -1255,7 +1260,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     var st = getComputedStyle(a);
     probe.style.cssText = "position:absolute;visibility:hidden;left:0;top:0;white-space:nowrap;";
     probe.style.fontFamily = st.fontFamily; probe.style.fontSize = st.fontSize; probe.style.lineHeight = st.lineHeight;
-    probe.appendChild(document.createTextNode("Hxğ"));
+    probe.appendChild(document.createTextNode(msg("text.baseline_probe")));
     var mark = document.createElement("span");
     mark.style.cssText = "display:inline-block;width:1px;height:0;vertical-align:baseline;";
     probe.appendChild(mark);
@@ -1289,21 +1294,21 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     var count = { accept: 0, revert: 0, custom: 0 };
     CHANGES.forEach(function (s) { count[decision(s.id).k]++; });
     var r = [];
-    r.push("[İnsanlık öldü mü? · geri bildirim]");
-    r.push("Metin: " + [DATA.title, DATA.mode].filter(Boolean).join(" · "));
-    r.push("Özet: " + CHANGES.length + " değişiklikten " + count.accept + " böyle kalsın, " + count.revert + " eskisine dön, " + count.custom + " başka öneri");
+    r.push(msg("feedback.header"));
+    r.push(msg("feedback.text") + [DATA.title, DATA.mode].filter(Boolean).join(" · "));
+    r.push(msg("feedback.summary", { total: CHANGES.length, keep: count.accept, revert: count.revert, own: count.custom }));
     CHANGES.forEach(function (s) {
       var d = decision(s.id);
       if (d.k === "accept" && !(d.note || "").trim()) return;
       r.push("");
-      r.push("#" + s.id + " " + (d.k === "revert" ? "ESKİSİNE DÖN" : d.k === "custom" ? "BAŞKA ÖNERİ" : "BÖYLE KALSIN, NOTLU"));
-      if (s.d) r.push('  önce: "' + shorten(s.d) + '"');
-      if (s.i) r.push('  öneri: "' + shorten(s.i) + '"');
-      if (d.k === "custom") r.push('  kullanıcının önerisi: "' + (d.text != null ? d.text : s.i) + '"');
-      if ((d.note || "").trim()) r.push("  not: " + d.note.trim());
+      r.push("#" + s.id + " " + (d.k === "revert" ? msg("feedback.revert") : d.k === "custom" ? msg("feedback.own") : msg("feedback.kept_with_note")));
+      if (s.d) r.push("  " + msg("feedback.before") + ': "' + shorten(s.d) + '"');
+      if (s.i) r.push("  " + msg("feedback.suggested") + ': "' + shorten(s.i) + '"');
+      if (d.k === "custom") r.push("  " + msg("feedback.users_version") + ': "' + (d.text != null ? d.text : s.i) + '"');
+      if ((d.note || "").trim()) r.push("  " + msg("feedback.note") + ": " + d.note.trim());
     });
-    if (state.general.trim()) { r.push(""); r.push("Genel not: " + state.general.trim()); }
-    if (state.includeText) { r.push(""); r.push("[Kararlar uygulanmış metin]"); r.push(resultText()); r.push("[/metin]"); }
+    if (state.general.trim()) { r.push(""); r.push(msg("feedback.general_note") + state.general.trim()); }
+    if (state.includeText) { r.push(""); r.push(msg("feedback.text_open")); r.push(resultText()); r.push(msg("feedback.text_close")); }
     return r.join("\n");
   }
   function showText(text, title) {
@@ -1319,45 +1324,40 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
       document.body.appendChild(ta); ta.select();
       var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
       ta.remove();
-      if (ok) toast(message); else showText(text, "Otomatik kopyalama çalışmadı. Metni seçip kopyala:");
+      if (ok) toast(message); else showText(text, msg("toast.copy_failed"));
     }
     if (navigator.clipboard && window.isSecureContext !== false) navigator.clipboard.writeText(text).then(function () { toast(message); }, fallback);
     else fallback();
   }
   $("send-feedback").addEventListener("click", function () {
-    if (LIVE) sendToAgent(); else copy(feedback(), "Geri bildirim kopyalandı. Sohbete yapıştırabilirsin.");
+    if (LIVE) sendToAgent(); else copy(feedback(), msg("toast.feedback_copied"));
   });
-  $("copy-feedback").addEventListener("click", function () { copy(feedback(), "Geri bildirim kopyalandı. Sohbete yapıştırabilirsin."); });
+  $("copy-feedback").addEventListener("click", function () { copy(feedback(), msg("toast.feedback_copied")); });
   function sendToAgent() {
     api("/api/send", { method: "POST", body: JSON.stringify({ text: feedback() }) }).then(function (r) {
-      if (r.status === "delivered") toast("Ajana gönderildi. Sohbette işleniyor.", 3200);
-      else if (r.status === "saved") toast("Kaydedildi. Sohbete dönüp “devam” yazman yeterli.", 4200);
-      else toast(r.error || "Gönderilemedi.", 3200);
-    }).catch(function () { copy(feedback(), "Köprüye ulaşılamadı, geri bildirimi kopyaladım. Sohbete yapıştırabilirsin."); });
+      if (r.status === "delivered") toast(msg("toast.sent"), 3200);
+      else if (r.status === "saved") toast(msg("toast.saved"), 4200);
+      else toast(r.error || msg("toast.send_failed"), 3200);
+    }).catch(function () { copy(feedback(), msg("toast.bridge_copied")); });
   }
   var lastStatus = null;
   function pollStatus() {
     api("/api/status").then(function (r) { lastStatus = r; drawStatus(); }).catch(function () { lastStatus = null; drawStatus(); });
   }
   function engineExplanation() {
-    if (!lastStatus) return "Köprüye ulaşılamıyor. Geri bildirimi kopyalayıp sohbete yapıştırabilirsin.";
-    var e = lastStatus.engines, picked = prefs.engine || "auto", name = AGENT_NAMES[lastStatus.agent] || "Ajan";
+    if (!lastStatus) return msg("engine.unreachable");
+    var e = lastStatus.engines, picked = prefs.engine || "auto", name = AGENT_NAMES[lastStatus.agent] || msg("engine.agent_default_name");
     var active = picked !== "auto" ? (e[picked] ? picked : null) : (e.agent ? "agent" : e.fork ? "fork" : e.stateless ? "stateless" : null);
-    if (!active) return picked === "agent" ? "Ajan şu an dinlemiyor. Sohbette ajandan bridge.py wait komutunu çalıştırmasını isteyebilirsin."
-                                          : "Şu an öneri üretebilecek bir yol yok.";
-    var detail = {
-      agent: "Sohbetteki " + name + " dinliyor, öneriyi o yazacak.",
-      fork: name + " sohbetinin bir kopyası açılır. Bütün bağlamı bilir ama uzun sohbetlerde yavaş ve maliyetli olabilir.",
-      stateless: name + " sohbet geçmişi olmadan çağrılır. Daha hızlıdır ama metnin geçmişini bilmez."
-    }[active];
-    return "Şu an: " + ENGINE_NAMES[active] + ". " + detail;
+    if (!active) return picked === "agent" ? msg("engine.agent_not_listening") : msg("engine.none");
+    var detail = msg("engine.detail_" + active, { name: name, Name: name.charAt(0).toUpperCase() + name.slice(1) });
+    return msg("engine.now", { engine: ENGINE_NAMES[active], detail: detail });
   }
   function drawStatus() {
     if (!LIVE) return;
     var dot = $("live-dot"), listening = !!(lastStatus && lastStatus.agent_listening);
     dot.hidden = false;
     dot.classList.toggle("on", listening);
-    dot.title = !lastStatus ? "Köprüye ulaşılamıyor" : listening ? "Ajan dinliyor" : "Ajan dinlemiyor";
+    dot.title = !lastStatus ? msg("live.unreachable") : listening ? msg("live.listening") : msg("live.not_listening");
     document.querySelectorAll("[data-engine-pick]").forEach(function (b) {
       var e = b.getAttribute("data-engine-pick");
       b.disabled = e !== "auto" && !(lastStatus && lastStatus.engines[e]);
@@ -1369,29 +1369,29 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     b.addEventListener("click", function () { prefs.engine = b.getAttribute("data-engine-pick"); savePrefs(); drawStatus(); });
   });
   if (LIVE) {
-    $("send-feedback").querySelector("span").textContent = "Ajana gönder";
+    $("send-feedback").querySelector("span").textContent = msg("dock.send");
     $("send-feedback").querySelector("svg").innerHTML = '<path d="M4.5 12.2 19.6 4.6c.5-.2 1 .3.8.8l-7.6 15.1c-.3.5-1 .4-1.1-.1l-1.5-5.6c-.1-.3-.3-.5-.6-.6L4.6 13c-.5-.2-.6-.9-.1-.8Z"/><path d="M10.4 13.6 15.2 8.8"/>';
     $("copy-feedback").hidden = false;
     $("engine-section").hidden = false;
     pollStatus();
     setInterval(pollStatus, 6000);
   }
-  $("show-feedback").addEventListener("click", function () { showText(feedback(), "Sohbete yapıştırılacak geri bildirim:"); });
-  $("copy-result").addEventListener("click", function () { copy(resultText(), "Sonuç metni kopyalandı."); });
+  $("show-feedback").addEventListener("click", function () { showText(feedback(), msg("preview.title")); });
+  $("copy-result").addEventListener("click", function () { copy(resultText(), msg("toast.result_copied")); });
   $("download").addEventListener("click", function () {
     var a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([resultText()], { type: "text/plain;charset=utf-8" }));
-    a.download = "insanlik-oldu-mu-sonuc.txt";
+    a.download = msg("download.file_name");
     document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
   });
-  $("accept-all").addEventListener("click", function () { CHANGES.forEach(function (s) { setDecision(s.id, { k: "accept" }); }); refresh(); if (noteId != null) drawNote(noteId); toast("Bütün öneriler kabul edildi."); });
-  $("revert-all").addEventListener("click", function () { CHANGES.forEach(function (s) { setDecision(s.id, { k: "revert" }); }); refresh(); if (noteId != null) drawNote(noteId); toast("Bütün değişiklikler geri alındı."); });
+  $("accept-all").addEventListener("click", function () { CHANGES.forEach(function (s) { setDecision(s.id, { k: "accept" }); }); refresh(); if (noteId != null) drawNote(noteId); toast(msg("toast.all_kept")); });
+  $("revert-all").addEventListener("click", function () { CHANGES.forEach(function (s) { setDecision(s.id, { k: "revert" }); }); refresh(); if (noteId != null) drawNote(noteId); toast(msg("toast.all_reverted")); });
   $("preview-close").addEventListener("click", function () { $("preview-dialog").close(); });
   var gnote = $("general-note"); gnote.value = state.general || "";
   gnote.addEventListener("input", function () { state.general = gnote.value; save(); });
   var inc = $("include-text"); inc.checked = !!state.includeText;
   inc.addEventListener("change", function () { state.includeText = inc.checked; save(); });
-  window.insanlikOlduMu = { feedback: feedback, resultText: resultText };
+  window.notebookReview = { feedback: feedback, resultText: resultText };
 
   // ------------------------------------------------ view, paper, font, theme
   function showView(view) {

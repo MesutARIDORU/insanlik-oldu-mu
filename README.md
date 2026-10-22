@@ -103,6 +103,8 @@ Skill önce iskeleti değiştirir, sonra boşalan yere Türkçenin kendi ritmini
 - sohbetin bağlamını bilen bir kopyası,
 - bağlamsız hızlı bir çağrı.
 
+Sayfa ve köprü İngilizce kardeşi Still Human? ile ortak. İkisi de [notebook-review](https://github.com/MesutARIDORU/notebook-review) deposundan gelir ve skill'in `notebook/` klasörüne kopyalanır. Sayfada yapılan bir düzeltme iki skill'e birden ulaşır, sayfanın Türkçesi `notebook/strings/tr.json` dosyasında durur.
+
 **Sayıyla da bakıyor.** `scripts/audit.py` dedektörlerin ölçtüğü şeyleri sayar:
 - cümle boyu çeşitliliği,
 - açılış tekrarı,
@@ -263,6 +265,7 @@ Ayrıntılı kaynak listesi [references/sources.md](references/sources.md) dosya
 - **Delivery:** Every rewrite comes with a change table and a numeric audit.
 - **Review page:** An optional notebook-style page marks only the changed words, in medium weight with a faint yellow highlighter. For each change the user can keep it, revert it or ask the agent for alternatives.
 - **Live bridge:** A local bridge connects the page to Claude Code, Codex or Gemini CLI, either through the listening agent, a forked session or a stateless call.
+- **Shared kit:** The page and the bridge come from [notebook-review](https://github.com/MesutARIDORU/notebook-review), which the English skill Still Human? uses too. A copy lives in `notebook/` and is synced daily.
 
 Install for Claude Code, Codex and Gemini CLI with `npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli`. In the interactive `npx skills add MesutARIDORU/insanlik-oldu-mu -g`, Codex and Gemini CLI are always included but Claude Code has to be selected by hand. Optional settings (Claude Code permissions, Codex routing note, Gemini command): `python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py`.
 

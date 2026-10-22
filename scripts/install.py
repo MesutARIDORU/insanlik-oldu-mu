@@ -83,7 +83,7 @@ def preflight():
     if sys.version_info < (3, 8):
         sys.exit("Python 3.8 ya da daha yenisi gerekiyor.")
     say("✓", f"Python {sys.version.split()[0]}")
-    missing = [p for p in ["SKILL.md", "assets/review.html"] + [f"scripts/{s}" for s in SCRIPTS]
+    missing = [p for p in ["SKILL.md", "notebook.json", "notebook/template.html", "notebook/page.py", "notebook/bridge.py"] + [f"scripts/{s}" for s in SCRIPTS]
                if not os.path.exists(os.path.join(SKILL_ROOT, p))]
     if missing:
         sys.exit("Skill dosyaları eksik: " + ", ".join(missing))
@@ -222,7 +222,7 @@ def link(target_dir, label):
         return target
     os.makedirs(target_dir, exist_ok=True)
     if ARGS.copy:
-        shutil.copytree(SKILL_ROOT, target, ignore=shutil.ignore_patterns(".git", "__pycache__", "evals", "*.pyc", "PROGRESS.md"))
+        shutil.copytree(SKILL_ROOT, target, ignore=shutil.ignore_patterns(".git", ".github", "__pycache__", "evals", "*.pyc", "PROGRESS.md"))
         say("✓", f"{label}: kopyalandı ({target})")
     else:
         os.symlink(SKILL_ROOT, target)
@@ -318,7 +318,7 @@ def migrate_legacy_files():
 
 def write_config(agents, installs):
     config = {
-        "version": "1.3.0",
+        "version": "1.4.0",
         "skill_dir": SKILL_ROOT,
         "installs": installs,
         "agents": agents,

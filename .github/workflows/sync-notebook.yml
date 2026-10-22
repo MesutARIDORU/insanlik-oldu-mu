@@ -1,0 +1,46 @@
+# Copied into each skill as .github/workflows/sync-notebook.yml.
+# Brings the skill's notebook/ folder up to date with MesutARIDORU/notebook-review.
+name: Sync notebook
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+  repository_dispatch:
+    types: [notebook-updated]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-notebook
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: MesutARIDORU/notebook-review
+          path: .notebook-review
+      - name: Copy the notebook
+        run: python3 .notebook-review/tools/sync.py .
+      - name: Check that the review page still builds
+        run: |
+          printf 'One sentence. Another one.\n' > "$RUNNER_TEMP/before.txt"
+          printf 'One sentence. A different one.\n' > "$RUNNER_TEMP/after.txt"
+          python3 scripts/review.py --before "$RUNNER_TEMP/before.txt" --after "$RUNNER_TEMP/after.txt" --output "$RUNNER_TEMP/review.html"
+      - name: Commit
+        run: |
+          rm -rf .notebook-review
+          if [ -z "$(git status --porcelain -- notebook)" ]; then
+            echo "notebook is already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add notebook
+          git commit -m "Sync notebook $(cat notebook/VERSION)"
+          git push

@@ -1,5 +1,12 @@
 # Değişiklik günlüğü
 
+## 1.4.0 · Ortak defter
+
+- **Ortak çekirdek:** İnceleme sayfası ve canlı köprü, İngilizce kardeşi Still Human? ile ortak kullanılan [notebook-review](https://github.com/MesutARIDORU/notebook-review) deposuna taşındı. Skill'de `notebook/` klasöründe bir kopyası durur, kimliği (ad, dil, kalıp adları) `notebook.json` dosyasında. `scripts/review.py` ve `scripts/bridge.py` artık bu çekirdeği çağıran kısa betikler. Komutlar ve seçenekler aynı kaldı. `assets/review.html` kaldırıldı.
+- **Eşitleme:** Her gün çalışan bir GitHub iş akışı (`.github/workflows/sync-notebook.yml`) `notebook/` klasörünü ortak depodaki son haliyle karşılaştırır, değiştiyse sayfanın hâlâ üretildiğini deneyip günceller.
+- **Cümle bölme:** "Dr. Ayşe", "vb. meyveler" gibi kısaltmalarda ve küçük harfle devam eden yerlerde cümle artık bölünmüyor. Böylece karşılaştırmada cümleler daha doğru eşleşiyor.
+- **Güvenlik:** Kullanıcının metninde ya da başlıkta geçen bir yazı sayfanın şablon yuvalarından biri gibi okunamıyor.
+
 ## 1.3.0 · Yeni not kartı
 
 - **Not kartı:** Sade, düz yazılı bir kart. Üç bölümü var: "Neydi" (çıkarılan kısımların üstü çizili), "Önerilen" (eklenen kelimeler kalın) ve "Başka seçenekler" (aynı cümlenin daha kısa, daha resmî ve daha sıcak hali). Karar "Kalsın", "Eskisine dön", bir seçeneğin yanındaki "Kullan" ya da "Kendim yazayım" ile verilir. Kartın üstünde değişiklikler arasında gezinme okları ve kalıbın adı var.

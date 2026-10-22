@@ -265,13 +265,44 @@ def anchored_segments(before, after, notes):
     and the gaps between anchors fall back to the similarity diff.
     Returns None when fewer than half of the notes are found.
     """
+    def shared_prefix(x, y, start_y):
+        k = 0
+        while k < len(x) and start_y + k < len(y) and x[k] == y[start_y + k]:
+            k += 1
+        return k
+
     anchors, a, b = [], 0, 0
     for k, n in enumerate(notes):
         nb, na = (n.get("before") or "").strip(), (n.get("after") or "").strip()
         if not nb and not na:
             continue
-        pa = before.find(nb, a) if nb else a
-        pb = after.find(na, b) if na else b
+        pa = before.find(nb, a) if nb else -1
+        pb = after.find(na, b) if na else -1
+        # a deleted sentence has no place of its own in the new text (and an added one none in the old):
+        # it sits where the unchanged text in front of it ends, not right after the previous anchor
+        # it also takes the space after it along (at a paragraph end, the space before it), so no double space is left behind
+        if not na and pa >= 0:
+            end = pa + len(nb)
+            space = re.match(r"[ \t]+", before[end:])
+            if space:
+                end += len(space.group())
+            else:
+                space = re.search(r"[ \t]+$", before[a:pa])
+                if space:
+                    pa -= len(space.group())
+            nb = before[pa:end]
+            pb = b + shared_prefix(before[a:pa], after, b)
+        elif not nb and pb >= 0:
+            end = pb + len(na)
+            space = re.match(r"[ \t]+", after[end:])
+            if space:
+                end += len(space.group())
+            else:
+                space = re.search(r"[ \t]+$", after[b:pb])
+                if space:
+                    pb -= len(space.group())
+            na = after[pb:end]
+            pa = a + shared_prefix(after[b:pb], before, a)
         if pa < 0 or pb < 0:
             continue
         anchors.append((pa, pa + len(nb), pb, pb + len(na), k))

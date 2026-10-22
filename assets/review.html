@@ -21,6 +21,7 @@
   --font-airy: "Avenir Next", "Avenir", "Nunito Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-soft: "Optima", "Candara", "URW Classico", "Segoe UI", "Noto Sans", sans-serif;
   --content-font: var(--font-airy); --content-size: 18.5px;
+  --ui-font: var(--font-airy);
 }
 :root[data-font="soft"] { --content-font: var(--font-soft); --content-size: 19.5px; }
 :root[data-font="book"] { --content-font: var(--font-book); --content-size: 19.5px; }
@@ -69,6 +70,11 @@ button, select, textarea, input { font: inherit; color: inherit; }
   background-position: 86px 0, 0 0, 0 0;
 }
 .page[data-paper="plain"] { background-image: var(--margin-svg); background-repeat: repeat-y; background-position: 86px 0; }
+/* wide screens: the page moves left so the note card can sit beside it */
+@media (min-width: 1280px) {
+  :root { --page-w: min(960px, calc(100vw - 560px)); }
+  .page { max-width: var(--page-w); margin-left: max(0px, calc((100vw - var(--page-w) - 540px) / 2)); margin-right: 0; }
+}
 /* punch holes */
 .holes { position: absolute; left: 0; top: 0; bottom: 0; width: 64px; pointer-events: none;
   background: radial-gradient(circle at 32px 50%, var(--hole) 0 8.5px, rgba(0, 0, 0, .16) 9.5px, transparent 11px) 0 40px / 64px 190px repeat-y; }
@@ -103,33 +109,31 @@ header.top { margin-bottom: 26px; }
 /* text profile: a pencil note under the title, written on the page's own lines */
 .profile { max-width: 780px; margin: 0 0 0 4px; color: var(--pencil); font: 15.5px/32px var(--content-font); }
 .profile[hidden] { display: none; }
-.profile .profile-name { font: 16px/32px var(--hand-title); color: var(--red); opacity: .85; margin-right: 6px; }
+.profile .profile-name { margin-right: 6px; }
+.text .q { color: var(--orange); }
+/* shown in a narrow window: the card opens over the text, a wider window puts it beside the page */
+.wide-hint { margin: 0 0 0 4px; color: var(--pencil); font: 13.5px/32px var(--ui-font); }
+.wide-hint[hidden] { display: none; }
+.wide-hint button { border: 0; background: none; padding: 0 4px; font: inherit; color: var(--blue); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.wide-hint button.x { color: var(--pencil); text-decoration: none; font-size: 17px; line-height: 1; }
+/* one mark per changed line in the margin: open, waiting, kept, reverted, own text */
+.marks { position: absolute; left: 0; top: 0; }
+.mark { position: absolute; left: 54px; width: 26px; border: 0; background: none; padding: 0; text-align: center; font: 15px/32px var(--ui-font); cursor: pointer; color: var(--pencil); }
+.mark.ok { color: var(--green); } .mark.back { color: var(--red); } .mark.own { color: var(--blue); } .mark.now { color: var(--ink); font-weight: 700; }
+.mark:focus-visible { outline: 2px solid var(--highlight); }
 .profile .profile-label { color: var(--ink); font-weight: 500; }
 .profile .profile-guess { font-style: italic; opacity: .8; }
 
-/* ------------------------------------------------------------------ hand-drawn boxes */
+/* ------------------------------------------------------------------ buttons */
 .box {
-  font: 18px/1.2 var(--hand-title); background: transparent; color: var(--ink);
-  border: 2px solid var(--ink); padding: 5px 14px 6px; cursor: pointer;
-  border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px;
-  transition: transform .12s, box-shadow .12s, background-color .12s; white-space: nowrap;
+  font: 500 14.5px/1.2 var(--ui-font); background: transparent; color: var(--ink);
+  border: 1.5px solid var(--ink); padding: 6px 14px; cursor: pointer; border-radius: 8px;
+  transition: background-color .12s; white-space: nowrap;
 }
-.box { position: relative; }
-/* a second pen stroke, as if the box was drawn twice */
-.box::after { content: ""; position: absolute; inset: -3px -2px -1px -4px; pointer-events: none;
-  border: 1.5px solid var(--box-stroke, currentColor); opacity: .4; transform: rotate(.9deg);
-  border-radius: 14px 225px 14px 255px / 255px 14px 225px 14px; }
-.box:nth-child(3n+1) { transform: rotate(-.5deg); }
-.box:nth-child(3n) { transform: rotate(.6deg); }
-.box:hover { transform: rotate(-1.4deg) translateY(-1px); box-shadow: 2px 3px 0 rgba(0, 0, 0, .12); }
-.box:nth-child(even) { border-radius: 14px 225px 14px 255px / 255px 14px 225px 14px; }
-.box:nth-child(even)::after { border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px; transform: rotate(-.8deg); }
-.box.small { font-size: 15px; padding: 3px 10px 4px; border-width: 1.5px; }
-.box.highlighted, .box[aria-pressed="true"], .box[aria-selected="true"] {
-  background: linear-gradient(100deg, transparent 2%, var(--highlight) 5%, var(--highlight) 94%, transparent 98%);
-}
-.box.primary { background: var(--ink); color: var(--page); --box-stroke: var(--ink); }
-.box.primary:hover { box-shadow: 3px 4px 0 rgba(0, 0, 0, .18); }
+.box:hover { background: var(--tint-grey); }
+.box.small { font-size: 13.5px; padding: 4px 10px; }
+.box.highlighted, .box[aria-pressed="true"], .box[aria-selected="true"] { background: var(--highlight-soft); }
+.box.primary { background: var(--ink); color: var(--page); }
 
 /* ------------------------------------------------------------------ panels: index cards */
 .panel {
@@ -138,19 +142,18 @@ header.top { margin-bottom: 26px; }
   background-image: linear-gradient(to bottom, transparent 47px, rgba(214, 74, 64, .6) 47px, rgba(214, 74, 64, .6) 49px, transparent 49px);
   box-shadow: 0 2px 3px rgba(0, 0, 0, .08), 0 18px 30px -12px rgba(0, 0, 0, .38);
   font: 14px/1.5 var(--content-font);
-  --hand-title: "Marker Felt", "Caveat", "Segoe Print", "Ink Free", "Chalkboard SE", "Comic Sans MS", cursive;
 }
 .panel[hidden] { display: none; }
 .panel::before { content: ""; position: absolute; top: -11px; left: 50%; width: 92px; height: 22px; transform: translateX(-50%) rotate(2.5deg);
   background: rgba(255, 255, 255, .7); box-shadow: 0 1px 2px rgba(0, 0, 0, .14); }
-.card-title { font: 24px/1 var(--hand-title); color: #2a2620; height: 37px; padding-top: 4px; transform: rotate(-.8deg); transform-origin: left; }
+.card-title { font: 600 17px/1 var(--ui-font); color: #2a2620; height: 37px; padding-top: 12px; }
 .panel-close { position: absolute; top: 10px; right: 12px; border: 0; background: none; font-size: 20px; line-height: 1; cursor: pointer; color: rgba(42, 38, 32, .5); padding: 2px 4px; }
 .panel-close:hover { color: #2a2620; }
 .setting-row { display: grid; grid-template-columns: 84px minmax(0, 1fr); align-items: baseline; gap: 2px 10px; padding: 9px 0 8px; }
 .setting-row + .setting-row { border-top: 1px solid rgba(110, 150, 205, .32); }
 .setting-row.full { grid-template-columns: minmax(0, 1fr); }
 .setting-row[hidden] { display: none; }
-.setting-name { font: 14px/1.6 var(--hand-title); color: #a8453b; letter-spacing: .2px; }
+.setting-name { font: 600 13px/1.6 var(--ui-font); color: #a8453b; }
 .setting-options { display: flex; flex-wrap: wrap; gap: 4px 12px; }
 .setting-note { grid-column: 1 / -1; margin: 4px 0 0; color: rgba(42, 38, 32, .65); font-size: 12.5px; line-height: 1.45; }
 .setting-row.full .setting-note { margin: 0; }
@@ -177,7 +180,7 @@ header.top { margin-bottom: 26px; }
 .panel .checkbox-row { color: rgba(42, 38, 32, .7); font-size: 13px; margin-top: 6px; }
 .panel .checkbox-row input { accent-color: #1f4fb5; }
 .panel .shortcuts { margin-top: 10px; color: rgba(42, 38, 32, .65); font-size: 13px; }
-.panel kbd { font: 12.5px var(--hand-title); border: 1.3px solid rgba(42, 38, 32, .45); }
+.panel kbd { font: 12px var(--ui-font); border: 1px solid rgba(42, 38, 32, .45); }
 .hint .sample-bold { color: var(--ink); }
 
 /* ------------------------------------------------------------------ text */
@@ -223,81 +226,74 @@ header.top { margin-bottom: 26px; }
 .diff-chunk.d-custom del, .diff-chunk.d-custom ins { background: none; color: var(--pencil); text-decoration: line-through; opacity: .5; }
 .diff-chunk.d-custom .custom { display: inline; }
 
-/* ------------------------------------------------------------------ yellow sticky note */
+/* ------------------------------------------------------------------ note card */
+/* plain type; beside the page on wide screens, below the sentence on narrow ones, rising from the bottom on phones */
 .sticky-note {
-  position: absolute; z-index: 40; width: min(360px, calc(100vw - 24px)); background: #ffe66e; color: #2a2620;
-  padding: 13px 13px 9px; font: 14px/1.5 var(--content-font); border-radius: 2px; transform: rotate(-.6deg);
-  box-shadow: 0 2px 3px rgba(0, 0, 0, .10), 0 14px 22px -10px rgba(0, 0, 0, .45);
-  background-image: linear-gradient(to bottom, #fff0a0 0%, #ffe66e 55%, #ffdf5c 100%);
-  --hand-title: "Marker Felt", "Caveat", "Segoe Print", "Ink Free", "Chalkboard SE", "Comic Sans MS", cursive;
+  position: absolute; z-index: 40; width: 440px; max-width: calc(100vw - 24px); background: var(--sticky); color: var(--sticky-ink);
+  padding: 16px 18px 12px; font: 15px/1.55 var(--ui-font); border-radius: 2px 2px 12px 2px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .08), 0 14px 28px -12px rgba(80, 60, 10, .45);
+  --note-soft: rgba(45, 42, 36, .62);
 }
 .sticky-note[hidden] { display: none; }
 .sticky-note.gliding { transition: top .3s cubic-bezier(.2, .7, .2, 1), left .3s cubic-bezier(.2, .7, .2, 1); }
-.sticky-note::before { content: ""; position: absolute; top: -10px; left: 50%; width: 72px; height: 20px; transform: translateX(-50%) rotate(-3deg);
-  background: rgba(255, 255, 255, .7); box-shadow: 0 1px 2px rgba(0, 0, 0, .14); }
-.sticky-note .close { position: absolute; top: 3px; right: 5px; border: 0; background: none; font-size: 18px; line-height: 1; cursor: pointer; color: rgba(42, 38, 32, .6); padding: 2px 4px; }
-.sticky-note .close:hover { color: #2d2a24; }
-.sticky-note .reason { color: rgba(42, 38, 32, .78); font-size: 12.5px; line-height: 1.4; margin: 0 18px 8px 0; }
-.sticky-note .compare { display: grid; gap: 6px; }
-.sticky-note .version { position: relative; border-radius: 3px; padding: 4px 9px 6px; font-size: 14.5px; line-height: 1.5; max-height: 150px; overflow: auto;
-  overflow-wrap: anywhere; white-space: pre-wrap; transition: opacity .15s; }
-.sticky-note .version small { display: block; font: 11px/1.4 var(--hand-title); letter-spacing: .4px; }
-.sticky-note .version { color: #2a2620; }
-.sticky-note .version.before { background: #fde3df; }
-.sticky-note .version.after { background: #d9f1e1; }
-.sticky-note .version.custom { background: #dfe8fb; }
-.sticky-note .version.before small, .sticky-note .version.before.selected::after { color: #b5281c; }
-.sticky-note .version.after small, .sticky-note .version.after.selected::after { color: #1d6e40; }
-.sticky-note .version.custom small, .sticky-note .version.custom.selected::after { color: #2c5fc9; }
-.sticky-note .version.before.selected { box-shadow: inset 4px 0 0 #c8372b; }
-.sticky-note .version.after.selected { box-shadow: inset 4px 0 0 #2a8a52; }
-.sticky-note .version.custom.selected { box-shadow: inset 4px 0 0 #2c5fc9; }
-.sticky-note .version.selected::after { content: "✓"; position: absolute; top: 3px; right: 7px; font-size: 12px; font-weight: 700; }
-/* an unselected box is not made transparent (it gets muddy on yellow), only its color lightens */
-.sticky-note .version.faded { cursor: pointer; color: #8b8478; transition: color .15s, background-color .15s; }
-.sticky-note .version.before.faded { background: #fdefec; }
-.sticky-note .version.after.faded { background: #ebf7ef; }
-.sticky-note .version.faded mark.removed { color: #c98078; background: rgba(200, 55, 43, .07); }
-.sticky-note .version.faded mark.added { color: #74a98a; background: rgba(42, 138, 82, .09); }
-.sticky-note .version.faded:hover, .sticky-note .version.faded:focus-visible { color: #2a2620; outline: none; }
-.sticky-note .version.before.faded:hover, .sticky-note .version.before.faded:focus-visible { background: #fde3df; }
-.sticky-note .version.after.faded:hover, .sticky-note .version.after.faded:focus-visible { background: #d9f1e1; }
-.sticky-note .version.faded:hover mark.removed { color: #b0241a; }
-.sticky-note .version.faded:hover mark.added { color: #17663a; }
-/* changed words: removed ones red with a very faint strike, added ones green */
-.sticky-note mark { color: inherit; background: none; padding: 0 1px; border-radius: 2px; }
-.sticky-note mark.removed { color: #b0241a; background: rgba(200, 55, 43, .13); text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: rgba(200, 55, 43, .35); }
-.sticky-note .version.before.selected mark.removed { text-decoration: none; }
-.sticky-note mark.added { color: #17663a; background: rgba(42, 138, 82, .18); }
-.sticky-note .version.after.faded mark.added { text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: rgba(42, 138, 82, .45); }
-.sticky-note .empty { color: rgba(45, 42, 36, .55); font-style: italic; }
-/* suggest another: one suggestion per row, the arrow at the right end moves to the next */
-.sticky-note .suggest-area { display: grid; gap: 6px; }
-.sticky-note .suggest-row { display: flex; align-items: stretch; border-radius: 3px; background: #dfe8fb; }
-.sticky-note .suggest-row.in-use { box-shadow: inset 4px 0 0 #2c5fc9; }
-.sticky-note .suggest-text { flex: 1; min-width: 0; text-align: left; border: 0; background: none; padding: 5px 9px 6px; font: 14.5px/1.5 var(--content-font); color: #2d2a24; cursor: pointer; }
-.sticky-note .suggest-text:hover { color: #2c5fc9; }
-.sticky-note .suggest-next { flex: none; border: 0; border-left: 1px solid rgba(44, 95, 201, .18); background: none; color: #2c5fc9; cursor: pointer; padding: 0 9px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.sticky-note .suggest-next .arrow { font: 20px/1 var(--hand-title); }
-.sticky-note .suggest-next .counter { font-size: 10px; opacity: .7; }
-.sticky-note .suggest-next:hover { background: rgba(44, 95, 201, .10); }
-.sticky-note .suggest-wait { color: rgba(42, 38, 32, .78); font-size: 13px; display: flex; align-items: center; gap: 7px; }
+.sticky-note::before { content: ""; position: absolute; top: -11px; left: 50%; width: 84px; height: 22px; transform: translateX(-50%) rotate(-3deg); background: var(--tape); }
+.sticky-note.sheet { position: fixed; left: 0; right: 0; bottom: 0; top: auto !important; width: auto; max-width: none; max-height: 72vh; overflow: auto;
+  border-radius: 14px 14px 0 0; padding: 18px 16px 20px; box-shadow: 0 -10px 30px -10px rgba(0, 0, 0, .35); z-index: 60; }
+.sticky-note.sheet::before { top: 7px; width: 44px; height: 5px; border-radius: 3px; transform: translateX(-50%); background: rgba(45, 42, 36, .22); }
+.sticky-note .head { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--note-soft); margin: 0 26px 10px 0; min-width: 0; }
+.sticky-note .nav { display: inline-flex; align-items: center; white-space: nowrap; color: var(--sticky-ink); }
+.sticky-note .nav button { border: 0; background: none; font: 18px/1 var(--ui-font); color: var(--sticky-ink); cursor: pointer; padding: 0 6px 2px; }
+.sticky-note .nav button:disabled { opacity: .25; cursor: default; }
+.sticky-note .pattern { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sticky-note .close { position: absolute; top: 10px; right: 10px; border: 0; background: none; font-size: 19px; line-height: 1; cursor: pointer; color: var(--note-soft); padding: 2px 4px; }
+.sticky-note .close:hover { color: var(--sticky-ink); }
+.sticky-note .cap { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--note-soft); margin-bottom: 2px; }
+.sticky-note .was, .sticky-note .now, .sticky-note .mine { white-space: pre-wrap; overflow-wrap: anywhere; }
+.sticky-note .was { color: rgba(45, 42, 36, .72); margin: 0 0 12px; max-height: 10.5em; overflow: auto; }
+.sticky-note .was s { color: #b0241a; text-decoration-color: rgba(200, 55, 43, .7); text-decoration-thickness: 1.5px; }
+.sticky-note .now { margin: 0; font-size: 16px; max-height: 12em; overflow: auto; }
+.sticky-note .now b { font-weight: 600; }
+.sticky-note .q { color: #a64a12; font-weight: 500; }
+.sticky-note .gone { color: var(--note-soft); font-style: italic; }
+.sticky-note .why { margin: 6px 0 12px; font-size: 13.5px; color: var(--note-soft); }
+.sticky-note .mine { margin: 0 0 12px; padding: 5px 10px; border-radius: 4px; background: rgba(44, 95, 201, .10); box-shadow: inset 3px 0 0 #2c5fc9; }
+.sticky-note .buttons { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sticky-note .btn { font: 500 14px/1.2 var(--ui-font); padding: 7px 15px; border-radius: 8px; border: 1.5px solid var(--sticky-ink); background: transparent; color: var(--sticky-ink); cursor: pointer; }
+.sticky-note .btn:hover { background: rgba(45, 42, 36, .07); }
+.sticky-note .btn.on { background: var(--sticky-ink); color: var(--sticky); }
+.sticky-note .btn:disabled { opacity: .4; cursor: default; }
+.sticky-note .link { margin-left: auto; border: 0; background: none; padding: 2px 0; font: 14px var(--ui-font); color: var(--sticky-ink); cursor: pointer;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(45, 42, 36, .35); }
+.sticky-note .own-editor { margin-top: 10px; }
+.sticky-note .more { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(45, 42, 36, .18); }
+.sticky-note .alt { display: grid; grid-template-columns: 78px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid rgba(45, 42, 36, .08); }
+.sticky-note .alt:last-of-type { border-bottom: 0; }
+.sticky-note .alt .kind { font-size: 12.5px; color: var(--note-soft); }
+.sticky-note .alt.in-use .alt-text { box-shadow: inset 3px 0 0 #2c5fc9; padding-left: 8px; }
+.sticky-note .alt .use { border: 0; background: none; padding: 0; font: 500 13.5px var(--ui-font); color: var(--sticky-ink); cursor: pointer; white-space: nowrap;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(45, 42, 36, .35); }
+.sticky-note .alt.in-use .use { text-decoration: none; color: #2c5fc9; cursor: default; }
+.sticky-note .fetch { margin-top: 2px; }
+.sticky-note .ask { display: flex; gap: 8px; margin-top: 8px; }
+.sticky-note .ask input { flex: 1; min-width: 0; }
+.sticky-note .suggest-wait { color: var(--note-soft); font-size: 13px; display: flex; align-items: center; gap: 7px; margin: 6px 0 0; }
 .sticky-note .suggest-wait::before { content: ""; width: 11px; height: 11px; border-radius: 50%; border: 2px solid rgba(44, 95, 201, .25); border-top-color: #2c5fc9; animation: spin .9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.sticky-note .suggest-error { color: #b5281c; font-size: 13px; }
-.sticky-note input[type="text"], .sticky-note textarea { width: 100%; font: 13.5px/1.45 var(--content-font); color: #2a2620; background: rgba(255, 255, 255, .72);
-  border: 1px solid rgba(45, 42, 36, .22); border-radius: 3px; padding: 5px 8px; resize: vertical; min-height: 0; }
-.sticky-note textarea { min-height: 44px; }
+.sticky-note .suggest-error { color: #b5281c; font-size: 13px; margin-top: 6px; }
+.sticky-note input[type="text"], .sticky-note textarea { width: 100%; font: 14px/1.45 var(--ui-font); color: #2a2620; background: rgba(255, 255, 255, .6);
+  border: 1.5px solid rgba(45, 42, 36, .3); border-radius: 8px; padding: 6px 10px; resize: vertical; min-height: 0; }
+.sticky-note textarea { min-height: 48px; }
 .sticky-note input:focus, .sticky-note textarea:focus { outline: 2px solid rgba(44, 95, 201, .35); outline-offset: 0; }
-.sticky-note .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-.sticky-note .suggest-button { border: 0; background: none; padding: 2px 0; cursor: pointer; color: #1f4fb5; font: 600 13.5px var(--content-font); }
-.sticky-note .suggest-button:hover { text-decoration: underline; text-underline-offset: 3px; }
-.sticky-note .add-note, .sticky-note .write-own { border: 0; background: none; padding: 2px 0; cursor: pointer; color: rgba(42, 38, 32, .65); font: 12.5px var(--content-font); justify-self: start; }
-.sticky-note .add-note:hover, .sticky-note .write-own:hover { color: #2d2a24; }
-.sticky-note .note-input { margin-top: 6px; }
+.sticky-note .foot { display: flex; justify-content: flex-end; margin-top: 10px; }
+.sticky-note .small-link { border: 0; background: none; padding: 0; font: 12.5px var(--ui-font); color: var(--note-soft); cursor: pointer; }
+.sticky-note .small-link:hover { color: var(--sticky-ink); }
+.sticky-note .note-input { margin-top: 10px; }
+/* a dashed line from the sentence to the card beside the page */
+.leader { position: absolute; z-index: 39; height: 0; border-top: 1.5px dashed var(--pencil); opacity: .6; pointer-events: none; }
+.leader::before { content: ""; position: absolute; left: -4px; top: -4.5px; width: 7px; height: 7px; border-radius: 50%; background: var(--pencil); }
+.leader[hidden] { display: none; }
 
-textarea, input[type="text"] { width: 100%; background: var(--page); border: 2px solid var(--ink); border-radius: 12px 225px 12px 255px / 255px 12px 225px 12px; padding: 8px 12px; resize: vertical; font: 16px/1.5 var(--content-font); }
+textarea, input[type="text"] { width: 100%; background: var(--page); border: 1.5px solid var(--ink); border-radius: 8px; padding: 8px 12px; resize: vertical; font: 16px/1.5 var(--content-font); }
 textarea { min-height: 72px; }
 textarea:focus, input:focus, .box:focus-visible, select:focus-visible { outline: 3px solid var(--highlight); outline-offset: 2px; }
 
@@ -306,20 +302,20 @@ textarea:focus, input:focus, .box:focus-visible, select:focus-visible { outline:
 table { border-collapse: collapse; width: 100%; font: 16px/1.45 var(--content-font); }
 th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1.5px solid rgba(120, 110, 95, .35); }
 td + td, th + th { border-left: 1.5px solid rgba(120, 110, 95, .25); }
-th { font: 16px var(--hand-title); color: var(--pencil); font-weight: normal; border-bottom-width: 2.5px; border-bottom-color: var(--ink); }
+th { font: 600 14px var(--ui-font); color: var(--pencil); border-bottom-width: 2.5px; border-bottom-color: var(--ink); }
 tr.row { cursor: pointer; }
 tr.row:hover td { background: var(--highlight-soft); }
 .clamp { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; max-width: 32ch; }
 td.num, th.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
-select { font: 16px var(--hand-title); background: transparent; border: 1.5px solid var(--ink); border-radius: 255px 12px 225px 12px / 12px 225px 12px 255px; padding: 2px 8px; }
+select { font: 14px var(--ui-font); background: transparent; border: 1.5px solid var(--ink); border-radius: 6px; padding: 2px 8px; }
 .s-ok { color: var(--green); } .s-warn { color: var(--orange); } .s-alarm { color: var(--red); } .s-info { color: var(--pencil); }
-.general-reasons h3 { font: 17px var(--hand-title); color: var(--pencil); font-weight: normal; }
+.general-reasons h3 { font: 600 15px var(--ui-font); color: var(--pencil); }
 
 .checkbox-row { display: flex; gap: 8px; align-items: center; color: var(--pencil); margin-top: 8px; font: 14.5px var(--content-font); }
 .checkbox-row input { width: 17px; height: 17px; accent-color: var(--ink); }
 .shortcuts { margin-top: 16px; color: var(--pencil); font: 14.5px/1.6 var(--content-font); }
-.shortcuts summary { cursor: pointer; font-family: var(--hand-title); }
-kbd { font: 14px var(--hand-title); border: 1.5px solid var(--pencil); border-radius: 12px 225px 12px 255px / 255px 12px 225px 12px; padding: 0 6px; }
+.shortcuts summary { cursor: pointer; font-family: var(--ui-font); }
+kbd { font: 12.5px var(--ui-font); border: 1px solid var(--pencil); border-radius: 4px; padding: 0 5px; }
 
 /* ------------------------------------------------------------------ plain feedback card in the corner */
 .dock {
@@ -327,7 +323,15 @@ kbd { font: 14px var(--hand-title); border: 1.5px solid var(--pencil); border-ra
   padding: 5px 6px 5px 14px; background: var(--card); border: 1px solid rgba(120, 110, 95, .18); border-radius: 999px;
   box-shadow: 0 4px 14px -6px rgba(0, 0, 0, .25); font: 14px/1.2 var(--content-font); color: var(--pencil);
 }
-.progress { white-space: nowrap; }
+.progress { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.segs { display: flex; gap: 3px; width: 150px; }
+.segs i { flex: 1; height: 6px; border-radius: 3px; background: rgba(120, 110, 95, .22); }
+.segs i.ok { background: var(--green); } .segs i.back { background: var(--red); } .segs i.own { background: var(--blue); } .segs i.now { background: var(--ink); }
+.questions { color: var(--orange); white-space: nowrap; }
+.questions[hidden] { display: none; }
+.dock .accept-rest { border: 1px solid rgba(120, 110, 95, .35); background: none; color: var(--ink); font: 13.5px var(--ui-font); padding: 4px 10px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+.dock .accept-rest:hover { background: var(--tint-grey); }
+.dock .accept-rest[hidden] { display: none; }
 .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--grey); flex: none; }
 .live-dot.on { background: var(--green); box-shadow: 0 0 0 3px var(--tint-green); }
 .box:disabled { opacity: .35; cursor: not-allowed; transform: none; box-shadow: none; }
@@ -357,10 +361,11 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   .menus { gap: 6px; padding-top: 2px; }
   .panel { left: 10px; right: 10px; width: auto; top: 64px; }
   .dock { right: 10px; bottom: 12px; }
-  .progress { display: none; }
+  .progress, .segs, .dock .accept-rest { display: none; }
+  .marks { display: none; }
   .text { font-size: calc(var(--content-size) - 1.5px); }
 }
-@media print { .dock, .menus, .panel, .sticky-note { display: none !important; } body { padding-bottom: 0; } }
+@media print { .dock, .menus, .panel, .sticky-note, .leader, .marks, .wide-hint { display: none !important; } body { padding-bottom: 0; } }
 </style>
 </head>
 <body>
@@ -383,7 +388,9 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     </div>
     <svg class="underline-squiggle" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 8 C 60 2, 110 11, 165 6 S 250 3, 297 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
     <div class="profile" id="profile" hidden></div>
+    <p class="wide-hint" id="wide-hint" hidden>Pencere dar olduğu için kartlar metnin üstünde açılıyor. Kartı yanda görmek için pencereyi genişlet ya da sayfayı tarayıcıda aç.<button type="button" id="copy-address">Adresi kopyala</button><button type="button" class="x" id="hide-hint" aria-label="Bu notu gizle">×</button></p>
   </header>
+  <div class="marks" id="marks"></div>
 
   <article class="text" id="view-text"></article>
   <article class="text" id="view-diff" hidden></article>
@@ -433,7 +440,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     </div>
     <details class="shortcuts">
       <summary>Kısayollar</summary>
-      <p><kbd>j</kbd> / <kbd>k</kbd> sonraki, önceki değişiklik · <kbd>1</kbd> yeni hali · <kbd>2</kbd> eski hali · <kbd>3</kbd> başka öner · <kbd>Esc</kbd> kapat</p>
+      <p><kbd>→</kbd> <kbd>←</kbd> ya da <kbd>j</kbd> <kbd>k</kbd> sonraki, önceki değişiklik · <kbd>1</kbd> kalsın · <kbd>2</kbd> eskisine dön · <kbd>3</kbd> kendim yazayım · <kbd>Esc</kbd> kapat</p>
     </details>
   </div>
 
@@ -494,6 +501,9 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
 <div class="dock" role="region" aria-label="Geri bildirim">
   <span class="live-dot" id="live-dot" hidden></span>
   <span class="progress" id="progress-text"></span>
+  <span class="segs" id="segs" aria-hidden="true"></span>
+  <span class="questions" id="questions" hidden></span>
+  <button class="accept-rest" id="accept-rest" type="button" hidden>Kalanları kabul et</button>
   <button class="send-button" id="send-feedback" type="button">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6M9.2 3.3h5.6c.6 0 1 .4 1 1v1.4c0 .6-.4 1-1 1H9.2c-.6 0-1-.4-1-1V4.3c0-.6.4-1 1-1Z"/><path d="M15.8 5h1.4c1.1 0 2 .9 2 2v12.2c0 1.1-.9 2-2 2H6.8c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h1.4"/><path d="M8.6 12.4h6.8M8.6 16h4.6"/></svg>
     <span>Geri bildirimi kopyala</span>
@@ -501,6 +511,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
 </div>
 
 <div class="sticky-note" id="note" role="dialog" aria-label="Değişiklik ayrıntısı" hidden></div>
+<div class="leader" id="leader" hidden></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <dialog id="preview-dialog">
   <p style="margin:0 0 10px" id="preview-title"></p>
@@ -553,6 +564,14 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   }
   var $ = function (id) { return document.getElementById(id); };
   var DECISION_LABELS = { accept: "Böyle kalsın", revert: "Eskisine dön", custom: "Başka öner" };
+  var PATTERN_NAMES = {"Y1": "Kafiyeli yüklem", "Y2": "Eş boy cümleler", "Y3": "Kesik vuruş zinciri", "Y4": "Açılış tekrarı", "Y5": "Ad tekrarı ve eşanlamlı döngüsü", "Y6": "Mühürlü paragraf", "Y7": "Başa dönen kapanış", "Y8": "Üçleme alışkanlığı", "Y9": "Kopuk mantık",
+    "R1": "Karşıtlıkla parlatma", "R2": "Etiketli anons", "R3": "Kendi sorup kendi cevaplama", "R4": "Sahte aralık", "R5": "Vecize ve sahte şiir", "R6": "Önem şişirmesi", "R7": "Boş doğru", "R8": "Zarf-fiil kuyruğu", "R9": "Kılık değiştiren kalıp",
+    "S1": "Yapay zeka kelime kümesi", "S2": "Moda teknoloji sözleri", "S3": "Terim karmaşası", "S4": "Bürokratik ek yığını", "S5": "Süslü koşaç", "S6": "Dolgu ve aşırı ihtiyat", "S7": "Edilgen kaçış", "S8": "Sicil savrulması", "S9": "Broşür dili", "S10": "Hep en olası kelime", "S11": "Çeviri Türkçesi",
+    "T1": "Sohbet artığı", "T2": "Yağcılık", "T3": "Terapist sesi", "T4": "Sahte samimiyet kancası", "T5": "Anons ve rehber sesi", "T6": "Klişe giriş", "T7": "Kalıp kapanış",
+    "B1": "Uzun tire", "B2": "Noktalı virgül göçü", "B3": "Kalın vurgu enflasyonu", "B4": "Etiketli madde listesi", "B5": "Emoji süsü", "B6": "Başlık düzeni", "B7": "Parantez açıklama takıntısı", "B8": "Yazım tutarsızlığı",
+    "G1": "Belirsiz otorite", "G2": "Uydurma vaka ve rakam", "G3": "Boşluk doldurma", "G4": "Şablon zorluklar paragrafı", "G5": "Kurgu klişesi", "G6": "Aşırı düzeltme izi"};
+  // placeholders such as [ilk haftanın ortalama yanıt süresi?] are questions for the writer
+  var QUESTION_RE = /\[[^\]\n]{1,160}\?\]/g;
   var LINE = 32;
 
   function el(tag, cls, text) {
@@ -652,6 +671,23 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     seq.forEach(function (p) { if (changed !== p.changed) { flush(); changed = p.changed; } buffer += p.x; });
     flush();
   }
+  function markQuestions(container) {
+    var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT), nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (t) {
+      var text = t.nodeValue, last = 0, m, frag = null;
+      QUESTION_RE.lastIndex = 0;
+      while ((m = QUESTION_RE.exec(text))) {
+        frag = frag || document.createDocumentFragment();
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        frag.appendChild(el("span", "q", m[0]));
+        last = m.index + m[0].length;
+      }
+      if (!frag) return;
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      t.parentNode.replaceChild(frag, t);
+    });
+  }
   function toast(message, ms) { var b = $("toast"); b.textContent = message; b.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(function () { b.classList.remove("show"); }, ms || 1900); }
 
   // ------------------------------------------------ header
@@ -725,6 +761,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
         else drawSide(c.el, pieces, "ins", "changed", "b");
       }
     }
+    markQuestions(c.el);
     c.el.classList.remove("d-accept", "d-revert", "d-custom");
     c.el.classList.add("d-" + d.k);
     c.el.classList.toggle("seen", !!state.seen[s.id]);
@@ -802,120 +839,141 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
 
   function targetEl(id) { return state.view === "diff" ? diffChunks[id] : textChunks[id] && textChunks[id].el; }
 
-  var suggestMode = {}, writeOwn = {};
+  var writeOwn = {};
+  // the card answers three questions: what was it, what is suggested, what else could it be
   function drawNote(id) {
-    var s = findChange(id), d = decision(id), n = s.note != null ? NOTES[s.note] : null, inSuggest = !!suggestMode[id];
+    var s = findChange(id), d = decision(id), n = s.note != null ? NOTES[s.note] : null, i = indexOfChange(id);
     note.innerHTML = "";
+    var head = el("div", "head"), nav = el("span", "nav");
+    var prev = el("button", "", "‹"); prev.type = "button"; prev.setAttribute("aria-label", "Önceki değişiklik"); prev.disabled = i <= 0;
+    prev.addEventListener("click", function () { step(-1); });
+    var next = el("button", "", "›"); next.type = "button"; next.setAttribute("aria-label", "Sonraki değişiklik"); next.disabled = i >= CHANGES.length - 1;
+    next.addEventListener("click", function () { step(1); });
+    nav.appendChild(prev); nav.appendChild(document.createTextNode((i + 1) + " / " + CHANGES.length)); nav.appendChild(next);
+    head.appendChild(nav);
+    if (n && n.pattern) {
+      var code = String(n.pattern).split(/[\s,;·]+/)[0];
+      var pn = el("span", "pattern", PATTERN_NAMES[code] || String(n.pattern)); pn.title = String(n.pattern);
+      head.appendChild(pn);
+    }
+    note.appendChild(head);
     var close = el("button", "close", "×"); close.type = "button"; close.setAttribute("aria-label", "Kapat");
     close.addEventListener("click", function () { closeNote(true); });
     note.appendChild(close);
-    if (n && n.reason) note.appendChild(el("div", "reason", n.reason));
 
     var before = (s.d || "").trim(), after = (s.i || "").trim();
     var pieces = before && after ? wordDiff(before, after) : null;
-    // when most of the sentence changed, mark the old one as a whole and show the new one plain
+    // when most of the sentence changed, the old one is struck through as a whole and the new one shown plain
     var mostly = mostlyChanged(pieces);
 
-    // clicking a box picks that version: red is the old one, green the new one
-    function version(cls, label, selected, kind) {
-      var v = el("div", "version " + cls + (selected ? " selected" : " faded"));
-      v.appendChild(el("small", "", label));
-      if (!selected && kind) {
-        v.title = kind === "revert" ? "Eski hali kullan" : "Yeni hali kullan";
-        v.setAttribute("role", "button"); v.tabIndex = 0;
-        v.addEventListener("click", function () { decide(kind); });
-        v.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); decide(kind); } });
-      }
-      return v;
-    }
-    var a = version("before", "Önce", d.k === "revert", "revert");
-    if (!before) a.appendChild(el("span", "empty", "(yoktu, yeni eklendi)"));
-    else if (mostly) a.appendChild(el("mark", "removed", before));
-    else drawSide(a, pieces, "del", "removed");
-    var b = version("after", "Sonra", d.k === "accept", "accept");
-    if (!after) b.appendChild(el("span", "empty", "(silindi)"));
-    else if (mostly) b.appendChild(document.createTextNode(after));
-    else drawSide(b, pieces, "ins", "added");
-    var own = null;
+    note.appendChild(el("span", "cap", "Neydi"));
+    var was = el("p", "was");
+    if (!before) was.appendChild(el("span", "gone", "Burada bir şey yoktu, yeni eklendi."));
+    else if (mostly || !after) was.appendChild(el("s", "", before));
+    else drawSide(was, pieces, "del", "", "s");
+    note.appendChild(was);
+
+    note.appendChild(el("span", "cap", "Önerilen"));
+    var now = el("p", "now");
+    if (!after) now.appendChild(el("span", "gone", "Bu kısım çıkarıldı."));
+    else if (mostly || !before) now.appendChild(document.createTextNode(after));
+    else drawSide(now, pieces, "ins", "", "b");
+    markQuestions(now);
+    note.appendChild(now);
+    if (n && n.reason) note.appendChild(el("p", "why", n.reason));
+
     if (d.k === "custom") {
-      own = version("custom", "Senin seçimin", true, null);
-      own.appendChild(el("span", "custom-text", (d.text != null ? d.text : after).trim() || "(boş)"));
+      note.appendChild(el("span", "cap", "Senin seçimin"));
+      var mine = el("p", "mine", ((d.text != null ? d.text : after) || "").trim() || "(boş)");
+      markQuestions(mine);
+      note.appendChild(mine);
     }
 
-    var cmp = el("div", "compare");
-    if (!inSuggest) { cmp.appendChild(a); cmp.appendChild(b); if (own) cmp.appendChild(own); }
-    else { cmp.appendChild(d.k === "revert" ? a : d.k === "custom" ? own : b); cmp.appendChild(suggestArea(id)); }
-    note.appendChild(cmp);
+    var row = el("div", "buttons");
+    var keep = el("button", "btn" + (d.k === "accept" ? " on" : ""), "Kalsın"); keep.type = "button";
+    keep.addEventListener("click", function () { decide("accept"); });
+    var back = el("button", "btn" + (d.k === "revert" ? " on" : ""), "Eskisine dön"); back.type = "button";
+    back.addEventListener("click", function () { decide("revert"); });
+    var own = el("button", "link", "Kendim yazayım"); own.type = "button";
+    own.addEventListener("click", function () {
+      writeOwn[id] = !writeOwn[id]; pinned = true; redrawNote(id);
+      var t = $("custom-text-input"); if (t) { t.focus({ preventScroll: true }); t.setSelectionRange(t.value.length, t.value.length); }
+    });
+    row.appendChild(keep); row.appendChild(back); row.appendChild(own);
+    note.appendChild(row);
+    if (writeOwn[id]) note.appendChild(ownEditor(id));
+
+    var more = alternativesArea(id, n);
+    if (more) note.appendChild(more);
 
     var noteOpen = d.note || note.dataset.noteOpen === String(id);
     if (noteOpen) {
-      var ni = el("input", "note-input"); ni.type = "text"; ni.id = "note-text"; ni.placeholder = "Not: neden? ne bekliyordun?"; ni.value = d.note || "";
+      var ni = el("input", "note-input"); ni.type = "text"; ni.id = "note-text"; ni.placeholder = "Ajana not: neden? ne bekliyordun?"; ni.value = d.note || "";
       ni.addEventListener("input", function () { setDecision(id, { note: ni.value }); progress(); });
       note.appendChild(ni);
-    }
-    var footer = el("div", "footer");
-    var button = el("button", "suggest-button", inSuggest ? "‹ Önce / sonra" : "Başka öner"); button.type = "button";
-    button.addEventListener("click", function () {
-      if (inSuggest) { suggestMode[id] = false; drawNote(id); position(); } else suggestAnother(id);
-    });
-    footer.appendChild(button);
-    if (!noteOpen) {
-      var nb = el("button", "add-note", "not ekle"); nb.type = "button";
+    } else {
+      var foot = el("div", "foot"), nb = el("button", "small-link", "Not ekle"); nb.type = "button";
       nb.addEventListener("click", function () { note.dataset.noteOpen = String(id); pinned = true; drawNote(id); position(); var x = $("note-text"); if (x) x.focus(); });
-      footer.appendChild(nb);
+      foot.appendChild(nb); note.appendChild(foot);
     }
-    note.appendChild(footer);
   }
-
-  // suggest another: the selected version stays, below it one suggestion per row with an arrow to the next one
-  function suggestArea(id) {
-    var box = el("div", "suggest-area");
+  function ownEditor(id) {
+    var wrap = el("div", "own-editor");
+    var ta = el("textarea"); ta.id = "custom-text-input"; ta.rows = 2; ta.placeholder = "Bu kısmı kendin yaz";
+    var d2 = decision(id);
+    ta.value = d2.k === "custom" && d2.text != null ? d2.text : (findChange(id).i || "").trim();
+    ta.addEventListener("input", function () {
+      var first = decision(id).k !== "custom";
+      setDecision(id, { k: "custom", text: ta.value }); markSeen(id); refresh(id, true);
+      if (first) { redrawNote(id); var t3 = $("custom-text-input"); if (t3) t3.setSelectionRange(t3.value.length, t3.value.length); }
+      else { var ct = note.querySelector(".mine"); if (ct) ct.textContent = ta.value.trim() || "(boş)"; }
+    });
+    wrap.appendChild(ta);
+    return wrap;
+  }
+  // other options as whole sentences: from the agent's notes (shorter, more formal, warmer) and, with the bridge, on request
+  var USUAL_KINDS = ["Daha kısa", "Daha resmî", "Daha sıcak"];
+  function alternativesArea(id, n) {
+    var list = [];
+    ((n && n.alternatives) || []).forEach(function (a) {
+      if (a && typeof a === "object" && a.text) list.push({ kind: a.kind || "", text: String(a.text).trim() });
+      else if (typeof a === "string" && a.trim()) list.push({ kind: "", text: a.trim() });
+    });
     var st = suggestions[id] || {};
-    var busy = st.status === "sending" || st.status === "pending";
+    if (st.status === "ready") st.list.forEach(function (t, k) { list.push({ kind: (st.kinds && st.kinds[k]) || "Öneri", text: String(t).trim() }); });
+    if (!list.length && !LIVE) return null;
+    var box = el("div", "more"), d = decision(id);
+    box.appendChild(el("span", "cap", "Başka seçenekler"));
+    list.forEach(function (a) {
+      var used = d.k === "custom" && (d.text || "").trim() === a.text;
+      var row = el("div", "alt" + (used ? " in-use" : ""));
+      row.appendChild(el("span", "kind", a.kind));
+      var t = el("span", "alt-text", a.text); markQuestions(t); row.appendChild(t);
+      var use = el("button", "use", used ? "Seçili" : "Kullan"); use.type = "button";
+      if (!used) use.addEventListener("click", function () { setDecision(id, { k: "custom", text: a.text }); markSeen(id); writeOwn[id] = false; refresh(id); drawNote(id); glideToPosition(); });
+      row.appendChild(use);
+      box.appendChild(row);
+    });
     if (LIVE) {
-      if (busy) box.appendChild(el("div", "suggest-wait", "öneri hazırlanıyor…"));
-      else if (st.status === "error") box.appendChild(el("div", "suggest-error", st.error || "Öneri alınamadı."));
-      else if (st.status === "ready" && st.list.length) {
-        var i = (st.shown || 0) % st.list.length, t = st.list[i], d = decision(id);
-        var row = el("div", "suggest-row" + (d.k === "custom" && d.text === t ? " in-use" : ""));
-        var m = el("button", "suggest-text", t); m.type = "button"; m.title = "Bunu kullan";
-        m.addEventListener("click", function () { setDecision(id, { k: "custom", text: t }); markSeen(id); refresh(id); drawNote(id); glideToPosition(); });
-        var next = el("button", "suggest-next"); next.type = "button"; next.title = "Sıradaki öneri"; next.setAttribute("aria-label", "Sıradaki öneri");
-        next.appendChild(el("span", "arrow", "›")); next.appendChild(el("span", "counter", (i + 1) + "/" + st.list.length));
-        next.addEventListener("click", function () { st.shown = i + 1; drawNote(id); position(); });
-        row.appendChild(m); row.appendChild(next); box.appendChild(row);
+      var busy = st.status === "sending" || st.status === "pending";
+      if (busy) box.appendChild(el("div", "suggest-wait", "Seçenekler hazırlanıyor…"));
+      else if (st.status === "error") box.appendChild(el("div", "suggest-error", st.error || "Seçenek alınamadı."));
+      if (!list.length && !busy) {
+        var fetch1 = el("button", "btn fetch", "Kısa, resmî ve sıcak hallerini göster"); fetch1.type = "button";
+        fetch1.addEventListener("click", function () { requestSuggestions(id, "Üç seçenek yaz, bu sırayla: daha kısa, daha resmî, daha sıcak.", USUAL_KINDS); });
+        box.appendChild(fetch1);
       }
-      var req = el("input"); req.type = "text"; req.id = "suggest-request";
-      req.placeholder = "Ajana söyle: daha kısa, daha resmî… (Enter)";
-      req.value = st.requestText || "";
-      req.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); if (!busy) requestSuggestions(id, req.value.trim()); } });
-      box.appendChild(req);
-      if (!writeOwn[id]) {
-        var wo = el("button", "write-own", "ya da kendin yaz"); wo.type = "button";
-        wo.addEventListener("click", function () { writeOwn[id] = true; drawNote(id); position(); var t2 = $("custom-text-input"); if (t2) { t2.focus(); t2.setSelectionRange(t2.value.length, t2.value.length); } });
-        box.appendChild(wo);
-      }
-    }
-    if (!LIVE || writeOwn[id]) {
-      var ta = el("textarea"); ta.id = "custom-text-input"; ta.rows = 2; ta.placeholder = "Kendi önerini yaz";
-      var d2 = decision(id);
-      ta.value = d2.k === "custom" && d2.text != null ? d2.text : (findChange(id).i || "").trim();
-      ta.addEventListener("input", function () {
-        var first = decision(id).k !== "custom";
-        setDecision(id, { k: "custom", text: ta.value }); refresh(id, true);
-        if (first) { redrawNote(id); var t3 = $("custom-text-input"); if (t3) t3.setSelectionRange(t3.value.length, t3.value.length); }
-        else { var ct = note.querySelector(".custom-text"); if (ct) ct.textContent = ta.value.trim() || "(boş)"; }
-      });
-      box.appendChild(ta);
+      var ask = el("div", "ask");
+      var req = el("input"); req.type = "text"; req.id = "suggest-request"; req.value = st.status !== "ready" && st.requestText && st.kinds == null ? st.requestText : "";
+      req.placeholder = "Başka bir şey iste: daha samimi, deyimle, iki cümleye böl…";
+      var go = el("button", "btn", "Öner"); go.type = "button"; go.disabled = busy;
+      function send() { var v = req.value.trim(); if (!busy && v) requestSuggestions(id, v, null); }
+      req.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); send(); } });
+      go.addEventListener("click", send);
+      ask.appendChild(req); ask.appendChild(go);
+      box.appendChild(ask);
     }
     return box;
-  }
-  function suggestAnother(id) {
-    suggestMode[id] = true; pinned = true;
-    if (LIVE && !(suggestions[id] && suggestions[id].status)) requestSuggestions(id, "");
-    else { drawNote(id); position(); }
-    keepVisible();
-    if (!LIVE) { var t = $("custom-text-input"); if (t) { t.focus({ preventScroll: true }); t.setSelectionRange(t.value.length, t.value.length); } }
   }
 
   // if the pointer is over a line, remember that line and the pointer's horizontal position
@@ -934,16 +992,17 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     drawNote(id); position();
     if (focused && $(focused)) $(focused).focus({ preventScroll: true });
   }
-  function requestSuggestions(id, requestText) {
+  function requestSuggestions(id, requestText, kinds) {
     var s = findChange(id), n = s.note != null ? NOTES[s.note] : null, ctx = context(id, 220);
-    suggestions[id] = { status: "sending", requestText: requestText };
+    var label = kinds ? null : requestText.length > 24 ? requestText.slice(0, 22) + "…" : requestText;
+    suggestions[id] = { status: "sending", requestText: requestText, kinds: kinds, label: label };
     pinned = true; redrawNote(id);
     api("/api/suggest", { method: "POST", body: JSON.stringify({
       part: id, before: s.d, after: s.i, context_before: ctx[0], context_after: ctx[1],
       reason: n ? n.reason : "", pattern: n ? n.pattern : "", request: requestText, engine: prefs.engine || "auto"
     }) }).then(function (r) {
       if (r.error) { suggestions[id] = { status: "error", error: r.error, requestText: requestText }; redrawNote(id); return; }
-      suggestions[id] = { status: "pending", request: r.request, engine: r.engine, requestText: requestText };
+      suggestions[id] = { status: "pending", request: r.request, engine: r.engine, requestText: requestText, kinds: kinds, label: label };
       redrawNote(id); pollSuggestions(id);
     }).catch(function () { suggestions[id] = { status: "error", error: "Köprüye ulaşılamadı.", requestText: requestText }; redrawNote(id); });
   }
@@ -951,37 +1010,75 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     var st = suggestions[id];
     if (!st || st.status !== "pending") return;
     api("/api/suggestions/" + st.request).then(function (r) {
-      if (r.status === "ready") { suggestions[id] = Object.assign({}, st, { status: "ready", list: r.suggestions, shown: 0 }); redrawNote(id); keepVisible(); }
+      if (r.status === "ready") {
+        // labels by position only when the agent answered with exactly the variants asked for
+        var kinds = st.kinds && r.suggestions.length === st.kinds.length ? st.kinds : r.suggestions.map(function () { return st.label ? st.label.charAt(0).toUpperCase() + st.label.slice(1) : "Öneri"; });
+        suggestions[id] = Object.assign({}, st, { status: "ready", list: r.suggestions, kinds: kinds });
+        redrawNote(id); keepVisible();
+      }
       else if (r.status === "error") { suggestions[id] = Object.assign({}, st, { status: "error", error: r.error }); redrawNote(id); }
       else setTimeout(function () { pollSuggestions(id); }, 1500);
     }).catch(function () { setTimeout(function () { pollSuggestions(id); }, 3000); });
   }
 
+  // where the card goes: beside the page when there is room, under the sentence when not, from the bottom on phones
+  var leader = $("leader"), CARD_W = 440, SIDE_GAP = 28;
+  function layoutMode() {
+    var vw = document.documentElement.clientWidth;
+    if (vw <= 640) return "sheet";
+    return $("page").getBoundingClientRect().right + SIDE_GAP + CARD_W + 12 <= vw ? "side" : "float";
+  }
   function position() {
     if (noteId == null) return;
     var h = targetEl(noteId);
     if (!h) return;
     var rs = h.getClientRects();
     if (!rs.length) return;
-    var c = anchor || { line: 0, dx: 0 };
-    var pointerLine = rs[Math.min(c.line, rs.length - 1)];
-    var nw = note.offsetWidth, nh = note.offsetHeight;
-    // visible area without the scrollbar
+    var mode = layoutMode();
+    note.classList.toggle("sheet", mode === "sheet");
+    leader.hidden = mode !== "side";
     var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
     var dock = document.querySelector(".dock").offsetHeight + 24;
-    // the note sits below the whole changed part so the text stays readable; for a very long part, below the clicked line
+    if (mode === "sheet") {
+      note.style.left = ""; note.style.top = "";
+      // keep the sentence visible above the sheet; a short page gets room to scroll while the sheet is open
+      document.body.style.paddingBottom = (note.offsetHeight + 24) + "px";
+      var room = vh - note.offsetHeight - 12, last0 = rs[rs.length - 1];
+      if (last0.bottom > room || rs[0].top < 8) window.scrollBy({ top: rs[0].top - Math.max(16, (room - (last0.bottom - rs[0].top)) / 2), behavior: "smooth" });
+      return;
+    }
+    var nw = note.offsetWidth, nh = note.offsetHeight;
+    if (mode === "side") {
+      var x = $("page").getBoundingClientRect().right + SIDE_GAP;
+      // level with the sentence; moved up only as far as needed to stay on screen
+      var y = rs[0].top - 18;
+      if (y + nh > vh - dock) y = Math.max(12, vh - dock - nh);
+      note.style.left = Math.round(x + window.scrollX) + "px";
+      note.style.top = Math.round(y + window.scrollY) + "px";
+      var right = 0;
+      for (var k = 0; k < rs.length; k++) right = Math.max(right, rs[k].right);
+      var lineY = Math.min(Math.max(rs[0].top + rs[0].height / 2, y + 20), y + nh - 20);
+      leader.style.left = Math.round(right + 8 + window.scrollX) + "px";
+      leader.style.width = Math.max(0, Math.round(x - right - 12)) + "px";
+      leader.style.top = Math.round(lineY + window.scrollY) + "px";
+      return;
+    }
+    var c = anchor || { line: 0, dx: 0 };
+    var pointerLine = rs[Math.min(c.line, rs.length - 1)];
+    // below the whole changed part so the text stays readable; for a very long part, below the clicked line
     var long = rs[rs.length - 1].bottom - rs[0].top > vh * 0.45;
     var below = long ? pointerLine : rs[rs.length - 1], above = long ? pointerLine : rs[0];
     var align = pointerLine.left + Math.min(c.dx, pointerLine.width);
-    var x = Math.min(Math.max(12, align - 48), vw - nw - 12);
-    var y = below.bottom + 10;
-    if (vh - dock - below.bottom < nh + 12 && above.top > nh + 14) y = above.top - nh - 10;
-    note.style.left = Math.round(x + window.scrollX) + "px";
-    note.style.top = Math.round(y + window.scrollY) + "px";
+    var x2 = Math.min(Math.max(12, align - 48), vw - nw - 12);
+    var y2 = below.bottom + 12;
+    if (vh - dock - below.bottom < nh + 12 && above.top > nh + 16) y2 = above.top - nh - 12;
+    note.style.left = Math.round(x2 + window.scrollX) + "px";
+    note.style.top = Math.round(y2 + window.scrollY) + "px";
   }
 
   // if the note grew past the bottom of the screen, scroll so all of it is visible
   function keepVisible() {
+    if (note.classList.contains("sheet")) return;
     var r = note.getBoundingClientRect();
     var dockH = document.querySelector(".dock").offsetHeight + 24;
     var vh = document.documentElement.clientHeight - dockH;
@@ -998,13 +1095,16 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     var h0 = targetEl(id);
     if (h0 && (previous !== id || point)) anchor = point ? findAnchor(h0, point.x, point.y) : { line: 0, dx: 0 };
     if (pin) pinned = true;
-    if (previous !== id) { delete note.dataset.noteOpen; suggestMode[id] = false; writeOwn[id] = false; }
+    if (previous !== id) { delete note.dataset.noteOpen; writeOwn[id] = false; }
     drawNote(id);
     note.hidden = false;
     document.querySelectorAll(".open").forEach(function (x) { x.classList.remove("open"); });
     var h = targetEl(id); if (h) h.classList.add("open");
     (state.view === "diff" ? diffView : textView).classList.add("focus");
     position();
+    drawMarks();
+    // under the sentence the card may run past the bottom of the window: scroll until it fits
+    if (pin && layoutMode() === "float") keepVisible();
     clearTimeout(settleT);
     if (pin) { markSeen(id); refresh(id); }
     else settleT = setTimeout(function () { if (noteId === id) { markSeen(id); refresh(id); } }, 1200);
@@ -1013,9 +1113,11 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     if (pinned && !force) return;
     clearTimeout(settleT);
     note.hidden = true; noteId = null; pinned = false;
+    leader.hidden = true; note.classList.remove("sheet");
     textView.classList.remove("focus"); diffView.classList.remove("focus");
     document.body.style.paddingBottom = "";
     document.querySelectorAll(".open").forEach(function (x) { x.classList.remove("open"); });
+    progress(); drawMarks();
   }
   function select(id) {
     var h = targetEl(id);
@@ -1041,7 +1143,11 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   function decide(kind) {
     if (noteId == null) return;
     var id = noteId;
-    if (kind === "custom") { suggestAnother(id); return; }
+    if (kind === "custom") {
+      writeOwn[id] = true; pinned = true; redrawNote(id);
+      var t = $("custom-text-input"); if (t) { t.focus({ preventScroll: true }); t.setSelectionRange(t.value.length, t.value.length); }
+      return;
+    }
     setDecision(id, { k: kind }); markSeen(id);
     pinned = true;
     refresh(id);
@@ -1068,19 +1174,78 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   document.addEventListener("click", function () { if (!note.hidden) closeNote(true); });
 
   // ------------------------------------------------ refresh
+  // the state of one change: open, waiting, kept, reverted or rewritten by the writer
+  function markState(id) {
+    var d = decision(id);
+    if (id === noteId) return "now";
+    if (d.k === "revert") return "back";
+    if (d.k === "custom") return "own";
+    return state.seen[id] ? "ok" : "wait";
+  }
+  var MARK_GLYPHS = { now: "→", wait: "•", ok: "✓", back: "↺", own: "✎" };
+  var MARK_TITLES = { now: "açık", wait: "bakılmadı", ok: "kalsın", back: "eskisine döndü", own: "senin yazdığın" };
   function progress() {
-    var count = { accept: 0, revert: 0, custom: 0 };
-    CHANGES.forEach(function (s) { count[decision(s.id).k]++; });
-    var seen = 0; CHANGES.forEach(function (s) { if (state.seen[s.id]) seen++; });
+    var count = { accept: 0, revert: 0, custom: 0 }, seen = 0;
+    CHANGES.forEach(function (s) { count[decision(s.id).k]++; if (state.seen[s.id]) seen++; });
+    var pt = $("progress-text");
+    pt.textContent = seen + " / " + CHANGES.length;
     var parts = [seen + "/" + CHANGES.length + " incelendi"];
     if (count.revert) parts.push(count.revert + " eskisine döndü");
-    if (count.custom) parts.push(count.custom + " öneri");
-    $("progress-text").textContent = parts.join(" · ");
+    if (count.custom) parts.push(count.custom + " senin yazdığın");
+    pt.title = parts.join(" · ");
+    var segs = $("segs");
+    segs.innerHTML = "";
+    CHANGES.forEach(function (s) { var st = markState(s.id), i = el("i", st); i.title = "#" + s.id + " " + MARK_TITLES[st]; segs.appendChild(i); });
+    var q = (resultText().match(QUESTION_RE) || []).length;
+    $("questions").textContent = q ? q + " soru açık" : "";
+    $("questions").hidden = !q;
+    $("accept-rest").hidden = seen === CHANGES.length;
   }
+  // one mark per changed line in the margin; a click opens that change
+  function drawMarks() {
+    var marks = $("marks");
+    marks.innerHTML = "";
+    if (state.view !== "text" && state.view !== "diff") return;
+    var pageTop = $("page").getBoundingClientRect().top, rows = {}, order = ["now", "wait", "back", "own", "ok"];
+    CHANGES.forEach(function (s) {
+      var h = targetEl(s.id), r = h && h.getClientRects()[0];
+      if (!r) return;
+      var top = Math.round(r.top - pageTop + r.height / 2 - LINE / 2), key = Math.round(top / 10);
+      (rows[key] = rows[key] || { top: top, ids: [] }).ids.push(s.id);
+    });
+    Object.keys(rows).forEach(function (k) {
+      var row = rows[k];
+      var id = row.ids.slice().sort(function (a, b) { return order.indexOf(markState(a)) - order.indexOf(markState(b)); })[0], st = markState(id);
+      var b = el("button", "mark " + st, MARK_GLYPHS[st]); b.type = "button";
+      b.style.top = row.top + "px";
+      b.title = MARK_TITLES[st];
+      b.setAttribute("aria-label", "Değişiklik " + id + ": " + MARK_TITLES[st]);
+      b.addEventListener("click", function (e) { e.stopPropagation(); select(id); });
+      marks.appendChild(b);
+    });
+  }
+  $("accept-rest").addEventListener("click", function (e) {
+    e.stopPropagation();
+    var n = 0;
+    CHANGES.forEach(function (s) { if (!state.seen[s.id]) { state.seen[s.id] = 1; n++; } });
+    save(); refresh();
+    if (noteId != null) drawNote(noteId);
+    toast(n + " değişiklik bu haliyle kabul edildi.");
+  });
+  // in a narrow window (an agent's browser pane, for example) suggest a wider one
+  var HINT_KEY = "insanlik-oldu-mu:wide-hint";
+  function drawHint() {
+    var off = false;
+    try { off = localStorage.getItem(HINT_KEY) === "off"; } catch (e) {}
+    var vw = document.documentElement.clientWidth, hint = $("wide-hint"), hidden = off || vw <= 640 || layoutMode() === "side";
+    if (hint.hidden !== hidden) { hint.hidden = hidden; alignToLines(); }
+  }
+  $("copy-address").addEventListener("click", function () { copy(location.href, "Adres kopyalandı. Tarayıcına yapıştırabilirsin."); });
+  $("hide-hint").addEventListener("click", function () { try { localStorage.setItem(HINT_KEY, "off"); } catch (e) {} drawHint(); });
   function refresh(id, typing) {
     var list = id != null ? [findChange(id)] : CHANGES;
     list.forEach(function (s) { drawTextChunk(s); drawDiffChunk(s); tableSelects[s.id].value = decision(s.id).k; });
-    progress();
+    progress(); drawMarks();
     if (typing) setTimeout(glideToPosition, 0);
   }
 
@@ -1113,6 +1278,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
       var m = ((rule - (top + baseline)) % LINE + LINE) % LINE;
       a.style.paddingTop = m.toFixed(2) + "px";
     });
+    if (typeof drawMarks === "function") drawMarks();
   }
   // the header font loads late and moves the text; realign whenever the header's size changes
   if (window.ResizeObserver) new ResizeObserver(function () { alignToLines(); }).observe(document.querySelector("header.top"));
@@ -1236,6 +1402,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     $("view-table").hidden = view !== "table"; $("view-measure").hidden = view !== "measure";
     writeHint(view);
     alignToLines();
+    drawMarks();
   }
   document.querySelectorAll(".tabs [role=tab]").forEach(function (b) { b.addEventListener("click", function () { showView(b.dataset.view); closePanel(); }); });
 
@@ -1288,17 +1455,19 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     if (t === "TEXTAREA" || t === "INPUT" || t === "SELECT" || e.metaKey || e.ctrlKey || e.altKey) { if (e.key === "Escape") e.target.blur(); return; }
     if (e.key === "j") { e.preventDefault(); step(1); }
     else if (e.key === "k") { e.preventDefault(); step(-1); }
+    else if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && noteId != null) { e.preventDefault(); step(e.key === "ArrowRight" ? 1 : -1); }
     else if (e.key === "1") decide("accept");
     else if (e.key === "2") decide("revert");
     else if (e.key === "3") { e.preventDefault(); decide("custom"); }
     else if (e.key === "Escape") { if (openPanelName) closePanel(); else closeNote(true); }
   });
-  window.addEventListener("resize", function () { alignToLines(); position(); });
+  window.addEventListener("resize", function () { drawHint(); alignToLines(); position(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { alignToLines(); position(); });
 
   applyTheme();
   applyPaper();
   applyFont();
+  drawHint();
   showView(state.view);
   refresh();
 })();

@@ -1,5 +1,15 @@
 # Değişiklik günlüğü
 
+## 1.3.0 · Yeni not kartı
+
+- **Not kartı:** Sade, düz yazılı bir kart. Üç bölümü var: "Neydi" (çıkarılan kısımların üstü çizili), "Önerilen" (eklenen kelimeler kalın) ve "Başka seçenekler" (aynı cümlenin daha kısa, daha resmî ve daha sıcak hali). Karar "Kalsın", "Eskisine dön", bir seçeneğin yanındaki "Kullan" ya da "Kendim yazayım" ile verilir. Kartın üstünde değişiklikler arasında gezinme okları ve kalıbın adı var.
+- **Duyarlı yerleşim:** Geniş ekranda kart defterin sağında, cümlenin hizasında açılır ve kesik bir çizgiyle cümleye bağlanır. Ajanın içindeki tarayıcı gibi dar bir pencerede cümlenin altında, telefonda ekranın altından açılır. Dar pencerede küçük bir not, kartı yanda görmek için sayfayı tarayıcıda açmayı önerir.
+- **Kenar işaretleri ve ilerleme bandı:** Kenar boşluğunda her değişen satırın durumu görünür: bakılmadı, kalsın, eskisine döndü, senin yazdığın. Alttaki bant ilerlemeyi ve açık soruları gösterir, "Kalanları kabul et" düğmesi bakılmayanları bu haliyle onaylar.
+- **Sorular:** Köşeli parantezli yer tutucular metinde ve kartta turuncu görünür.
+- **Seçenekler notlarda:** Ajan inceleme notlarına her değişiklik için `alternatives` alanını yazar. Köprü açıksa ve seçenek yoksa kart üç hali ajandan ister, kullanıcı başka bir istek de yazabilir.
+- **Yazı tipleri:** Arayüzde el yazısı yazı tipi kalmadı, yalnızca başlıktaki logo el yazısı.
+- **Düzeltme (`scripts/review.py`):** Tamamen silinen ya da tamamen eklenen bir cümlenin karşı metindeki yeri yanlış hesaplanıyordu. Bu yüzden "[silindi]" işareti yanlış yere düşüyor, önündeki değişmemiş metin (örneğin selamlama) değişmiş gibi görünüyordu. Böyle bir cümle artık yanındaki boşluğu da götürüyor, değişiklik geri alınınca çift boşluk kalmıyor.
+
 ## 1.2.2 · Kurulum anlatımı
 
 - **Kurulum belgeleri:** README ve INSTALL.md artık `npx skills`'in gerçekte gösterdiği ekranları anlatıyor. Etkileşimli kurulumda Codex ve Gemini CLI her zaman dahil, Claude Code ise seçili gelmiyor. Belgeler onu nasıl işaretleyeceğini söylüyor. Hızlı başlangıç, üç ajana da soru sormadan kuran tek komutla açılıyor: `npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli`.

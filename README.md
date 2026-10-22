@@ -83,12 +83,19 @@ Skill önce iskeleti değiştirir, sonra boşalan yere Türkçenin kendi ritmini
 
 Önizlemeyi seçersen değişiklikler defter görünümlü bir sayfada açılıyor:
 - Metinde yalnızca değişen kelimeler işaretli: orta kalınlıkta, arkalarında çok hafif sarı bir fosforlu kalem. Silinen yerde küçük bir "[silindi]" notu duruyor.
-- Tıklayınca önceki hal, gerekçe ve seçenekler çıkıyor: eski ya da yeni hali seçebilir, "Başka öner" diyebilir, not ekleyebilirsin.
+- Bir cümleye tıklayınca not kartı açılıyor. Kartta üç bölüm var:
+  - **Neydi:** Cümlenin eski hali, çıkarılan kısımların üstü çizili.
+  - **Önerilen:** Yeni hali, eklenen kelimeler kalın.
+  - **Başka seçenekler:** Aynı cümlenin daha kısa, daha resmî ve daha sıcak hali.
 
-![İnceleme sayfası: değişen kelimeler orta kalınlıkta ve hafif sarı fosforlu, tıklayınca önceki hal ve seçenekler çıkıyor](assets/review-page.png)
+  "Kalsın", "Eskisine dön", beğendiğin seçeneğin yanındaki "Kullan" ya da "Kendim yazayım" ile karar verirsin. Kartın üstündeki oklarla değişiklikler arasında gezersin.
+- Kart geniş ekranda defterin sağında, cümlenin hizasında açılıyor. Ajanın içindeki tarayıcı gibi dar bir pencerede cümlenin altında, telefonda ekranın altından açılıyor.
+- Kenar boşluğundaki işaretler ve alttaki bant hangi değişikliğe baktığını, hangisini eskisine döndürdüğünü gösteriyor. Köşeli parantezle sorulan bilgiler turuncu ve sayılıyor.
+
+![İnceleme sayfası: metin defterde, not kartı sağda; kartta eski hali, önerilen hali ve daha kısa, daha resmî, daha sıcak seçenekleri](assets/review-page.png)
 
 **Sayfa ajanla konuşuyor.** Canlı açıldığında:
-- "Başka öner" kutusuna "daha resmî", "deyimle söyle" gibi bir istek yazarsan ajan iki üç seçenek getirir.
+- Kartın altındaki kutuya "daha samimi", "deyimle söyle" gibi bir istek yazarsan ajan iki üç seçenek daha getirir.
 - "Ajana gönder" kararlarını kopyala-yapıştıra gerek kalmadan sohbete yollar.
 
 Öneriler üç yoldan gelir, hangisinin kullanılacağını sayfanın ayarlarından seçersin:

@@ -12,7 +12,7 @@ description: >
   bir mesaj yapıştırdığında kullan. Metin İngilizceyse ya da yalnızca çeviri isteniyorsa kullanma.
 license: MIT
 metadata:
-  version: "1.2.2"
+  version: "1.3.0"
   gorunen-ad: "İnsanlık öldü mü?"
 compatibility: Dosya okuyabilen her ajan. Betikler için Python 3 gerekir, Python yoksa ölçümler elle yapılır.
 allowed-tools:
@@ -354,12 +354,15 @@ Varsayılan teslim biçimi aşağıda. Kullanıcı yalnız metni isterse yalnız
 Kullanıcı teslimden sonraki soruda "Önizle"yi seçtiyse, sayfayı kendisi istediyse ya da sonradan "önizle" yazdıysa etkileşimli bir inceleme sayfası üret. Bunun için Python çalıştırabilmen ve dosya yazabilmen gerekir.
 
 Sayfa tek bir HTML dosyası ve görünüşü bir defter sayfası:
-- Metinde yalnızca değişen kelimeler işaretli: orta kalınlıkta ve arkalarında çok hafif sarı bir fosforlu kalem. Silinen yerde küçük bir "[silindi]" notu duruyor.
-- Cümleye tıklayınca önceki hal ve gerekçe çıkıyor. Kullanıcı eski ya da yeni hali seçebiliyor, "Başka öner" diyebiliyor, not ekleyebiliyor.
+- Metinde yalnızca değişen kelimeler işaretli: orta kalınlıkta ve arkalarında çok hafif sarı bir fosforlu kalem. Silinen yerde küçük bir "[silindi]" notu duruyor. Köşeli parantezli sorular turuncu.
+- Cümleye tıklayınca bir not kartı açılıyor. Kart üç şeyi gösteriyor: "Neydi" (çıkarılan kısımların üstü çizili), "Önerilen" (eklenen kelimeler kalın) ve "Başka seçenekler" (aynı cümlenin daha kısa, daha resmî ve daha sıcak hali). Kullanıcı "Kalsın", "Eskisine dön", bir seçeneğin yanındaki "Kullan" ya da "Kendim yazayım" ile karar veriyor, not ekleyebiliyor.
+- Kart geniş ekranda defterin sağında, dar ekranda cümlenin altında, telefonda ekranın altından açılıyor. Kenar boşluğundaki işaretler ve alttaki bant hangi değişikliğe bakıldığını gösteriyor.
 - Kullanıcı kararlarını verip "Ajana gönder"e basıyor. Sayfa köprüsüz açıldıysa düğmenin adı "Geri bildirimi kopyala" olur ve kullanıcı metni sohbete yapıştırır.
 
 Sayfayı üretmek için iki adım var. Orijinal metin 1. adımda "before", nihai metin 4. adımda "after" adıyla saklandı. Ayrıca dosya yazman gerekmez.
-1. Gerekçeleri JSON olarak hazırla. Sayfa değişiklikleri cümle cümle böldüğü için **her değişen cümleye bir kayıt** aç. "before" ve "after" alanlarına cümleleri metinde geçtiği gibi, harfi harfine yaz. Kayıtları metindeki sırayla diz. Sayfa bu kayıtları çapa olarak kullanır, böylece ağır yeniden yazımda da her eski cümle kendi yenisiyle eşleşir. Silinen cümlede "after" boş kalır:
+1. Gerekçeleri JSON olarak hazırla. Sayfa değişiklikleri cümle cümle böldüğü için **her değişen cümleye bir kayıt** aç. "before" ve "after" alanlarına cümleleri metinde geçtiği gibi, harfi harfine yaz. Kayıtları metindeki sırayla diz. Sayfa bu kayıtları çapa olarak kullanır, böylece ağır yeniden yazımda da her eski cümle kendi yenisiyle eşleşir. Silinen cümlede "after" boş kalır.
+
+   Silinmeyen her cümleye "alternatives" alanında aynı cümlenin üç halini daha yaz: daha kısa, daha resmî ve daha sıcak. Kart bunları "Başka seçenekler" olarak gösterir, kullanıcı tek tıkla seçer. Seçenekler de aynı kurallara uyar: kaynakta olmayan bilgi girmez, iddianın gücü değişmez, yer tutucular yerinde kalır. Bir hal metnin türüne uymuyorsa (şartnamede "daha sıcak" gibi) onu yazma.
    ```json
    {
      "title": "LinkedIn duyurusu",
@@ -372,7 +375,12 @@ Sayfayı üretmek için iki adım var. Orijinal metin 1. adımda "before", nihai
        "approach": "Ekip jargonu Türkçeleşti, anons ve slogan kapanış çıktı."
      },
      "changes": [
-       {"before": "orijinaldeki cümle", "after": "yerine gelen cümle", "reason": "kısa gerekçe", "pattern": "R1"}
+       {"before": "orijinaldeki cümle", "after": "yerine gelen cümle", "reason": "kısa gerekçe", "pattern": "R1",
+        "alternatives": [
+          {"kind": "Daha kısa", "text": "cümlenin kısa hali"},
+          {"kind": "Daha resmî", "text": "cümlenin resmî hali"},
+          {"kind": "Daha sıcak", "text": "cümlenin sıcak hali"}
+        ]}
      ]
    }
    ```
@@ -390,7 +398,7 @@ Sayfayı üretmek için iki adım var. Orijinal metin 1. adımda "before", nihai
 ## Canlı inceleme
 
 `--live` ile açılan sayfada iki ek özellik var:
-- **Başka öner:** Kullanıcı "daha resmî", "daha kısa" gibi bir istek yazıp ajandan 2-3 seçenek ister.
+- **Başka seçenek iste:** Kullanıcı kartta "daha samimi", "deyimle" gibi bir istek yazıp ajandan 2-3 seçenek ister. Notlarda "alternatives" yoksa kart daha kısa, daha resmî ve daha sıcak halleri de bu yolla ister.
 - **Ajana gönder:** Kullanıcı kararlarını kopyala-yapıştır yerine doğrudan sana yollar.
 
 Köprü bir öneri isteğini üç yoldan biriyle cevaplatır. Kullanıcı yolu Ayarlar'dan seçer. "Otomatik" seçiliyse sıra şöyledir:
@@ -403,7 +411,7 @@ Sayfayı açtıktan ve teslimini yaptıktan sonra dinlemeye geç:
 python3 <skill-dizini>/scripts/bridge.py wait
 ```
 Komut bir olay gelene kadar (en çok 9 dakika) bekler ve olayı yazdırır:
-- **Öneri isteği:** Kurallara (bilgi sadakati, kalıplardan kaçınma, bağlama oturma) uyan 2-3 seçenek yaz ve yolla. Ardından yeniden `wait`.
+- **Öneri isteği:** Kurallara (bilgi sadakati, kalıplardan kaçınma, bağlama oturma) uyan 2-3 seçenek yaz ve yolla. İstek "Üç seçenek yaz, bu sırayla: daha kısa, daha resmî, daha sıcak." ise tam üç seçenek, o sırayla yaz: Kart onları bu sıraya göre adlandırır. Ardından yeniden `wait`.
   ```bash
   python3 <skill-dizini>/scripts/bridge.py reply --request 4 --suggestion "..." --suggestion "..." --suggestion "..."
   ```

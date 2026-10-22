@@ -318,7 +318,7 @@ def migrate_legacy_files():
 
 def write_config(agents, installs):
     config = {
-        "version": "1.2.2",
+        "version": "1.3.0",
         "skill_dir": SKILL_ROOT,
         "installs": installs,
         "agents": agents,

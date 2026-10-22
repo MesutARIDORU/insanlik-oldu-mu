@@ -120,6 +120,12 @@ Sayfa ve köprü İngilizce kardeşi [Still Human?](https://github.com/MesutARID
 
 Teslimde önce ve sonra değerleri yan yana durur.
 
+## Nasıl çalışıyor
+
+Skill'in beyni `SKILL.md`. Ajan metni beş adımda işler: tanımlar, teşhis eder, yazar, denetler ve teslim eder. Ölçümü ve tür ile alan rehberini `scripts/audit.py` verir, rehberler `references/` klasöründen gelir. Kullanıcı önizlemek isterse `scripts/review.py` inceleme sayfasını üretir, `scripts/bridge.py` de sayfayla ajan arasında yalnızca bu bilgisayarda çalışan bir köprü kurar. Sayfadan gelen öneri istekleri ve kararlar bu köprüden geçer, kararlar geri bildirim turuyla metne işlenir.
+
+![İnsanlık öldü mü? nasıl çalışır: sohbetteki beş adım, skill'in betikleri, inceleme sayfası, öneri motorları ve iki skill'in paylaştığı ortak defter](assets/architecture.png)
+
 ## Kurulum
 
 İnsanlık öldü mü? Claude Code, Codex ve Gemini CLI ile çalışır. Gerekenler: Node.js (`npx` için) ve Python 3.8 ya da daha yenisi. Betikler yalnız Python'un standart kütüphanesini kullanır, ek paket kurulmaz.

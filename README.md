@@ -89,8 +89,10 @@ Skill önce iskeleti değiştirir, sonra boşalan yere Türkçenin kendi ritmini
   - **Başka seçenekler:** Aynı cümlenin daha kısa, daha resmî ve daha sıcak hali.
 
   "Kalsın", "Eskisine dön", beğendiğin seçeneğin yanındaki "Kullan" ya da "Kendim yazayım" ile karar verirsin. Kartın üstündeki oklarla değişiklikler arasında gezersin.
-- Kart geniş ekranda defterin sağında, cümlenin hizasında açılıyor. Ajanın içindeki tarayıcı gibi dar bir pencerede cümlenin altında, telefonda ekranın altından açılıyor.
-- Kenar boşluğundaki işaretler ve alttaki bant hangi değişikliğe baktığını, hangisini eskisine döndürdüğünü gösteriyor. Köşeli parantezle sorulan bilgiler turuncu ve sayılıyor.
+- Kart geniş ekranda defterin sağında, üst hizada açılıyor ve sayfa kaydırılırken yerinde kalıyor. İnce kesik bir çizgi onu cümleye bağlıyor. Ajanın içindeki tarayıcı gibi dar bir pencerede kart cümlenin altında, telefonda ekranın altından açılıyor.
+- Kenar boşluğundaki işaretler ve kâğıdın son satırı hangi değişikliğe baktığını, hangisini eskisine döndürdüğünü gösteriyor. Köşeli parantezle sorulan bilgiler turuncu ve sayılıyor. "1 soru açık" yazısına tıklayınca sıradaki soruya gidiyorsun.
+- Değişen bir kısmın üstüne gelince başında küçük oklar çıkıyor. Oklarla önerilen hal, daha kısa, daha resmî, daha sıcak ve eski hal arasında metnin içinde gezersin. Seçeneğin adı okların yanında kısa süre görünür.
+- Başlığın yanındaki göz düğmesi ya da `p` tuşu kararların uygulanmış son halini tertemiz gösterir. Orada da değişen kısmın üstüne gelince aynı oklar çıkar.
 
 ![İnceleme sayfası: metin defterde, not kartı sağda; kartta eski hali, önerilen hali ve daha kısa, daha resmî, daha sıcak seçenekleri](assets/review-page.png)
 

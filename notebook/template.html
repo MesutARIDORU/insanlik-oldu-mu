@@ -50,13 +50,13 @@
 }
 * { box-sizing: border-box; }
 html { background: var(--desk); }
-body { margin: 0; color: var(--ink); font: 17px/1.5 var(--content-font); padding: 18px 16px 90px; }
+body { margin: 0; color: var(--ink); font: 17px/1.5 var(--content-font); padding: 18px 16px 24px; }
 button, select, textarea, input { font: inherit; color: inherit; }
 
 /* ------------------------------------------------------------------ page */
 .page {
-  position: relative; max-width: 1180px; margin: 0 auto; min-height: calc(100vh - 140px);
-  background-color: var(--page); padding: 26px 48px 64px 118px;
+  position: relative; max-width: 1180px; margin: 0 auto; min-height: calc(100vh - 42px);
+  background-color: var(--page); padding: 26px 48px 88px 118px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, .06), 0 8px 22px rgba(70, 50, 20, .13);
   border-radius: 2px 2px 2px 2px;
   background-image: var(--margin-svg), repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--rule) 31px, var(--rule) 32px);
@@ -87,13 +87,23 @@ button, select, textarea, input { font: inherit; color: inherit; }
 .shadow.right { right: 14px; transform: rotate(2.2deg); }
 
 /* ------------------------------------------------------------------ header */
-header.top { margin-bottom: 26px; }
+header.top { margin-bottom: 4px; }
+/* a highlighter stroke between the skill's notes in the header and the text itself; it fills one ruled band */
+:root { --highlighter: rgba(255, 228, 0, .7); --highlighter-dense: rgba(250, 205, 0, .4); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --highlighter: rgba(255, 226, 80, .5); --highlighter-dense: rgba(255, 210, 60, .3); } }
+:root[data-theme="dark"] { --highlighter: rgba(255, 226, 80, .5); --highlighter-dense: rgba(255, 210, 60, .3); }
+.divider { max-width: 780px; }
+.divider svg { display: block; width: 100%; height: 32px; overflow: visible; mix-blend-mode: multiply; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .divider svg { mix-blend-mode: normal; } }
+:root[data-theme="dark"] .divider svg { mix-blend-mode: normal; }
+.divider .divider-ink { fill: var(--highlighter); }
+.divider .divider-dense { fill: var(--highlighter-dense); }
 .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .menus { display: flex; gap: 4px; padding-top: 4px; }
 /* plain, borderless icons in faint ink */
 .icon-button { border: 0; background: none; padding: 6px; cursor: pointer; color: var(--blue); opacity: .45; border-radius: 50%; transition: opacity .15s, transform .15s; line-height: 0; }
 .icon-button svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.icon-button:hover, .icon-button:focus-visible, .icon-button[aria-expanded="true"] { opacity: 1; }
+.icon-button:hover, .icon-button:focus-visible, .icon-button[aria-expanded="true"], .icon-button[aria-pressed="true"] { opacity: 1; }
 .icon-button:hover { transform: rotate(-8deg); }
 #open-settings:hover { transform: rotate(30deg); }
 .icon-button:focus-visible { outline: 2px solid var(--highlight); outline-offset: 1px; }
@@ -240,6 +250,10 @@ header.top { margin-bottom: 26px; }
 .sticky-note.sheet { position: fixed; left: 0; right: 0; bottom: 0; top: auto !important; width: auto; max-width: none; max-height: 72vh; overflow: auto;
   border-radius: 14px 14px 0 0; padding: 18px 16px 20px; box-shadow: 0 -10px 30px -10px rgba(0, 0, 0, .35); z-index: 60; }
 .sticky-note.sheet::before { top: 7px; width: 44px; height: 5px; border-radius: 3px; transform: translateX(-50%); background: rgba(45, 42, 36, .22); }
+/* beside the page the card stays at the top of the window; a card taller than the room scrolls inside */
+.sticky-note.side { position: fixed; }
+.sticky-note.side.tall { overflow: auto; overscroll-behavior: contain; }
+.sticky-note.side.tall::before { display: none; }
 .sticky-note .head { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--note-soft); margin: 0 26px 10px 0; min-width: 0; }
 .sticky-note .nav { display: inline-flex; align-items: center; white-space: nowrap; color: var(--sticky-ink); }
 .sticky-note .nav button { border: 0; background: none; font: 18px/1 var(--ui-font); color: var(--sticky-ink); cursor: pointer; padding: 0 6px 2px; }
@@ -247,10 +261,14 @@ header.top { margin-bottom: 26px; }
 .sticky-note .pattern { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sticky-note .close { position: absolute; top: 10px; right: 10px; border: 0; background: none; font-size: 19px; line-height: 1; cursor: pointer; color: var(--note-soft); padding: 2px 4px; }
 .sticky-note .close:hover { color: var(--sticky-ink); }
-.sticky-note .cap { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--note-soft); margin-bottom: 2px; }
+.sticky-note .cap { display: block; font: 600 13px/1.4 var(--ui-font); color: rgba(45, 42, 36, .8); margin-bottom: 2px; }
 .sticky-note .was, .sticky-note .now, .sticky-note .mine { white-space: pre-wrap; overflow-wrap: anywhere; }
-.sticky-note .was { color: rgba(45, 42, 36, .72); margin: 0 0 12px; max-height: 10.5em; overflow: auto; }
-.sticky-note .was s { color: #b0241a; text-decoration-color: rgba(200, 55, 43, .7); text-decoration-thickness: 1.5px; }
+/* the original is written in red pen */
+.sticky-note .was { color: rgba(180, 35, 24, .78); margin: 0 0 12px; max-height: 10.5em; overflow: auto; }
+/* the removed words are crossed out with a see-through red marker that runs behind the letters, so they stay readable */
+.sticky-note .was s { color: #b42318; text-decoration: none;
+  background-image: linear-gradient(to bottom, transparent 52%, rgba(214, 58, 44, .15) 52%, rgba(214, 58, 44, .15) 64%, transparent 64%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .sticky-note .now { margin: 0; font-size: 16px; max-height: 12em; overflow: auto; }
 .sticky-note .now b { font-weight: 600; }
 .sticky-note .q { color: #a64a12; font-weight: 500; }
@@ -279,6 +297,23 @@ header.top { margin-bottom: 26px; }
 .sticky-note .suggest-wait { color: var(--note-soft); font-size: 13px; display: flex; align-items: center; gap: 7px; margin: 6px 0 0; }
 .sticky-note .suggest-wait::before { content: ""; width: 11px; height: 11px; border-radius: 50%; border: 2px solid rgba(44, 95, 201, .25); border-top-color: #2c5fc9; animation: spin .9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* arrows above the start of the part under the pointer: step through its versions in place; the version's name shows beside them for a moment.
+   The start of a part never moves when its text changes, so the arrows stay under the pointer; they float, so no word moves either.
+   A thin stem joins them to the first word, high enough that the pointer on them leaves the sentence in view;
+   the stem is also the pointer's path up, so it never crosses another change on the way */
+.cycler { position: absolute; z-index: 37; display: flex; flex-direction: column; align-items: center; animation: cycler-in .15s ease; }
+.cycler[hidden] { display: none; }
+.cycler .capsule { display: inline-flex; gap: 1px; padding: 1px 2px; border-radius: 999px; white-space: nowrap;
+  background: var(--page); box-shadow: 0 1px 4px rgba(0, 0, 0, .16); }
+.cycler .stem { position: relative; width: 22px; height: 22px; }
+.cycler .stem::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 2px; border-left: 1.5px solid var(--blue); opacity: .45; }
+.cycler button { border: 0; background: none; padding: 1px 5px; font: 600 14px/1 var(--ui-font); color: var(--blue); cursor: pointer; border-radius: 999px; opacity: .7; }
+.cycler button:hover, .cycler button:focus-visible { opacity: 1; background: var(--tint-blue); outline: none; }
+@keyframes cycler-in { from { opacity: 0; } }
+.cycle-label { position: absolute; z-index: 38; padding: 0 8px; border-radius: 999px; background: var(--ink); color: var(--page); font: 500 12px/18px var(--ui-font);
+  white-space: nowrap; pointer-events: none; opacity: 0; transform: translateX(-3px); transition: opacity .25s ease, transform .25s ease; }
+.cycle-label.show { opacity: .88; transform: none; }
+@media (prefers-reduced-motion: reduce) { .cycle-label { transition: none; } .cycler { animation: none; } }
 .sticky-note .suggest-error { color: #b5281c; font-size: 13px; margin-top: 6px; }
 .sticky-note input[type="text"], .sticky-note textarea { width: 100%; font: 14px/1.45 var(--ui-font); color: #2a2620; background: rgba(255, 255, 255, .6);
   border: 1.5px solid rgba(45, 42, 36, .3); border-radius: 8px; padding: 6px 10px; resize: vertical; min-height: 0; }
@@ -288,10 +323,12 @@ header.top { margin-bottom: 26px; }
 .sticky-note .small-link { border: 0; background: none; padding: 0; font: 12.5px var(--ui-font); color: var(--note-soft); cursor: pointer; }
 .sticky-note .small-link:hover { color: var(--sticky-ink); }
 .sticky-note .note-input { margin-top: 10px; }
-/* a dashed line from the sentence to the card beside the page */
-.leader { position: absolute; z-index: 39; height: 0; border-top: 1.5px dashed var(--pencil); opacity: .6; pointer-events: none; }
-.leader::before { content: ""; position: absolute; left: -4px; top: -4.5px; width: 7px; height: 7px; border-radius: 50%; background: var(--pencil); }
+/* a dashed line from the sentence to the card beside the page: out to the gap, then up or down to the card */
+.leader { position: fixed; inset: 0; z-index: 39; pointer-events: none; }
 .leader[hidden] { display: none; }
+.leader svg { width: 100%; height: 100%; overflow: visible; }
+.leader path { fill: none; stroke: var(--pencil); stroke-width: 1.5; stroke-dasharray: 4 4; stroke-linejoin: round; opacity: .6; }
+.leader circle { fill: var(--pencil); opacity: .6; }
 
 textarea, input[type="text"] { width: 100%; background: var(--page); border: 1.5px solid var(--ink); border-radius: 8px; padding: 8px 12px; resize: vertical; font: 16px/1.5 var(--content-font); }
 textarea { min-height: 72px; }
@@ -317,32 +354,34 @@ select { font: 14px var(--ui-font); background: transparent; border: 1.5px solid
 .shortcuts summary { cursor: pointer; font-family: var(--ui-font); }
 kbd { font: 12.5px var(--ui-font); border: 1px solid var(--pencil); border-radius: 4px; padding: 0 5px; }
 
-/* ------------------------------------------------------------------ plain feedback card in the corner */
-.dock {
-  position: fixed; right: 18px; bottom: 16px; z-index: 30; display: flex; align-items: center; gap: 8px;
-  padding: 5px 6px 5px 14px; background: var(--card); border: 1px solid rgba(120, 110, 95, .18); border-radius: 999px;
-  box-shadow: 0 4px 14px -6px rgba(0, 0, 0, .25); font: 14px/1.2 var(--content-font); color: var(--pencil);
+/* ------------------------------------------------------------------ the page's last line: progress, questions, sending */
+.page-foot {
+  position: absolute; left: 118px; bottom: 16px; width: min(780px, calc(100% - 182px));
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 18px; font: 14.5px/32px var(--content-font); color: var(--pencil);
 }
 .progress { white-space: nowrap; font-variant-numeric: tabular-nums; }
-.segs { display: flex; gap: 3px; width: 150px; }
+.segs { display: flex; gap: 3px; width: 150px; align-self: center; }
 .segs i { flex: 1; height: 6px; border-radius: 3px; background: rgba(120, 110, 95, .22); }
 .segs i.ok { background: var(--green); } .segs i.back { background: var(--red); } .segs i.own { background: var(--blue); } .segs i.now { background: var(--ink); }
-.questions { color: var(--orange); white-space: nowrap; }
+.questions { border: 0; background: none; padding: 0; font: inherit; color: var(--orange); cursor: pointer; white-space: nowrap; }
+.questions:hover, .questions:focus-visible { text-decoration: underline; text-underline-offset: 3px; outline: none; }
 .questions[hidden] { display: none; }
-.dock .accept-rest { border: 1px solid rgba(120, 110, 95, .35); background: none; color: var(--ink); font: 13.5px var(--ui-font); padding: 4px 10px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
-.dock .accept-rest:hover { background: var(--tint-grey); }
-.dock .accept-rest[hidden] { display: none; }
-.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--grey); flex: none; }
+.page-foot .accept-rest { border: 0; background: none; padding: 0; font: inherit; color: var(--ink); cursor: pointer; white-space: nowrap;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(120, 110, 95, .45); }
+.page-foot .accept-rest:hover { text-decoration-color: currentColor; }
+.page-foot .accept-rest[hidden] { display: none; }
+.text .q.flash { background: var(--highlight); border-radius: 3px; transition: background-color .3s; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--grey); flex: none; align-self: center; }
 .live-dot.on { background: var(--green); box-shadow: 0 0 0 3px var(--tint-green); }
 .box:disabled { opacity: .35; cursor: not-allowed; transform: none; box-shadow: none; }
 .send-button { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; color: var(--blue); font: 14.5px/1.2 var(--content-font);
-  padding: 5px 10px; border-radius: 999px; cursor: pointer; opacity: .8; transition: opacity .15s, background-color .15s; white-space: nowrap; }
+  margin-left: auto; padding: 5px 10px; border-radius: 999px; cursor: pointer; opacity: .8; transition: opacity .15s, background-color .15s; white-space: nowrap; }
 .send-button:hover, .send-button:focus-visible { opacity: 1; background: var(--tint-blue); }
 .send-button:focus-visible { outline: 2px solid var(--highlight); outline-offset: 1px; }
 .send-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ------------------------------------------------------------------ toast and preview dialog */
-#toast { position: fixed; left: 50%; bottom: 86px; transform: translateX(-50%) rotate(1deg) translateY(10px); background: var(--sticky); color: var(--sticky-ink);
+#toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) rotate(1deg) translateY(10px); background: var(--sticky); color: var(--sticky-ink);
   padding: 10px 16px; font: 16px var(--content-font); opacity: 0; pointer-events: none; transition: .2s; z-index: 50; box-shadow: 0 10px 18px -8px rgba(0, 0, 0, .35); }
 #toast.show { opacity: 1; transform: translateX(-50%) rotate(1deg) translateY(0); }
 dialog { border: 0; background: var(--page); color: var(--ink); width: min(720px, calc(100vw - 32px)); padding: 26px 22px 18px; box-shadow: 0 20px 40px rgba(0, 0, 0, .3); font-family: var(--content-font); }
@@ -352,20 +391,25 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
 
 /* ------------------------------------------------------------------ narrow screens */
 @media (max-width: 720px) {
-  body { padding: 10px 8px 120px; }
-  .page { padding: 18px 14px 56px 44px; background-position: 22px 0, 0 0; }
+  body { padding: 10px 8px 16px; }
+  .page { padding: 18px 14px 88px 44px; background-position: 22px 0, 0 0; min-height: calc(100vh - 26px); }
   .page[data-paper="grid"] { background-position: 22px 0, 0 0, 0 0; }
   .page[data-paper="plain"] { background-position: 22px 0; }
   .holes { display: none; }
   .product { font-size: 30px; }
   .menus { gap: 6px; padding-top: 2px; }
   .panel { left: 10px; right: 10px; width: auto; top: 64px; }
-  .dock { right: 10px; bottom: 12px; }
-  .progress, .segs, .dock .accept-rest { display: none; }
+  .page-foot { left: 44px; width: calc(100% - 44px - 52px); gap: 0 14px; }
+  .segs { display: none; }
   .marks { display: none; }
   .text { font-size: calc(var(--content-size) - 1.5px); }
 }
-@media print { .dock, .menus, .panel, .sticky-note, .leader, .marks, .wide-hint { display: none !important; } body { padding-bottom: 0; } }
+/* the final text: the decisions applied and nothing else on the paper */
+#view-clean[hidden] { display: none; }
+:root.clean .clean-part:hover, :root.clean .clean-part.hover { background: var(--highlight-soft); border-radius: 3px; }
+:root.clean #view-text, :root.clean #view-diff, :root.clean #view-table, :root.clean #view-measure, :root.clean .marks, :root.clean .profile,
+:root.clean .wide-hint, :root.clean .page-foot, :root.clean #open-edit, :root.clean #open-settings { display: none !important; }
+@media print { .cycler, .cycle-label, .page-foot, .menus, .panel, .sticky-note, .leader, .marks, .wide-hint { display: none !important; } body { padding-bottom: 0; } }
 </style>
 </head>
 <body>
@@ -378,6 +422,9 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     <div class="title-row">
       <h1 class="product"><svg class="skull" viewBox="0 0 48 52" aria-hidden="true"><path class="skull-head" d="M24 4.5 C12.5 4 5.2 12.2 6.1 23.2 C6.6 29.1 9.1 32.3 12.2 34.1 L12.6 40.2 C13 42.3 14.9 43.4 17.1 43.3 L31.2 43.1 C33.2 43 35 41.9 35.4 39.9 L35.9 34 C39.1 32 41.7 28.8 42 22.7 C42.6 11.6 35.6 4.9 24 4.5 Z"/><path class="skull-head echo" d="M23.6 5.6 C13.4 5.4 6.6 13 7.2 23.4 C7.8 28.6 10.3 31.5 13 33.3"/><path class="skull-fill" d="M12.4 22.6 C12.6 19.3 15 17.6 17.6 17.9 C20.4 18.3 21.9 20.6 21.5 23.6 C21.1 26.4 19 28 16.6 27.7 C14.1 27.4 12.2 25.4 12.4 22.6 Z M26.6 23.3 C26.4 20.4 28.4 18 31.1 17.9 C33.8 17.9 35.7 20 35.6 22.8 C35.5 25.7 33.5 27.8 30.9 27.8 C28.4 27.7 26.8 25.9 26.6 23.3 Z M24.1 29.4 L21.6 34.2 L26.7 34.1 Z"/><path class="skull-teeth" d="M19.3 37.6 L19.1 43 M24.1 37.9 L24.2 43.2 M28.9 37.5 L29.1 42.9"/></svg>__PRODUCT_TITLE_HTML__</h1>
       <div class="menus">
+        <button class="icon-button" id="toggle-clean" type="button" aria-pressed="false" aria-label="{{menu.preview}}" title="{{menu.preview}}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg>
+        </button>
         <button class="icon-button" id="open-edit" type="button" aria-expanded="false" aria-controls="panel-edit" aria-label="{{menu.edit}}" title="{{menu.edit}}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 4.6 C16.3 3.7 17.6 3.8 18.6 4.8 L19.3 5.5 C20.2 6.4 20.3 7.7 19.4 8.6 L9.2 18.8 L4.3 19.8 L5.2 14.9 Z"/><path d="M13.6 6.5 L17.5 10.4"/></svg>
         </button>
@@ -389,11 +436,13 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     <svg class="underline-squiggle" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 8 C 60 2, 110 11, 165 6 S 250 3, 297 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
     <div class="profile" id="profile" hidden></div>
     <p class="wide-hint" id="wide-hint" hidden>{{hint.narrow}}<button type="button" id="copy-address">{{hint.copy_address}}</button><button type="button" class="x" id="hide-hint" aria-label="{{hint.hide}}">×</button></p>
+    <div class="divider" id="divider" aria-hidden="true"><svg viewBox="0 0 780 32" preserveAspectRatio="none"><defs><filter id="divider-rough" x="-1%" y="-60%" width="102%" height="220%"><feTurbulence type="fractalNoise" baseFrequency="0.045 0.8" numOctaves="2" seed="11" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.6" xChannelSelector="R" yChannelSelector="G"/></filter></defs><g filter="url(#divider-rough)"><path class="divider-ink" d="M8 17.6 C 150 17.1, 310 17.9, 470 17.4 S 700 17.0, 773 17.5 L 771 21.0 C 640 21.3, 470 20.8, 320 21.2 S 95 21.4, 6 21.1 Z"/><path class="divider-dense" d="M8 17.6 L 30 17.5 L 28 21.1 L 6 21.1 Z M 748 17.3 L 773 17.5 L 771 21.0 L 746 21.1 Z"/></g></svg></div>
   </header>
   <div class="marks" id="marks"></div>
 
   <article class="text" id="view-text"></article>
   <article class="text" id="view-diff" hidden></article>
+  <article class="text" id="view-clean" hidden></article>
   <div id="view-table" hidden>
     <div class="table-wrap">
       <table>
@@ -496,22 +545,21 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
       <p class="setting-note" id="meta"></p>
     </div>
   </div>
-</div>
-
-<div class="dock" role="region" aria-label="{{dock.label}}">
-  <span class="live-dot" id="live-dot" hidden></span>
-  <span class="progress" id="progress-text"></span>
-  <span class="segs" id="segs" aria-hidden="true"></span>
-  <span class="questions" id="questions" hidden></span>
-  <button class="accept-rest" id="accept-rest" type="button" hidden>{{dock.accept_rest}}</button>
-  <button class="send-button" id="send-feedback" type="button">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6M9.2 3.3h5.6c.6 0 1 .4 1 1v1.4c0 .6-.4 1-1 1H9.2c-.6 0-1-.4-1-1V4.3c0-.6.4-1 1-1Z"/><path d="M15.8 5h1.4c1.1 0 2 .9 2 2v12.2c0 1.1-.9 2-2 2H6.8c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h1.4"/><path d="M8.6 12.4h6.8M8.6 16h4.6"/></svg>
-    <span>{{dock.copy_feedback}}</span>
-  </button>
+  <footer class="page-foot" id="page-foot" aria-label="{{dock.label}}">
+    <span class="live-dot" id="live-dot" hidden></span>
+    <span class="progress" id="progress-text"></span>
+    <span class="segs" id="segs" aria-hidden="true"></span>
+    <button class="questions" id="questions" type="button" title="{{dock.next_question}}" hidden></button>
+    <button class="accept-rest" id="accept-rest" type="button" hidden>{{dock.accept_rest}}</button>
+    <button class="send-button" id="send-feedback" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6M9.2 3.3h5.6c.6 0 1 .4 1 1v1.4c0 .6-.4 1-1 1H9.2c-.6 0-1-.4-1-1V4.3c0-.6.4-1 1-1Z"/><path d="M15.8 5h1.4c1.1 0 2 .9 2 2v12.2c0 1.1-.9 2-2 2H6.8c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h1.4"/><path d="M8.6 12.4h6.8M8.6 16h4.6"/></svg>
+      <span>{{dock.copy_feedback}}</span>
+    </button>
+  </footer>
 </div>
 
 <div class="sticky-note" id="note" role="dialog" aria-label="{{card.label}}" hidden></div>
-<div class="leader" id="leader" hidden></div>
+<div class="leader" id="leader" hidden><svg aria-hidden="true"><path id="leader-path"/><circle id="leader-dot" r="3.5"/></svg></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <dialog id="preview-dialog">
   <p style="margin:0 0 10px" id="preview-title"></p>
@@ -596,17 +644,20 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     if (d.k === "custom") return d.text != null ? d.text : s.i;
     return s.i;
   }
+  // what piece n contributes to the final text
+  function shownText(n) {
+    var s = S[n];
+    if (s.t === "eq") return s.x;
+    var m = applied(s), next = S[n + 1];
+    // if the user wrote the sentence with its period and the unchanged part already has one, don't double it
+    if (decision(s.id).k === "custom" && next && next.t === "eq") {
+      var last = m.replace(/\s+$/, "").slice(-1);
+      if (last && ".,;:!?".indexOf(last) >= 0 && next.x.charAt(0) === last) m = m.replace(/\s*[.,;:!?]\s*$/, "");
+    }
+    return m;
+  }
   function resultText() {
-    return S.map(function (s, n) {
-      if (s.t === "eq") return s.x;
-      var m = applied(s), next = S[n + 1];
-      // if the user wrote the sentence with its period and the unchanged part already has one, don't double it
-      if (decision(s.id).k === "custom" && next && next.t === "eq") {
-        var last = m.replace(/\s+$/, "").slice(-1);
-        if (last && ".,;:!?".indexOf(last) >= 0 && next.x.charAt(0) === last) m = m.replace(/\s*[.,;:!?]\s*$/, "");
-      }
-      return m;
-    }).join("");
+    return S.map(function (s, n) { return shownText(n); }).join("");
   }
   function context(id, length) {
     var u = length || 36, before = "", after = "";
@@ -743,6 +794,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     if (ws[2]) textView.appendChild(document.createTextNode(ws[2]));
     textChunks[s.id] = { el: span, head: ws[0], tail: ws[2], lineStart: lineStart && !ws[0] };
   });
+  markQuestions(textView);  // questions in the unchanged text; the parts are still empty here and mark their own
   function drawTextChunk(s) {
     var c = textChunks[s.id], d = decision(s.id), m = applied(s);
     if (d.k !== "custom") {
@@ -938,7 +990,8 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   }
   // other options as whole sentences: from the agent's notes (shorter, more formal, warmer) and, with the bridge, on request
   var USUAL_KINDS = msg("card.usual_kinds");
-  function alternativesArea(id, n) {
+  // the other versions of a part: from the agent's notes and, with the bridge, from the user's requests
+  function alternatives(id, n) {
     var list = [];
     ((n && n.alternatives) || []).forEach(function (a) {
       if (a && typeof a === "object" && a.text) list.push({ kind: a.kind || "", text: String(a.text).trim() });
@@ -946,6 +999,10 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     });
     var st = suggestions[id] || {};
     if (st.status === "ready") st.list.forEach(function (t, k) { list.push({ kind: (st.kinds && st.kinds[k]) || msg("card.suggestion"), text: String(t).trim() }); });
+    return list;
+  }
+  function alternativesArea(id, n) {
+    var list = alternatives(id, n), st = suggestions[id] || {};
     if (!list.length && !LIVE) return null;
     var box = el("div", "more"), d = decision(id);
     box.appendChild(el("span", "cap", msg("card.options")));
@@ -1027,7 +1084,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   }
 
   // where the card goes: beside the page when there is room, under the sentence when not, from the bottom on phones
-  var leader = $("leader"), CARD_W = 440, SIDE_GAP = 28;
+  var leader = $("leader"), CARD_W = 440, SIDE_GAP = 28, BOTTOM_ROOM = 16;
   function layoutMode() {
     var vw = document.documentElement.clientWidth;
     if (vw <= 640) return "sheet";
@@ -1041,9 +1098,11 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     if (!rs.length) return;
     var mode = layoutMode();
     note.classList.toggle("sheet", mode === "sheet");
+    note.classList.toggle("side", mode === "side");
     leader.hidden = mode !== "side";
+    if (mode !== "side") { note.style.maxHeight = ""; note.classList.remove("tall"); }
     var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
-    var dock = document.querySelector(".dock").offsetHeight + 24;
+    var dock = BOTTOM_ROOM;
     if (mode === "sheet") {
       note.style.left = ""; note.style.top = "";
       // keep the sentence visible above the sheet; a short page gets room to scroll while the sheet is open
@@ -1054,18 +1113,15 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     }
     var nw = note.offsetWidth, nh = note.offsetHeight;
     if (mode === "side") {
-      var x = $("page").getBoundingClientRect().right + SIDE_GAP;
-      // level with the sentence; moved up only as far as needed to stay on screen
-      var y = rs[0].top - 18;
-      if (y + nh > vh - dock) y = Math.max(12, vh - dock - nh);
-      note.style.left = Math.round(x + window.scrollX) + "px";
-      note.style.top = Math.round(y + window.scrollY) + "px";
-      var right = 0;
-      for (var k = 0; k < rs.length; k++) right = Math.max(right, rs[k].right);
-      var lineY = Math.min(Math.max(rs[0].top + rs[0].height / 2, y + 20), y + nh - 20);
-      leader.style.left = Math.round(right + 8 + window.scrollX) + "px";
-      leader.style.width = Math.max(0, Math.round(x - right - 12)) + "px";
-      leader.style.top = Math.round(lineY + window.scrollY) + "px";
+      var pageBox = $("page").getBoundingClientRect(), x = pageBox.right + SIDE_GAP;
+      // at the top: level with the page's top edge, then stuck to the top of the window once the page scrolls up
+      var y = Math.max(16, pageBox.top), room = vh - y - dock;
+      note.style.left = Math.round(x) + "px";
+      note.style.top = Math.round(y) + "px";
+      note.style.maxHeight = Math.round(room) + "px";
+      note.classList.remove("tall");
+      note.classList.toggle("tall", note.scrollHeight > note.clientHeight + 1);
+      drawLeader(rs, x, y, note.offsetHeight);
       return;
     }
     var c = anchor || { line: 0, dx: 0 };
@@ -1081,11 +1137,124 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     note.style.top = Math.round(y2 + window.scrollY) + "px";
   }
 
+  // ------------------------------------------------ versions in place: arrows at the end of the open part
+  // the order: the suggestion, its other versions, the user's own text if it is none of these, the original
+  function versions(id) {
+    var s = findChange(id), n = s.note != null ? NOTES[s.note] : null, d = decision(id);
+    var list = [{ kind: msg("card.suggested"), k: "accept" }];
+    alternatives(id, n).forEach(function (a) { list.push({ kind: a.kind || msg("card.suggestion"), k: "custom", text: a.text }); });
+    var own = d.k === "custom" && d.text != null ? d.text.trim() : null;
+    if (own != null && !list.some(function (v) { return v.text === own; })) list.push({ kind: msg("card.yours"), k: "custom", text: d.text });
+    list.push({ kind: msg("cycle.original"), k: "revert" });
+    return list;
+  }
+  function currentVersion(id, list) {
+    var d = decision(id);
+    for (var i = 0; i < list.length; i++) {
+      var v = list[i];
+      if (v.k === d.k && (v.k !== "custom" || (d.text || "").trim() === (v.text || "").trim())) return i;
+    }
+    return 0;
+  }
+  var cycler = el("span", "cycler"), capsule = el("span", "capsule"), cycleLabel = el("span", "cycle-label"), cyclerId = null, cyclerT = null;
+  cycler.appendChild(capsule); cycler.appendChild(el("span", "stem"));
+  cycler.hidden = true;
+  cycleLabel.setAttribute("aria-live", "polite");
+  document.body.appendChild(cycler);
+  document.body.appendChild(cycleLabel);
+  [["‹", -1, "cycle.previous"], ["›", 1, "cycle.next"]].forEach(function (b) {
+    var button = el("button", "", b[0]); button.type = "button"; button.setAttribute("aria-label", msg(b[2])); button.title = msg(b[2]);
+    button.addEventListener("click", function (e) { e.stopPropagation(); if (cyclerId != null) cycle(cyclerId, b[1]); });
+    capsule.appendChild(button);
+  });
+  cycler.addEventListener("click", function (e) { e.stopPropagation(); });
+  // the part the arrows belong to: in the marked view or in the preview
+  function partEl(id) {
+    if (clean) return cleanParts[id] || null;
+    return state.view === "text" && textChunks[id] ? textChunks[id].el : null;
+  }
+  // the arrows stand above the first word of the part; the stem's foot overlaps the word's top so the pointer never leaves the two
+  function showCycler(id) {
+    clearTimeout(cyclerT);
+    var p = partEl(id), rs = p ? p.getClientRects() : [];
+    var first = null;
+    for (var k = 0; k < rs.length && !first; k++) if (rs[k].width) first = rs[k];
+    if (!first) {
+      if (cyclerId === id && !cycler.hidden) return;  // the part just went empty: the arrows stay where they were
+      hideCycler(); return;
+    }
+    cyclerId = id;
+    document.querySelectorAll(".clean-part.hover").forEach(function (x) { x.classList.remove("hover"); });
+    if (clean) p.classList.add("hover");
+    cycler.hidden = false;
+    cycler.style.left = Math.round(Math.max(4, first.left + 5 - cycler.offsetWidth / 2) + window.scrollX) + "px";
+    cycler.style.top = Math.round(first.top + 4 - cycler.offsetHeight + window.scrollY) + "px";
+  }
+  function hideCycler() {
+    clearTimeout(cyclerT);
+    cycler.hidden = true; cyclerId = null;
+    document.querySelectorAll(".clean-part.hover").forEach(function (x) { x.classList.remove("hover"); });
+  }
+  function hideCyclerSoon() { clearTimeout(cyclerT); cyclerT = setTimeout(hideCycler, 450); }
+  function hoverParts(view, selector, key) {
+    view.addEventListener("mouseover", function (e) {
+      var p = e.target.closest && e.target.closest(selector);
+      if (p) showCycler(+p.dataset[key]); else hideCyclerSoon();
+    });
+    view.addEventListener("mouseleave", hideCyclerSoon);
+  }
+  cycler.addEventListener("mouseenter", function () { clearTimeout(cyclerT); });
+  cycler.addEventListener("mouseleave", hideCyclerSoon);
+  function cycle(id, direction) {
+    var list = versions(id), i = (currentVersion(id, list) + direction + list.length) % list.length, v = list[i];
+    setDecision(id, v.k === "custom" ? { k: "custom", text: v.text } : { k: v.k });
+    markSeen(id); writeOwn[id] = false;
+    refresh(id);
+    if (noteId === id) { drawNote(id); position(); }
+    if (clean) drawClean();
+    showCycler(id);
+    showCycleLabel(v.kind);
+  }
+  var cycleLabelT = null;
+  function showCycleLabel(text) {
+    var r = capsule.getBoundingClientRect();
+    cycleLabel.textContent = text;
+    cycleLabel.classList.remove("show");
+    cycleLabel.style.left = Math.round(r.right + 6 + window.scrollX) + "px";
+    cycleLabel.style.top = Math.round(r.top + r.height / 2 - cycleLabel.offsetHeight / 2 + window.scrollY) + "px";
+    void cycleLabel.offsetWidth;  // restart the fade when the arrows are pressed again quickly
+    cycleLabel.classList.add("show");
+    clearTimeout(cycleLabelT);
+    cycleLabelT = setTimeout(function () { cycleLabel.classList.remove("show"); }, 1300);
+  }
+
+  // the dashed line: from the end of the sentence out to the gap beside the page, then along the gap to the card
+  var leaderPath = $("leader-path"), leaderDot = $("leader-dot");
+  function drawLeader(rs, cardX, cardY, cardH) {
+    var vh = document.documentElement.clientHeight;
+    var right = 0;
+    for (var k = 0; k < rs.length; k++) right = Math.max(right, rs[k].right);
+    var y0 = Math.round(rs[0].top + rs[0].height / 2);
+    if (y0 < 0 || y0 > vh) { leader.hidden = true; return; }  // the sentence is scrolled out of sight
+    var sx = Math.round(right + 8), gx = Math.round(cardX - 14);
+    var ay = Math.round(Math.min(Math.max(y0, cardY + 22), cardY + cardH - 22));
+    leaderPath.setAttribute("d", "M" + sx + " " + y0 + " H" + gx + (ay !== y0 ? " V" + ay : "") + " H" + Math.round(cardX - 2));
+    leaderDot.setAttribute("cx", sx); leaderDot.setAttribute("cy", y0);
+    leader.hidden = false;
+  }
+  // the card beside the page stays put while the page scrolls; the line follows the sentence
+  var scrollQueued = false;
+  window.addEventListener("scroll", function () {
+    if (noteId == null || scrollQueued || !note.classList.contains("side")) return;
+    scrollQueued = true;
+    requestAnimationFrame(function () { scrollQueued = false; position(); });
+  }, { passive: true });
+
   // if the note grew past the bottom of the screen, scroll so all of it is visible
   function keepVisible() {
-    if (note.classList.contains("sheet")) return;
+    if (note.classList.contains("sheet") || note.classList.contains("side")) return;
     var r = note.getBoundingClientRect();
-    var dockH = document.querySelector(".dock").offsetHeight + 24;
+    var dockH = BOTTOM_ROOM;
     var vh = document.documentElement.clientHeight - dockH;
     if (r.bottom <= vh) return;
     // at the end of the document there is nothing left to scroll: add temporary space while the note is open
@@ -1118,7 +1287,8 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     if (pinned && !force) return;
     clearTimeout(settleT);
     note.hidden = true; noteId = null; pinned = false;
-    leader.hidden = true; note.classList.remove("sheet");
+    leader.hidden = true; note.classList.remove("sheet", "side", "tall"); note.style.maxHeight = "";
+
     textView.classList.remove("focus"); diffView.classList.remove("focus");
     document.body.style.paddingBottom = "";
     document.querySelectorAll(".open").forEach(function (x) { x.classList.remove("open"); });
@@ -1175,6 +1345,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     });
   }
   chunkEvents(textView); chunkEvents(diffView);
+  hoverParts(textView, ".chunk", "id");
   note.addEventListener("click", function (e) { e.stopPropagation(); });
   document.addEventListener("click", function () { if (!note.hidden) closeNote(true); });
 
@@ -1245,6 +1416,21 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     var vw = document.documentElement.clientWidth, hint = $("wide-hint"), hidden = off || vw <= 640 || layoutMode() === "side";
     if (hint.hidden !== hidden) { hint.hidden = hidden; alignToLines(); }
   }
+  // "1 open question": each click goes to the next question in the text and opens its change
+  var questionTurn = -1;
+  $("questions").addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (state.view !== "text") showView("text");
+    var spots = Array.prototype.slice.call(textView.querySelectorAll(".q"));
+    if (!spots.length) return;
+    questionTurn = (questionTurn + 1) % spots.length;
+    var spot = spots[questionTurn], part = spot.closest(".chunk");
+    if (part) { select(+part.dataset.id); return; }
+    closeNote(true);
+    spot.scrollIntoView({ block: "center", behavior: "smooth" });
+    spot.classList.add("flash");
+    setTimeout(function () { spot.classList.remove("flash"); }, 1600);
+  });
   $("copy-address").addEventListener("click", function () { copy(location.href, msg("toast.address_copied")); });
   $("hide-hint").addEventListener("click", function () { try { localStorage.setItem(HINT_KEY, "off"); } catch (e) {} drawHint(); });
   function refresh(id, typing) {
@@ -1272,19 +1458,31 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   function alignToLines() {
     var pageTop = $("page").getBoundingClientRect().top;
     // the profile note sits in the header, so it is aligned first; the text below then aligns after it
-    [$("profile"), textView, diffView].forEach(function (a) {
+    [$("profile"), $("divider"), textView, diffView, cleanView].forEach(function (a) {
       if (a.hidden) return;
       // padding instead of margin: the margin collapses with the header's bottom margin and swallows the offset
       a.style.paddingTop = "0px";
-      var baseline = measureBaseline(a);
+      var band = a.id === "divider";  // the divider starts a ruled band; text puts its letters on a rule
+      var baseline = band ? 0 : measureBaseline(a);
       var top = a.getBoundingClientRect().top - pageTop;
       // last pixel of each ruled band; letters sit 1 px above the line so they don't touch it
-      var rule = LINE - 2;
+      var rule = band ? 0 : LINE - 2;
       var m = ((rule - (top + baseline)) % LINE + LINE) % LINE;
       a.style.paddingTop = m.toFixed(2) + "px";
     });
+    placeFoot();
     if (typeof drawMarks === "function") drawMarks();
   }
+  // the page's last line sits on the lowest ruled line that leaves a little paper below it
+  function placeFoot() {
+    var foot = $("page-foot"), page = $("page");
+    if (getComputedStyle(foot).display === "none") return;
+    var baseline = measureBaseline(foot), ph = page.offsetHeight, fh = foot.offsetHeight, rule = LINE - 2;
+    var k = Math.floor((ph - fh - 12 + baseline - rule) / LINE);
+    var top = k * LINE + rule - baseline;
+    foot.style.bottom = Math.round(ph - fh - top) + "px";
+  }
+  if (window.ResizeObserver) new ResizeObserver(function () { placeFoot(); }).observe($("page"));
   // the header font loads late and moves the text; realign whenever the header's size changes
   if (window.ResizeObserver) new ResizeObserver(function () { alignToLines(); }).observe(document.querySelector("header.top"));
   window.addEventListener("load", function () { alignToLines(); position(); });
@@ -1391,12 +1589,38 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   gnote.addEventListener("input", function () { state.general = gnote.value; save(); });
   var inc = $("include-text"); inc.checked = !!state.includeText;
   inc.addEventListener("change", function () { state.includeText = inc.checked; save(); });
+  // ------------------------------------------------ the final text: the decisions applied and nothing else on the page
+  var cleanView = $("view-clean"), clean = false, cleanParts = {};
+  function drawClean() {
+    cleanView.textContent = ""; cleanParts = {};
+    S.forEach(function (s, n) {
+      var t = shownText(n);
+      if (s.t === "eq") { cleanView.appendChild(document.createTextNode(t)); return; }
+      var ws = edgeWhitespace(t);  // the spaces around a part stay outside it, so the highlight hugs the words
+      if (ws[0]) cleanView.appendChild(document.createTextNode(ws[0]));
+      var part = el("span", "clean-part", ws[1]); part.dataset.cid = s.id;
+      cleanView.appendChild(part); cleanParts[s.id] = part;
+      if (ws[2]) cleanView.appendChild(document.createTextNode(ws[2]));
+    });
+  }
+  hoverParts(cleanView, ".clean-part", "cid");
+  function setClean(on) {
+    clean = on;
+    hideCycler();
+    if (on) { closeNote(true); closePanel(); drawClean(); }
+    document.documentElement.classList.toggle("clean", on);
+    cleanView.hidden = !on;
+    $("toggle-clean").setAttribute("aria-pressed", on ? "true" : "false");
+    alignToLines();
+  }
+  $("toggle-clean").addEventListener("click", function (e) { e.stopPropagation(); setClean(!clean); });
+
   window.notebookReview = { feedback: feedback, resultText: resultText };
 
   // ------------------------------------------------ view, paper, font, theme
   function showView(view) {
     state.view = view; save();
-    closeNote(true);
+    closeNote(true); hideCycler();
     document.querySelectorAll(".tabs [role=tab]").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.view === view ? "true" : "false"); });
     textView.hidden = view !== "text"; diffView.hidden = view !== "diff";
     $("view-table").hidden = view !== "table"; $("view-measure").hidden = view !== "measure";
@@ -1453,6 +1677,8 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
   document.addEventListener("keydown", function (e) {
     var t = e.target.tagName;
     if (t === "TEXTAREA" || t === "INPUT" || t === "SELECT" || e.metaKey || e.ctrlKey || e.altKey) { if (e.key === "Escape") e.target.blur(); return; }
+    if (e.key === "p") { e.preventDefault(); setClean(!clean); return; }
+    if (clean) { if (e.key === "Escape") setClean(false); return; }
     if (e.key === "j") { e.preventDefault(); step(1); }
     else if (e.key === "k") { e.preventDefault(); step(-1); }
     else if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && noteId != null) { e.preventDefault(); step(e.key === "ArrowRight" ? 1 : -1); }
@@ -1461,7 +1687,7 @@ dialog::backdrop { background: rgba(40, 30, 15, .35); }
     else if (e.key === "3") { e.preventDefault(); decide("custom"); }
     else if (e.key === "Escape") { if (openPanelName) closePanel(); else closeNote(true); }
   });
-  window.addEventListener("resize", function () { drawHint(); alignToLines(); position(); });
+  window.addEventListener("resize", function () { hideCycler(); drawHint(); alignToLines(); position(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { alignToLines(); position(); });
 
   applyTheme();

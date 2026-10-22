@@ -1,5 +1,15 @@
 # Değişiklik günlüğü
 
+## 1.5.0 · Defterde yeni dokunuşlar
+
+- **Yerinde seçenekler:** Değişen bir kısmın üstüne gelince başında küçük oklar çıkıyor. Oklar önerilen hal, daha kısa, daha resmî, daha sıcak ve eski hal arasında metnin içinde geziyor, seçeneğin adı yanda kısa süre görünüyor. Oklar kısmın başında durduğu için metin kısalıp uzasa da yerinden oynamıyor.
+- **Son hal:** Başlığın yanındaki göz düğmesi ya da `p` tuşu kararların uygulanmış halini işaretsiz, kartsız gösteriyor. Burada da değişen kısmın üstüne gelince oklar çıkıyor.
+- **Kart üstte:** Geniş ekranda kart defterin sağında üst hizada açılıyor, sayfa kaydırılırken yerinde kalıyor. Kesik çizgi cümleden çıkıp kartın yanında kıvrılarak ona bağlanıyor.
+- **Son satır:** İlerleme, açık sorular, "Kalanları kabul et" ve "Ajana gönder" köşede yüzen banttan kâğıdın son satırına indi. "1 soru açık" yazısına tıklayınca sıradaki soruya gidiliyor.
+- **Ayırıcı:** Skill'in notlarıyla metin arasında ince bir fosforlu kalem çizgisi var.
+- **Kart okunurluğu:** Bölüm başlıkları daha belirgin. "Neydi" kırmızı kalemle yazılıyor, çıkarılan kelimeler harflerin arkasından geçen silik bir kalem iziyle karalanıyor.
+- Düzenle menüsündeki "önizle" düğmesinin adı, son hal önizlemesiyle karışmasın diye "geri bildirimi göster" oldu.
+
 ## 1.4.0 · Ortak defter
 
 - **Ortak çekirdek:** İnceleme sayfası ve canlı köprü, İngilizce kardeşi Still Human? ile ortak kullanılan [notebook-review](https://github.com/MesutARIDORU/notebook-review) deposuna taşındı. Skill'de `notebook/` klasöründe bir kopyası durur, kimliği (ad, dil, kalıp adları) `notebook.json` dosyasında. `scripts/review.py` ve `scripts/bridge.py` artık bu çekirdeği çağıran kısa betikler. Komutlar ve seçenekler aynı kaldı. `assets/review.html` kaldırıldı.

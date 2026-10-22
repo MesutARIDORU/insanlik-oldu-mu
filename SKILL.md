@@ -12,7 +12,7 @@ description: >
   bir mesaj yapıştırdığında kullan. Metin İngilizceyse ya da yalnızca çeviri isteniyorsa kullanma.
 license: MIT
 metadata:
-  version: "1.4.0"
+  version: "1.5.0"
   gorunen-ad: "İnsanlık öldü mü?"
 compatibility: Dosya okuyabilen her ajan. Betikler için Python 3 gerekir, Python yoksa ölçümler elle yapılır.
 allowed-tools:
@@ -356,7 +356,8 @@ Kullanıcı teslimden sonraki soruda "Önizle"yi seçtiyse, sayfayı kendisi ist
 Sayfa tek bir HTML dosyası ve görünüşü bir defter sayfası:
 - Metinde yalnızca değişen kelimeler işaretli: orta kalınlıkta ve arkalarında çok hafif sarı bir fosforlu kalem. Silinen yerde küçük bir "[silindi]" notu duruyor. Köşeli parantezli sorular turuncu.
 - Cümleye tıklayınca bir not kartı açılıyor. Kart üç şeyi gösteriyor: "Neydi" (çıkarılan kısımların üstü çizili), "Önerilen" (eklenen kelimeler kalın) ve "Başka seçenekler" (aynı cümlenin daha kısa, daha resmî ve daha sıcak hali). Kullanıcı "Kalsın", "Eskisine dön", bir seçeneğin yanındaki "Kullan" ya da "Kendim yazayım" ile karar veriyor, not ekleyebiliyor.
-- Kart geniş ekranda defterin sağında, dar ekranda cümlenin altında, telefonda ekranın altından açılıyor. Kenar boşluğundaki işaretler ve alttaki bant hangi değişikliğe bakıldığını gösteriyor.
+- Kart geniş ekranda defterin sağında üst hizada, dar ekranda cümlenin altında, telefonda ekranın altından açılıyor. Kenar boşluğundaki işaretler ve kâğıdın son satırı hangi değişikliğe bakıldığını gösteriyor.
+- Değişen bir kısmın üstüne gelince başında çıkan oklarla seçenekler metnin içinde değiştirilebiliyor. Göz düğmesi (ya da `p` tuşu) kararların uygulanmış son halini işaretsiz gösteriyor.
 - Kullanıcı kararlarını verip "Ajana gönder"e basıyor. Sayfa köprüsüz açıldıysa düğmenin adı "Geri bildirimi kopyala" olur ve kullanıcı metni sohbete yapıştırır.
 
 Sayfayı üretmek için iki adım var. Orijinal metin 1. adımda "before", nihai metin 4. adımda "after" adıyla saklandı. Ayrıca dosya yazman gerekmez.

@@ -4,7 +4,7 @@
 
 ## npx skills ile
 
-Skill ortak `~/.agents/skills` klasörüne tek kopya olarak iner ve `~/.agents/.skill-lock.json` kilit dosyasına yazılır. Codex ve Gemini CLI skill'i bu klasörden okur. Claude Code kendi klasörüne bakar, `npx skills` oraya ortak kopyaya giden bir bağlantı kurar.
+Skill ortak `~/.agents/skills` klasörüne tek kopya olarak iner ve `~/.agents/.skill-lock.json` kilit dosyasına yazılır. Codex ve Gemini CLI skill'i bu klasörden okur. Claude Code kendi klasörüne bakar, `npx skills` oraya ortak kopyaya giden bir bağlantı kurar. Antigravity de kendi klasöründen okur ama `npx skills` oraya bağlantı kurmaz. Antigravity kullanıyorsan kurulumdan sonra ayar betiğini çalıştır (bkz. Antigravity).
 
 ### Tek komutla
 
@@ -56,15 +56,16 @@ python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py
 
 Betik skill'i yeniden kurmaz. Sırayla şunları yapar:
 
-1. Bilgisayarındaki Claude Code, Codex ve Gemini CLI'ı bulur. Her biri için canlı köprünün hangi yollarını (oturum çatalı, bağlamsız çağrı) desteklediğine bakar.
+1. Bilgisayarındaki Claude Code, Codex, Gemini CLI ve Antigravity'yi bulur. Her biri için canlı köprünün hangi yollarını (oturum çatalı, bağlamsız çağrı) desteklediğine bakar.
 2. Hangi araçlar için ayar yapılacağını sorar. Bulunanlar işaretli gelir. Numaraları virgülle yazarsın, Enter işaretlileri seçer, 0 hiçbirini seçmez:
    ```
    Hangi araçlar için ayar yapılsın?
      1) [x] Claude Code  bulundu · 2.1.300 (Claude Code) · bağlantı ve betik izinleri
      2) [x] Codex        bulundu · codex-cli 0.162.1 · yönlendirme notu
      3) [x] Gemini CLI   bulundu · 0.60.0 · /insanlik-oldu-mu komutu
+     4) [x] Antigravity  bulundu · ~/.gemini/config/skills · skill bağlantısı
    ```
-3. Claude Code'un skill klasöründe (`~/.claude/skills/insanlik-oldu-mu`) bağlantı olup olmadığına bakar. Kurulumda Claude Code seçilmediyse bağlantıyı aynı kopyaya kurar. Codex ortak klasörü kendisi okuduğu için ona ayrıca bağlantı kurmaz, yoksa skill iki kez görünür.
+3. Claude Code'un skill klasöründe (`~/.claude/skills/insanlik-oldu-mu`) bağlantı olup olmadığına bakar. Kurulumda Claude Code seçilmediyse bağlantıyı aynı kopyaya kurar. Codex ortak klasörü kendisi okuduğu için ona ayrıca bağlantı kurmaz, yoksa skill iki kez görünür. Antigravity'ye ise `~/.gemini/config/skills/insanlik-oldu-mu` yolunda aynı kopyaya bir bağlantı kurar, çünkü `npx skills` onu atlar.
 4. Gemini CLI için `~/.gemini/commands/insanlik-oldu-mu.toml` komutunu yazar.
 5. Köprü ayarını `~/.config/insanlik-oldu-mu/config.json` dosyasına yazar.
 6. Claude Code'un skill'i ve betiklerini her seferinde sormadan çalıştırmasına izin vermek isteyip istemediğini sorar: `Skill(insanlik-oldu-mu)` ve betik başına bir `Bash(python3 …)` kuralı. Onaylarsan önce `~/.claude/settings.json` dosyasının yedeğini alır. İzin yoksa Claude Code skill'i ilk kullanışında ve her betikte onay ister.
@@ -77,16 +78,16 @@ Seçenekler:
 |---|---|
 | `--dry-run` | Hiçbir şeyi değiştirmeden ne yapacağını gösterir |
 | `--yes` | Soru sormadan çalışır. İzin ayarlarına ve Codex notuna dokunmaz |
-| `--targets claude,codex` | Soru sormadan yalnız belirtilen araçlar için çalışır. `all` bulunanların hepsi demektir |
+| `--targets claude,codex` | Soru sormadan yalnız belirtilen araçlar için çalışır: `claude`, `codex`, `gemini`, `antigravity`. `all` bulunanların hepsi demektir |
 | `--permissions` | Claude Code'a skill ve betik izinlerini ekler, artık olmayan betiklere ait izinleri çıkarır |
 | `--codex-routing` | Codex'in genel talimatlarına (`~/.codex/AGENTS.override.md` varsa ona, yoksa `~/.codex/AGENTS.md`) yönlendirme notunu ekler |
 | `--try-engine` | Bağlamsız öneri motorunu gerçek bir çağrıyla dener. Az miktarda kullanım harcar |
 | `--no-check` | Sondaki denemeyi atlar |
 
-Soru sormadan üç ayarın hepsi için:
+Soru sormadan bütün ayarlar için:
 
 ```bash
-python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py --targets claude,codex,gemini --permissions --codex-routing
+python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py --targets claude,codex,gemini,antigravity --permissions --codex-routing
 ```
 
 ## Node.js olmadan
@@ -101,7 +102,7 @@ git clone https://github.com/MesutARIDORU/insanlik-oldu-mu.git ~/insanlik-oldu-m
 python3 ~/insanlik-oldu-mu/scripts/install.py
 ```
 
-Depodan çalıştırılınca betik hangi araçlara kurulacağını sorar ve skill'i oraya kendisi bağlar: Claude Code'a `~/.claude/skills/insanlik-oldu-mu`, Codex'e `~/.codex/skills/insanlik-oldu-mu`. Bağlama, depoyu `git pull` ile güncellediğinde skill'in de güncellenmesini sağlar. Bağlamak yerine kopyalamak için `--copy` ekle. Öbür adımlar yukarıdaki ayarlarla aynı.
+Depodan çalıştırılınca betik hangi araçlara kurulacağını sorar ve skill'i oraya kendisi bağlar: Claude Code'a `~/.claude/skills/insanlik-oldu-mu`, Codex'e `~/.codex/skills/insanlik-oldu-mu`, Antigravity'ye `~/.gemini/config/skills/insanlik-oldu-mu`. Bağlama, depoyu `git pull` ile güncellediğinde skill'in de güncellenmesini sağlar. Bağlamak yerine kopyalamak için `--copy` ekle. Öbür adımlar yukarıdaki ayarlarla aynı.
 
 ## Araçlara göre notlar
 
@@ -126,6 +127,18 @@ Codex skill'leri ortak `~/.agents/skills` klasöründen okur, `npx skills` ile k
 `npx skills` skill'i Gemini CLI'ın okuduğu ortak klasöre kurar. Ayar betiği ayrıca `~/.gemini/commands/insanlik-oldu-mu.toml` komutunu yazar, skill'i adıyla çağırmak için: `/insanlik-oldu-mu [metin]`. Komutu elle eklemek istersen [adapters/gemini/insanlik-oldu-mu.toml](adapters/gemini/insanlik-oldu-mu.toml) dosyasını o klasöre kopyala ve `<SKILL-YOLU>` yazan yerlere `~/.agents/skills/insanlik-oldu-mu` yolunu yaz.
 
 Gemini'de "Başka öner" yalnızca bağlamsız çağrıyla çalışır, çünkü Gemini CLI oturum çatallamayı desteklemiyor. Bağlamsız çağrı için de hesabının Gemini CLI'ı kullanabilmesi gerekir: Google, bireysel ücretsiz Gemini Code Assist hesaplarında bu istemciyi kapattı.
+
+### Antigravity
+
+Antigravity genel skill'leri `~/.gemini/config/skills` klasöründen okur. Eski sürümleri `~/.gemini/antigravity/skills` klasörüne bakardı, ayar betiği hangisi varsa onu kullanır. `npx skills` Antigravity'yi ortak klasörü okuyan ajanlardan saydığı için oraya bağlantı kurmaz ve skill Antigravity'de görünmez. `npx skills` ile kurduktan sonra şunu çalıştır:
+
+```bash
+python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py --targets antigravity
+```
+
+Betik `~/.gemini/config/skills/insanlik-oldu-mu` yolunda ortak kopyaya bir bağlantı kurar. Böylece `npx skills update` Antigravity'deki skill'i de günceller. Antigravity'de yeni bir sohbet aç ve `/insanlik` yaz, skill listede çıkar. Çıkmazsa Antigravity'yi yeniden başlat. Bağlantıyı görmeyen bir sürümde betiği `--copy` ile çalıştır, ama o zaman her güncellemeden sonra yeniden çalıştırman gerekir.
+
+Canlı köprüde dinleyen ajan Antigravity'de de çalışır. Oturum çatalı çalışmaz, bağlamsız çağrı da bilgisayarda kurulu Claude Code, Codex ya da Gemini CLI üzerinden yapılır. "Yalnız bu sohbet için" önizleme seçimini köprü kaydedemez, çünkü Antigravity sohbetini tanıyamaz. O seçimi ajan sohbet boyunca kendisi hatırlar.
 
 ### AGENTS.md okuyan öbür araçlar
 
@@ -166,6 +179,7 @@ npx skills remove insanlik-oldu-mu -g
 
 Ayar betiğini çalıştırdıysan onun yazdıklarını da sil:
 - `~/.gemini/commands/insanlik-oldu-mu.toml`
+- Antigravity bağlantısı: `~/.gemini/config/skills/insanlik-oldu-mu`
 - `~/.config/insanlik-oldu-mu`
 - Claude Code'a izin eklediysen `~/.claude/settings.json` içindeki `Skill(insanlik-oldu-mu)` ve `insanlik-oldu-mu/scripts` satırları.
 - Codex'e yönlendirme notu eklediysen `~/.codex/AGENTS.override.md` (ya da `AGENTS.md`) içinde `insanlik-oldu-mu:start` ile `insanlik-oldu-mu:end` arasındaki blok.

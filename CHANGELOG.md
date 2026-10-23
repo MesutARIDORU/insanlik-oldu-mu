@@ -1,5 +1,12 @@
 # Değişiklik günlüğü
 
+## 1.7.0 · İlk seferde önizleme, Antigravity
+
+- **İlk kullanımda önizleme:** Skill ilk kez kullanıldığında önizleme sayfası sormadan açılıyor. Sayfadaki bantlı not bundan sonrasını soruyor: "Her seferinde aç", "Önce bana sor" ya da "Ben isteyince aç". "Ben isteyince aç" seçilince not, sohbet kutusuna "önizle", "sayfada göster", "değişiklikleri sayfada aç" yazan bir animasyonla sayfanın nasıl açılacağını gösteriyor. Claude Code ve Codex'te "bu sohbette hep aç" ve "bu sohbette açma" seçenekleri de var.
+- **Tercih dosyada:** Seçim `~/.config/insanlik-oldu-mu/preferences.json` dosyasında duruyor. 5. adım sormadan önce `bridge.py preview` ile ona bakıyor. "Önce bana sor" seçiliyken metin uzunsa ya da değişiklik çoksa sayfa sormadan açılıyor. Tercih sayfanın ayarlarındaki Önizleme satırından ya da sohbette "önizleme hep açılsın" gibi bir cümleyle değişiyor.
+- **Antigravity:** Kurulum betiği Antigravity'yi buluyor ve skill'i onun okuduğu `~/.gemini/config/skills` klasörüne bağlıyor. `npx skills` Antigravity'ye bağlantı kurmadığı için skill orada görünmüyordu. `npx skills` ile kurduktan sonra: `python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py --targets antigravity`. Ayrıntısı INSTALL.md'de.
+- **Başlık:** "İnsanlık öldü mü?" yine Marker Felt ile, sayfada, kapakta ve görüntülerde.
+
 ## 1.6.1 · Yeni kapak
 
 - **README kapağı:** Kapak resmi inceleme sayfasının yeni görünümüyle yeniden çizildi: ahşap masada defter yaprağı, el yazısı, yeşil fosforlu kalem, seçenek balonu ve bantlı kart. Örnek aynı: "Yeni sürüm sadece bir güncelleme değil, sayfaları iki kat hızlandıran bir dönüşüm yolculuğu." cümlesi "Yeni sürüm sayfaları iki kat hızlandırıyor." oluyor. Yazılar çizgilerin hemen üstüne oturuyor.

@@ -12,7 +12,7 @@ description: >
   bir mesaj yapıştırdığında kullan. Metin İngilizceyse ya da yalnızca çeviri isteniyorsa kullanma.
 license: MIT
 metadata:
-  version: "1.6.1"
+  version: "1.7.0"
   gorunen-ad: "İnsanlık öldü mü?"
 compatibility: Dosya okuyabilen her ajan. Betikler için Python 3 gerekir, Python yoksa ölçümler elle yapılır.
 allowed-tools:
@@ -150,7 +150,7 @@ Kullanıcı tercihini sohbette de değiştirebilir. Bunu duyunca aynı betiği �
 - "önizleme hep açılsın": `bridge.py preview --set always`
 - "önizlemeyi önce bana sor": `bridge.py preview --set ask`
 - "önizlemeyi ben isteyince aç", "önizleme açılmasın": `bridge.py preview --set request`
-- "bu sohbette hep aç": `bridge.py preview --chat on`. "Bu sohbette önizleme açma": `bridge.py preview --chat off`. Bunlar yalnız bu sohbeti etkiler. Betik sohbeti tanıyamazsa (Gemini CLI) hata verir, o zaman seçimi bu sohbet boyunca kendin hatırla.
+- "bu sohbette hep aç": `bridge.py preview --chat on`. "Bu sohbette önizleme açma": `bridge.py preview --chat off`. Bunlar yalnız bu sohbeti etkiler. Betik sohbeti tanıyamazsa (Gemini CLI, Antigravity) hata verir, o zaman seçimi bu sohbet boyunca kendin hatırla.
 
 Tercih ne olursa olsun kullanıcı "önizle", "sayfada göster" ya da "değişiklikleri sayfada aç" derse sayfayı aç. Sayfayı zaten istediyse tercihe bakmadan doğrudan sayfayla teslim et.
 

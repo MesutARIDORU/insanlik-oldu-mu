@@ -8,7 +8,7 @@ Okuduğun duyurunun, gönderinin ya da e-postanın bir makineden çıktığını
 - Her özellik "yalnızca bir araç değil, bir deneyim" olur.
 - Metin, kimsenin itiraz etmeyeceği parlak bir gelecek cümlesiyle kapanır.
 
-**İnsanlık öldü mü?** bu izleri bulan ve metni, bilgisine dokunmadan, bir insanın yazacağı gibi yeniden kuran bir ajan skill'i. Claude Code, Codex ve Gemini CLI'da çalışıyor. Dosya okuyabilen her ajan da talimat dosyasını (`SKILL.md`) kullanabilir.
+**İnsanlık öldü mü?** bu izleri bulan ve metni, bilgisine dokunmadan, bir insanın yazacağı gibi yeniden kuran bir ajan skill'i. Claude Code, Codex, Gemini CLI ve Antigravity'de çalışıyor. Dosya okuyabilen her ajan da talimat dosyasını (`SKILL.md`) kullanabilir.
 
 ## Hızlı başlangıç
 
@@ -134,7 +134,7 @@ Skill'in beyni `SKILL.md`. Ajan metni beş adımda işler: tanımlar, teşhis ed
 
 ## Kurulum
 
-İnsanlık öldü mü? Claude Code, Codex ve Gemini CLI ile çalışır. Gerekenler: Node.js (`npx` için) ve Python 3.8 ya da daha yenisi. Betikler yalnız Python'un standart kütüphanesini kullanır, ek paket kurulmaz.
+İnsanlık öldü mü? Claude Code, Codex, Gemini CLI ve Antigravity ile çalışır. Gerekenler: Node.js (`npx` için) ve Python 3.8 ya da daha yenisi. Betikler yalnız Python'un standart kütüphanesini kullanır, ek paket kurulmaz.
 
 Kurulumu `npx skills` yapar. Skill ortak `~/.agents/skills` klasörüne tek kopya olarak iner ve kilit dosyasına (`~/.agents/.skill-lock.json`) yazılır. Codex ve Gemini CLI skill'i bu klasörden okur, Claude Code'a da bu klasöre giden bir bağlantı kurulur. Bilgisayarındaki öbür skill'ler de bu yolla kuruluysa hepsi aynı yerde durur.
 
@@ -167,10 +167,11 @@ Komut sırayla şunları sorar:
 
 ### İsteğe bağlı ayarlar
 
-Kurulum bu kadar, skill kullanıma hazır. Şu üç şeyi istersen kurulan kopyadaki ayar betiği yapar:
+Kurulum bu kadar, skill kullanıma hazır. Şunları istersen kurulan kopyadaki ayar betiği yapar:
 - **Claude Code:** Skill'i ve betiklerini her seferinde onay sormadan çalıştırsın diye izin ekler. Önce ayar dosyanın yedeğini alır.
 - **Codex:** Çok sayıda skill yüklüyse Codex bu skill'i kendiliğinden seçmeyebilir. Betik, Codex'in genel talimatlarına üç satırlık bir yönlendirme notu ekler.
 - **Gemini CLI:** `/insanlik-oldu-mu` komutunu ekler.
+- **Antigravity:** Skill'i Antigravity'nin klasörüne (`~/.gemini/config/skills`) bağlar. `npx skills` bunu yapmadığı için Antigravity kullanıyorsan bu adım gerekli, yoksa skill orada görünmez.
 
 ```bash
 python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py
@@ -281,7 +282,7 @@ Ayrıntılı kaynak listesi [references/sources.md](references/sources.md) dosya
 - **Live bridge:** A local bridge connects the page to Claude Code, Codex or Gemini CLI, either through the listening agent, a forked session or a stateless call.
 - **Shared kit:** The page and the bridge come from [notebook-review](https://github.com/MesutARIDORU/notebook-review), which the English skill [Still Human?](https://github.com/MesutARIDORU/still-human) uses too. A copy lives in `notebook/` and is synced daily.
 
-Install for Claude Code, Codex and Gemini CLI with `npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli`. In the interactive `npx skills add MesutARIDORU/insanlik-oldu-mu -g`, Codex and Gemini CLI are always included but Claude Code has to be selected by hand. Optional settings (Claude Code permissions, Codex routing note, Gemini command): `python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py`.
+Install for Claude Code, Codex and Gemini CLI with `npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli`. In the interactive `npx skills add MesutARIDORU/insanlik-oldu-mu -g`, Codex and Gemini CLI are always included but Claude Code has to be selected by hand. Antigravity is left out by npx skills; the setup script links it (`--targets antigravity`). Optional settings (Claude Code permissions, Codex routing note, Gemini command, Antigravity link): `python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py`.
 
 ## Lisans
 

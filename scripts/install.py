@@ -7,18 +7,19 @@ review page and the agent.
 
 What it does:
   1. Checks the Python version and the skill files.
-  2. Finds Claude Code, Codex and Gemini CLI and checks which bridge engines they support.
+  2. Finds Claude Code, Codex, Gemini CLI and Antigravity and checks which bridge engines they support.
   3. Asks which of them to install into (the ones found are preselected). "Ortak klasör" installs
      through npx skills into ~/.agents/skills with the skills lock file, like other shared skills.
-  4. Links the skill into Claude Code (~/.claude/skills) and Codex (~/.codex/skills),
-     and writes the /insanlik-oldu-mu command for Gemini.
+  4. Links the skill into Claude Code (~/.claude/skills), Codex (~/.codex/skills) and Antigravity
+     (~/.gemini/config/skills, which npx skills leaves out), and writes the /insanlik-oldu-mu command for Gemini.
   5. Writes the bridge config to ~/.config/insanlik-oldu-mu/config.json.
   6. If asked (--permissions), lets Claude Code use the skill and run its scripts without asking every time.
      If asked (--codex-routing), adds a routing note to Codex's global instructions.
   7. Runs a short check.
 
 Run from the copy that npx skills put into ~/.agents/skills, it installs nothing again: the skill is
-already in place, so it only does the settings (Claude Code link and permissions, Codex routing, Gemini command).
+already in place, so it only does the settings (Claude Code and Antigravity links, permissions, Codex routing,
+Gemini command).
 
 Usage:
   python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py   # after npx skills add: settings only
@@ -123,13 +124,33 @@ def find_agents():
 
 # ---------------------------------------------------------------- 3. choose the agents
 
-TARGETS = [("claude", "Claude Code"), ("codex", "Codex"), ("gemini", "Gemini CLI"), ("shared", "Ortak klasör")]
+TARGETS = [("claude", "Claude Code"), ("codex", "Codex"), ("gemini", "Gemini CLI"), ("antigravity", "Antigravity"),
+           ("shared", "Ortak klasör")]
 SHARED_DIR = os.path.join(HOME, ".agents", "skills")
 SKILL_LOCK = os.path.join(HOME, ".agents", ".skill-lock.json")
 DEFAULT_SOURCE = "MesutARIDORU/insanlik-oldu-mu"
 CLI_AGENT_IDS = {"claude": "claude-code", "codex": "codex", "gemini": "gemini-cli"}
 # running from the copy npx skills installed: the skill is already in place, only the settings are left
 IN_SHARED = os.path.realpath(SKILL_ROOT) == os.path.realpath(os.path.join(SHARED_DIR, NAME))
+# Antigravity has no command line to look for, only its app and its folder in ~/.gemini
+ANTIGRAVITY_APPS = ("/Applications/Antigravity.app", "/Applications/Antigravity IDE.app")
+
+
+def antigravity_found():
+    return any(os.path.isdir(p) for p in ANTIGRAVITY_APPS) or os.path.isdir(os.path.join(HOME, ".gemini", "antigravity"))
+
+
+def antigravity_skills_dir():
+    """Where Antigravity reads global skills: ~/.gemini/config/skills; earlier versions read ~/.gemini/antigravity/skills.
+    npx skills counts Antigravity among the agents that read ~/.agents/skills and links nothing there."""
+    old = os.path.join(HOME, ".gemini", "antigravity", "skills")
+    if os.path.isdir(old) and not os.path.isdir(os.path.join(HOME, ".gemini", "config")):
+        return old
+    return os.path.join(HOME, ".gemini", "config", "skills")
+
+
+def present(key, agents):
+    return key in agents or (key == "antigravity" and antigravity_found())
 
 
 def shared_available():
@@ -142,19 +163,24 @@ def target_state(key, agents):
             return "npx bulunamadı (Node.js gerekir)"
         used = " · bu bilgisayarda zaten kullanılıyor" if os.path.exists(SKILL_LOCK) else ""
         return f"~/.agents/skills, npx skills ile kilit dosyasına yazılır, diğer ajanlar da seçilebilir{used}"
+    if key == "antigravity":
+        if not antigravity_found():
+            return "bu bilgisayarda bulunamadı"
+        return "bulundu · " + antigravity_skills_dir().replace(HOME, "~", 1) + (f" · {SETUP_STEPS[key]}" if IN_SHARED else "")
     if key not in agents:
         return "bu bilgisayarda bulunamadı"
     return f"bulundu · {agents[key]['version']}" + (f" · {SETUP_STEPS[key]}" if IN_SHARED else "")
 
 
-SETUP_STEPS = {"claude": "bağlantı ve betik izinleri", "codex": "yönlendirme notu", "gemini": f"/{NAME} komutu"}
+SETUP_STEPS = {"claude": "bağlantı ve betik izinleri", "codex": "yönlendirme notu", "gemini": f"/{NAME} komutu",
+               "antigravity": "skill bağlantısı"}
 
 
 def choose_targets(agents):
     """Which agents to install into (from the shared copy: which ones to set up). The ones found are preselected."""
     options = [(key, label) for key, label in TARGETS if not (IN_SHARED and key == "shared")]
     names = dict(TARGETS)
-    found = [key for key, _ in options if key in agents]
+    found = [key for key, _ in options if present(key, agents)]
     if not IN_SHARED and shared_available() and os.path.exists(SKILL_LOCK):
         found.append("shared")  # skills on this computer are already installed this way
     if ARGS.targets == "all":
@@ -194,12 +220,14 @@ def choose_targets(agents):
 
 # ---------------------------------------------------------------- 4. link the skill
 
-def link(target_dir, label):
+def link(target_dir, label, source=None):
+    """Links (or with --copy, copies) the skill into an agent's skills folder: this copy, or source when given."""
+    source = source or SKILL_ROOT
     target = os.path.join(target_dir, NAME)
-    if os.path.islink(target) and os.path.realpath(target) == os.path.realpath(SKILL_ROOT):
+    if os.path.islink(target) and os.path.realpath(target) == os.path.realpath(source):
         say("✓", f"{label}: zaten bağlı ({target})")
         return target
-    if os.path.realpath(target) == os.path.realpath(SKILL_ROOT):
+    if os.path.realpath(target) == os.path.realpath(source):
         say("✓", f"{label}: skill zaten burada ({target})")
         return target
     if os.path.islink(target):
@@ -222,11 +250,11 @@ def link(target_dir, label):
         return target
     os.makedirs(target_dir, exist_ok=True)
     if ARGS.copy:
-        shutil.copytree(SKILL_ROOT, target, ignore=shutil.ignore_patterns(".git", ".github", "__pycache__", "evals", "*.pyc", "PROGRESS.md"))
+        shutil.copytree(source, target, ignore=shutil.ignore_patterns(".git", ".github", "__pycache__", "evals", "*.pyc", "PROGRESS.md"))
         say("✓", f"{label}: kopyalandı ({target})")
     else:
-        os.symlink(SKILL_ROOT, target)
-        say("✓", f"{label}: bağlandı ({target} → {SKILL_ROOT})")
+        os.symlink(source, target)
+        say("✓", f"{label}: bağlandı ({target} → {source})")
     return target
 
 
@@ -318,7 +346,7 @@ def migrate_legacy_files():
 
 def write_config(agents, installs):
     config = {
-        "version": "1.6.1",
+        "version": "1.7.0",
         "skill_dir": SKILL_ROOT,
         "installs": installs,
         "agents": agents,
@@ -474,7 +502,7 @@ def main(argv=None):
     global ARGS
     ap = argparse.ArgumentParser(description="İnsanlık öldü mü? · installer")
     ap.add_argument("--targets", default="ask",
-                    help="claude,codex,gemini,shared, or all for every agent found (default: ask; without a terminal, every agent found). "
+                    help="claude,codex,gemini,antigravity,shared, or all for every agent found (default: ask; without a terminal, every agent found). "
                          "shared installs through npx skills into ~/.agents/skills")
     ap.add_argument("--copy", action="store_true", help="copy instead of linking")
     ap.add_argument("--permissions", action="store_true", help="let Claude Code use the skill and its scripts without asking")
@@ -498,7 +526,7 @@ def main(argv=None):
     else:
         print(("· Ayar yapılacak: " if IN_SHARED else "· Kurulacak: ") + ", ".join(labels[t] for t in targets))
         for t in targets:
-            if t != "shared" and t not in agents:
+            if t != "shared" and not present(t, agents):
                 print(f"  {labels[t]} bu bilgisayarda bulunamadı. Skill yine kurulur, {labels[t]} kurulunca hazır olur.")
     installs = {}
     if IN_SHARED:
@@ -519,6 +547,9 @@ def main(argv=None):
             installs["claude"] = link(os.path.join(HOME, ".claude", "skills"), "Claude Code")
         if "codex" in targets:
             installs["codex"] = link(os.path.join(HOME, ".codex", "skills"), "Codex")
+    if "antigravity" in targets:
+        # npx skills leaves Antigravity out, so it is linked here in every case, to the shared copy when there is one
+        installs["antigravity"] = link(antigravity_skills_dir(), "Antigravity", installs.get("shared"))
     if "gemini" in targets:
         # with the shared folder, Gemini reads the same copy as the other agents
         write_gemini_command(installs.get("shared") or SKILL_ROOT)

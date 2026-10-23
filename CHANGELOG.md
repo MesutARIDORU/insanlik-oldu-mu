@@ -1,5 +1,9 @@
 # Değişiklik günlüğü
 
+## 1.6.1 · Yeni kapak
+
+- **README kapağı:** Kapak resmi inceleme sayfasının yeni görünümüyle yeniden çizildi: ahşap masada defter yaprağı, el yazısı, yeşil fosforlu kalem, seçenek balonu ve bantlı kart. Örnek aynı: "Yeni sürüm sadece bir güncelleme değil, sayfaları iki kat hızlandıran bir dönüşüm yolculuğu." cümlesi "Yeni sürüm sayfaları iki kat hızlandırıyor." oluyor. Yazılar çizgilerin hemen üstüne oturuyor.
+
 ## 1.6.0 · Masadaki defter
 
 - **Yeni görünüm:** İnceleme sayfası ahşap bir masada duran, delikli, çizgili bir defter yaprağı. Metin, başlık ve kart Patrick Hand el yazısıyla yazılıyor. Font ve dokular (kâğıt, bant, fosforlu kalem, ahşap) sayfanın içine gömülü, sayfa dışarıya istek atmıyor.

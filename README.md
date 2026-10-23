@@ -136,6 +136,19 @@ Skill'in beyni `SKILL.md`. Ajan metni beş adımda işler: tanımlar, teşhis ed
 
 İnsanlık öldü mü? Claude Code, Codex, Gemini CLI ve Antigravity ile çalışır. Gerekenler: Node.js (`npx` için) ve Python 3.8 ya da daha yenisi. Betikler yalnız Python'un standart kütüphanesini kullanır, ek paket kurulmaz.
 
+### Hangi araçlarda çalışır
+
+| Araç | Durum | Kurulum |
+|---|---|---|
+| Claude Code (terminalde ve Claude masaüstü uygulamasının Code sekmesinde) | Çalışıyor | `npx skills` |
+| Codex CLI | Çalışıyor | `npx skills` |
+| ChatGPT masaüstü uygulamasındaki Codex | Skill'i görüyor | `npx skills`, Codex CLI ile aynı klasörü okur |
+| Antigravity | Kurulum betiğiyle | `npx skills`, ardından ayar betiği: `--targets antigravity` |
+| Gemini CLI | Skill'i görüyor, hesap gerekiyor | `npx skills`. Google CLI'ı ücretsiz bireysel hesaplarda kapattı |
+| Claude masaüstü ve web sohbeti | ZIP ile, denenmedi | Sürüm sayfasındaki ZIP'i Customize > Skills'ten yükle |
+
+23 Ekim 2026'da denendi: Claude Code 2.1.300, Codex CLI 0.162.1, ChatGPT 26.1016 içindeki Codex 0.163.0-alpha ve Gemini CLI 0.60.0. Codex CLI skill'i, bilgisayarda yüklü 230 skill arasından adı verilmeden seçti. Seçmezse isteğin başına `$insanlik-oldu-mu` yaz. Ayrıntılar ve her aracın sınırları [INSTALL.md](INSTALL.md#araçlara-göre-notlar) dosyasında.
+
 Kurulumu `npx skills` yapar. Skill ortak `~/.agents/skills` klasörüne tek kopya olarak iner ve kilit dosyasına (`~/.agents/.skill-lock.json`) yazılır. Codex ve Gemini CLI skill'i bu klasörden okur, Claude Code'a da bu klasöre giden bir bağlantı kurulur. Bilgisayarındaki öbür skill'ler de bu yolla kuruluysa hepsi aynı yerde durur.
 
 ### Tek komutla
@@ -196,7 +209,7 @@ Ajana Türkçe bir metin ver ve "doğallaştır" de. Skill devreye girdiyse sohb
 Güncellemek için:
 
 ```bash
-npx skills update insanlik-oldu-mu
+npx skills update -g insanlik-oldu-mu
 ```
 
 Kaldırmak için:
@@ -282,7 +295,7 @@ Ayrıntılı kaynak listesi [references/sources.md](references/sources.md) dosya
 - **Live bridge:** A local bridge connects the page to Claude Code, Codex or Gemini CLI, either through the listening agent, a forked session or a stateless call.
 - **Shared kit:** The page and the bridge come from [notebook-review](https://github.com/MesutARIDORU/notebook-review), which the English skill [Still Human?](https://github.com/MesutARIDORU/still-human) uses too. A copy lives in `notebook/` and is synced daily.
 
-Install for Claude Code, Codex and Gemini CLI with `npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli`. In the interactive `npx skills add MesutARIDORU/insanlik-oldu-mu -g`, Codex and Gemini CLI are always included but Claude Code has to be selected by hand. Antigravity is left out by npx skills; the setup script links it (`--targets antigravity`). Optional settings (Claude Code permissions, Codex routing note, Gemini command, Antigravity link): `python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py`.
+Works in Claude Code, Codex (CLI and the ChatGPT desktop app), Antigravity and Gemini CLI; Claude's desktop and web chat take the zip attached to each release. Install for Claude Code, Codex and Gemini CLI with `npx skills add MesutARIDORU/insanlik-oldu-mu -g -y -a claude-code codex gemini-cli`. In the interactive `npx skills add MesutARIDORU/insanlik-oldu-mu -g`, Codex and Gemini CLI are always included but Claude Code has to be selected by hand. Antigravity is left out by npx skills; the setup script links it (`--targets antigravity`). Optional settings (Claude Code permissions, Codex routing note, Gemini command, Antigravity link): `python3 ~/.agents/skills/insanlik-oldu-mu/scripts/install.py`.
 
 ## Lisans
 

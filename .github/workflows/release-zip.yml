@@ -1,0 +1,46 @@
+# Attaches the skill as a zip to every release, for chat apps that take skills as uploads
+# (Claude's desktop and web chat: Customize > Skills > Upload a skill).
+name: Release zip
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to attach the zip to"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
+      - name: Build the zip
+        run: |
+          name=$(sed -n 's/^name: *//p' SKILL.md | head -1)
+          mkdir -p "dist/$name/assets"
+          # what the skill needs when it runs: instructions, references, scripts and the notebook; no screenshots, no evals
+          cp -R SKILL.md LICENSE notebook.json agents notebook references scripts "dist/$name/"
+          cp assets/icon.svg assets/icon-small.svg "dist/$name/assets/"
+          find dist -name __pycache__ -prune -exec rm -rf {} +
+          (cd dist && zip -qr "$name.zip" "$name")
+          echo "ZIP=dist/$name.zip" >> "$GITHUB_ENV"
+      - name: Check that the review page builds from the zip
+        run: |
+          printf 'One sentence. Another one.\n' > "$RUNNER_TEMP/before.txt"
+          printf 'One sentence. A different one.\n' > "$RUNNER_TEMP/after.txt"
+          mkdir -p "$RUNNER_TEMP/unzipped"
+          unzip -q "$ZIP" -d "$RUNNER_TEMP/unzipped"
+          python3 "$RUNNER_TEMP"/unzipped/*/scripts/review.py --before "$RUNNER_TEMP/before.txt" --after "$RUNNER_TEMP/after.txt" --output "$RUNNER_TEMP/review.html"
+      - name: Attach it to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" "$ZIP" --clobber

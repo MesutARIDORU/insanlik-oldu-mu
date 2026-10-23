@@ -1,18 +1,19 @@
 ---
 name: insanlik-oldu-mu
 description: >
-  İnsanlık öldü mü? Türkçe metindeki yapay zeka izlerini bulur ve metni, bilgisine ve anlamına
-  dokunmadan doğal Türkçeyle yeniden kurar. Neyi neden değiştirdiğini bir tabloyla açıklar,
-  istenirse değişiklikleri tek tek onaylatan bir inceleme sayfası açar. Türkçe bir metin için
-  kullanıcı "doğallaştır", "insanlaştır", "insan yazmış gibi olsun", "yapay zeka kokuyor", "ChatGPT
-  yazmış gibi duruyor", "robotik", "akıcı yap", "elden geçir", "redakte et" dediğinde; LinkedIn
-  gönderisi, blog, e-posta, duyuru, ürün metni, rapor, makale özeti ya da hikaye gibi bir Türkçe
-  metni daha insani yapmak istediğinde; "bunu yapay zeka mı yazmış?" diye sorduğunda; doğal bir
-  Türkçeyle sıfırdan metin istediğinde ya da "[İnsanlık öldü mü? · geri bildirim]" ile başlayan
-  bir mesaj yapıştırdığında kullan. Metin İngilizceyse ya da yalnızca çeviri isteniyorsa kullanma.
+  Türkçe metni doğallaştırır ve insanlaştırır: yapay zeka ya da ChatGPT yazmış gibi duran izleri bulur,
+  metni bilgisine ve anlamına dokunmadan doğal Türkçeyle yeniden kurar. Türkçe bir metin için kullanıcı
+  "doğallaştır", "insanlaştır", "insan yazmış gibi olsun", "yapay zeka kokuyor", "ChatGPT yazmış gibi
+  duruyor", "robotik", "akıcı yap", "elden geçir", "redakte et" dediğinde; LinkedIn gönderisi, blog,
+  e-posta, duyuru, ürün metni, rapor, makale özeti ya da hikaye gibi bir Türkçe metni daha insani yapmak
+  istediğinde; "bunu yapay zeka mı yazmış?" diye sorduğunda; doğal bir Türkçeyle sıfırdan metin
+  istediğinde ya da "[İnsanlık öldü mü? · geri bildirim]" ile başlayan bir mesaj yapıştırdığında kullan.
+  Neyi neden değiştirdiğini bir tabloyla açıklar, istenirse değişiklikleri tek tek onaylatan bir
+  inceleme sayfası açar. Adı: İnsanlık öldü mü? Metin İngilizceyse ya da yalnızca çeviri isteniyorsa
+  kullanma.
 license: MIT
 metadata:
-  version: "1.7.0"
+  version: "1.7.1"
   gorunen-ad: "İnsanlık öldü mü?"
 compatibility: Dosya okuyabilen her ajan. Betikler için Python 3 gerekir, Python yoksa ölçümler elle yapılır.
 allowed-tools:
@@ -136,7 +137,7 @@ Betik tek kelime yazar:
 | `ask` | Aşağıdaki seçenekli soruyu sor. Ama metin 300 kelimeyi geçiyorsa, 8'den çok değişiklik varsa ya da kullanıcının karar vermesi gereken yer çoksa (köşeli parantezli sorular, birbirine yakın seçenekler) sormadan aç ve nedenini tek satırla söyle: "Metin uzun, değişikliklere sayfada bakmak daha kolay olur diye açtım." |
 | `request` | Açma, sorma. Sayfa yalnız kullanıcı isteyince açılır. |
 
-Betik çalışmazsa (Python yoksa) `ask` gibi davran.
+Betik çalışmazsa (Python yoksa) `ask` gibi davran. Bulutta, kullanıcının tarayıcısının ulaşamadığı bir ortamda çalışıyorsan (bkz. İnceleme sayfası) tercih orada saklanmaz: `first` çıktısını da `ask` say.
 
 Seçenekli soru:
 - **Seçenekli soru aracın varsa** (Claude Code'da AskUserQuestion) onu kullan. Soru: "Değişiklikleri önizleme sayfasında görmek ister misin?" Seçenekler sırasıyla:
@@ -417,6 +418,8 @@ Sayfayı üretmek için iki adım var. Orijinal metin 1. adımda "before", nihai
    "profile" alanına 1. adımda verdiğin kararı yaz. Sayfa bunu defterin üst kısmında "Metin tanımı" olarak gösterir. Alanı boş bırakırsan sayfa betiğin tahminini kullanır.
 
    `--live` sayfayı yerel bir köprü üzerinden açar, sayfa böylece seninle konuşur (bkz. Canlı inceleme). `--open` sayfayı tarayıcıda açar. Köprü açılamazsa betik bunu söyler ve sayfa dosya olarak açılır. Betiğin yazdığı adresi çıktının sonundaki "İnceleme sayfası" satırına koy.
+
+   **Tarayıcı açamayan ortamlar:** Claude'un masaüstü ya da web sohbeti gibi bulutta çalışan bir ortamdaysan kullanıcının tarayıcısı senin makinene ulaşamaz. O zaman `--live` ve `--open` kullanma. Sayfayı `--output` ile kullanıcının indirebileceği bir yere yaz (Claude'da `/mnt/user-data/outputs/inceleme.html`) ve dosya olarak ver. Bu sayfada düğmenin adı "Geri bildirimi kopyala" olur, kullanıcı kararlarını kopyalayıp sohbete yapıştırır.
 
 
 ## Canlı inceleme

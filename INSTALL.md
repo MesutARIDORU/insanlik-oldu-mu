@@ -41,8 +41,10 @@ Komut önce skill'i bulur ve açıklamasını gösterir, sonra sırayla şunlar�
 ### Güncelleme
 
 ```bash
-npx skills update insanlik-oldu-mu
+npx skills update -g insanlik-oldu-mu
 ```
+
+`-g` önemli: Onsuz komut kapsam sorar, Enter'a basınca "Project" seçilir ve global kurulan skill güncellenmez.
 
 Ajan tabanlı bir araçtaysan ajana "Şu skill'i kur: https://github.com/MesutARIDORU/insanlik-oldu-mu" demen de yeter. Ajan bu dosyayı okuyup tek komutu çalıştırır.
 
@@ -118,11 +120,27 @@ Codex skill'leri ortak `~/.agents/skills` klasöründen okur, `npx skills` ile k
 
 **Adı ve simgesi:** Codex skill'in adını ve simgesini `agents/openai.yaml` dosyasından okur. Skill listede "İnsanlık öldü mü?" adıyla ve kuru kafa simgesiyle görünür.
 
-**Skill'in devreye girmesi:** Çok sayıda skill yüklüyse Codex bu skill'i kendiliğinden seçmeyebilir. Ayar betiği bunun için Codex'in genel talimatlarına üç satırlık bir yönlendirme notu eklemeyi önerir (`--codex-routing`). codex-cli 0.162.1 ile denendi: Not varken skill adı verilmeden devreye giriyor. Not istemezsen isteğinin başına `$insanlik-oldu-mu` yazman yeterli.
+**Skill'in devreye girmesi:** Codex başlangıçta skill listesine bağlamın küçük bir payını ayırır, skill çoksa açıklamaları kısaltır. Skill'in açıklaması bu yüzden tetikleyici kelimelerle ("doğallaştırır ve insanlaştırır") başlar. 230 skill yüklü bir bilgisayarda codex-cli 0.162.1 skill'i adı verilmeden seçti. Yine de çok sayıda skill yüklüyse Codex bu skill'i kendiliğinden seçmeyebilir. Ayar betiği bunun için Codex'in genel talimatlarına üç satırlık bir yönlendirme notu eklemeyi önerir (`--codex-routing`). codex-cli 0.162.1 ile denendi: Not varken skill adı verilmeden devreye giriyor. Not istemezsen isteğinin başına `$insanlik-oldu-mu` yazman yeterli.
 
 **Canlı köprü:** Köprü yalnız 127.0.0.1'de çalışan yerel bir sunucu açar. codex-cli 0.162.1 ile varsayılan sandbox'ta denendi: Ajan köprüyü dinleyebiliyor ve sayfadan gönderilen kararları alabiliyor. Sandbox ayarların daha sıkıysa ve Codex komut için onay isterse o oturum için izin vermen yeterli.
 
+### ChatGPT masaüstü uygulaması
+
+ChatGPT'nin masaüstü uygulamasının içinde kendi Codex'i var ve Codex CLI ile aynı skill klasörünü (`~/.agents/skills`) okur. `npx skills` ile kurduysan skill orada da hazırdır, ayrıca bir şey gerekmez. ChatGPT 26.1016 içindeki Codex 0.163.0-alpha ile denendi: Skill'i bu klasörden buluyor. Codex için yazılan notlar (yönlendirme notu, `$insanlik-oldu-mu`) burada da geçerli.
+
+### Claude masaüstü ve web sohbeti
+
+Claude'un masaüstü uygulamasında iki ayrı yer var. **Code** sekmesi Claude Code'dur, skill'i `~/.claude/skills` klasöründen okur ve `npx skills` ile kurulan skill orada hazırdır. **Sohbet** ise skill'leri bilgisayarındaki klasörlerden değil Claude hesabından alır ve Claude'un bulut ortamında çalıştırır. Sohbete eklemek için:
+
+1. Settings > Capabilities altında "Code execution and file creation" açık olsun.
+2. [Sürümler sayfasından](https://github.com/MesutARIDORU/insanlik-oldu-mu/releases/latest) `insanlik-oldu-mu.zip` dosyasını indir. Her sürümde otomatik eklenir.
+3. Customize > Skills altında "+" > "Create skill" > "Upload a skill" ile ZIP'i yükle.
+
+Bu ortamda ölçüm, yeniden yazım ve değişiklik tablosu çalışır. İnceleme sayfası canlı açılmaz: Claude onu indirilebilir bir HTML dosyası olarak verir, kararlarını sayfadaki "Geri bildirimi kopyala" ile sohbete yapıştırırsın. Önizleme tercihi orada saklanmaz. Bu yol henüz denenmedi. Claude'un yardım sayfası ZIP'teki klasör adının skill adıyla aynı olmasını istiyor, ZIP buna göre hazırlanır.
+
 ### Gemini CLI
+
+**Hesap:** Google, Gemini CLI'ı Gemini Code Assist'in ücretsiz bireysel hesaplarında kapattı. Böyle bir hesapla CLI her istekte "This client is no longer supported for Gemini Code Assist for individuals" der ve Antigravity'ye yönlendirir. Gemini CLI 0.60.0 ile böyle bir hesapta denendi: Skill'i `~/.agents/skills` klasöründen buluyor (`gemini skills list`) ama hiçbir istek çalışmıyor. Gemini API anahtarıyla ya da ücretli bir planla çalışır. Ücretsiz hesapla Antigravity'yi kullan.
 
 `npx skills` skill'i Gemini CLI'ın okuduğu ortak klasöre kurar. Ayar betiği ayrıca `~/.gemini/commands/insanlik-oldu-mu.toml` komutunu yazar, skill'i adıyla çağırmak için: `/insanlik-oldu-mu [metin]`. Komutu elle eklemek istersen [adapters/gemini/insanlik-oldu-mu.toml](adapters/gemini/insanlik-oldu-mu.toml) dosyasını o klasöre kopyala ve `<SKILL-YOLU>` yazan yerlere `~/.agents/skills/insanlik-oldu-mu` yolunu yaz.
 
@@ -146,7 +164,7 @@ Ortak klasörü okumayan araçlarda önce depoyu bilgisayarına klonla. Ardında
 
 ### Web sohbet arayüzleri
 
-ChatGPT, Claude.ai ya da Gemini'nin web arayüzünde dosya okuma ve betik çalıştırma yoksa `SKILL.md` içeriğini özel talimat, Project ya da Gem alanına yapıştırabilirsin. Bu durumda iki şey eksik kalır:
+Claude'un sohbeti için yukarıdaki ZIP yolu var. ChatGPT, Claude.ai ya da Gemini'nin web arayüzünde dosya okuma ve betik çalıştırma yoksa `SKILL.md` içeriğini özel talimat, Project ya da Gem alanına yapıştırabilirsin. Bu durumda iki şey eksik kalır:
 - Ölçümler elle yapılır.
 - İnceleme sayfası olmaz.
 

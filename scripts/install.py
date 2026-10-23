@@ -284,7 +284,7 @@ def install_shared(selected):
     code = subprocess.run(cmd, cwd=HOME).returncode
     installed = os.path.exists(os.path.join(SHARED_DIR, NAME, "SKILL.md"))
     if code == 0 and installed:
-        say("✓", f"Ortak klasör: kuruldu ({os.path.join(SHARED_DIR, NAME)}), kilit dosyasına yazıldı. Güncellemek için: npx skills update {NAME}")
+        say("✓", f"Ortak klasör: kuruldu ({os.path.join(SHARED_DIR, NAME)}), kilit dosyasına yazıldı. Güncellemek için: npx skills update -g {NAME}")
     else:
         say("!", f"Ortak klasör: npx skills kurulumu tamamlanmadı (çıkış kodu {code}). Elle denemek için: npx skills add {source} -g")
     return os.path.join(SHARED_DIR, NAME)
@@ -346,7 +346,7 @@ def migrate_legacy_files():
 
 def write_config(agents, installs):
     config = {
-        "version": "1.7.0",
+        "version": "1.7.1",
         "skill_dir": SKILL_ROOT,
         "installs": installs,
         "agents": agents,
@@ -518,7 +518,7 @@ def main(argv=None):
     agents = find_agents()
     print()
     if IN_SHARED:
-        print(f"· Skill ortak klasörde kurulu, yeniden kurulmayacak. Güncellemek için: npx skills update {NAME}\n")
+        print(f"· Skill ortak klasörde kurulu, yeniden kurulmayacak. Güncellemek için: npx skills update -g {NAME}\n")
     targets = choose_targets(agents)
     labels = dict(TARGETS)
     if not targets:

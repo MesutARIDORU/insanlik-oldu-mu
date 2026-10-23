@@ -1,5 +1,12 @@
 # Değişiklik günlüğü
 
+## 1.7.1 · Daha çok araçta
+
+- **Açıklama:** Skill'in açıklaması artık tetikleyici kelimelerle başlıyor ("Türkçe metni doğallaştırır ve insanlaştırır"), adı sonda. Codex çok sayıda skill yüklüyken açıklamaları kısaltıyor ve tetikleyici kelimeler kesilen kısımda kalıyordu. 230 skill yüklü bir bilgisayarda Codex skill'i artık adı verilmeden seçiyor.
+- **Claude sohbeti:** Her sürüme `insanlik-oldu-mu.zip` ekleniyor. Claude'un masaüstü ve web sohbetine Customize > Skills'ten yüklenebiliyor. Tarayıcının ulaşamadığı böyle bir ortamda inceleme sayfası canlı açılmıyor, indirilebilir bir dosya olarak geliyor ve kararlar kopyala-yapıştırla dönüyor.
+- **Hangi araçlarda çalışır:** README'deki tabloda her araçta neyin denendiği yazıyor: Claude Code, Codex CLI, ChatGPT masaüstü uygulamasındaki Codex, Antigravity, Gemini CLI ve Claude sohbeti. Gemini CLI'ın, Google ücretsiz bireysel hesaplarda kapattığı için o hesaplarla çalışmadığı da yazıyor.
+- **Güncelleme komutu:** `npx skills update -g insanlik-oldu-mu`. `-g` olmadan komut kapsam soruyor, Enter "Project"i seçiyor ve global kurulan skill güncellenmiyor.
+
 ## 1.7.0 · İlk seferde önizleme, Antigravity
 
 - **İlk kullanımda önizleme:** Skill ilk kez kullanıldığında önizleme sayfası sormadan açılıyor. Sayfadaki bantlı not bundan sonrasını soruyor: "Her seferinde aç", "Önce bana sor" ya da "Ben isteyince aç". "Ben isteyince aç" seçilince not, sohbet kutusuna "önizle", "sayfada göster", "değişiklikleri sayfada aç" yazan bir animasyonla sayfanın nasıl açılacağını gösteriyor. Claude Code ve Codex'te "bu sohbette hep aç" ve "bu sohbette açma" seçenekleri de var.

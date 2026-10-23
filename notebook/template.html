@@ -452,7 +452,8 @@ body { background: radial-gradient(ellipse at 40% 30%, rgba(255, 214, 160, .10),
 .shadow { display: none; }
 
 /* header */
-.product { font: 700 54px/1.05 var(--font-hand); transform: none; letter-spacing: .2px; -webkit-text-stroke: .6px currentColor; }
+/* the title keeps its felt-tip marker, the product's own lettering; the rest of the page is in the handwriting */
+.product { font: 700 50px/1.1 var(--hand-title); transform: rotate(-.6deg); letter-spacing: .3px; }
 .product .skull { width: 1.05em; height: 1.12em; transform: none; }
 .underline-squiggle { width: 410px; height: 12px; margin: 0 0 14px 6px; opacity: .9; }
 .icon-button { color: #5e5a54; opacity: .75; }
@@ -575,6 +576,45 @@ body { background: radial-gradient(ellipse at 40% 30%, rgba(255, 214, 160, .10),
   .product { font-size: 32px; }
   .margin-note { display: none; }
 }
+/* the first page: a taped note asks how the preview should open from now on */
+.welcome { position: fixed; inset: 0; z-index: 70; display: flex; align-items: safe center; justify-content: center; padding: 30px 20px;
+  overflow-y: auto; background: rgba(32, 20, 10, .38); }
+.welcome[hidden] { display: none; }
+.welcome-card { position: relative; width: min(540px, 100%); flex: none; padding: 28px 30px 24px; border-radius: 14px; font: 19px/1.4 var(--ui-font);
+  color: #2d2a24; background-image: var(--grain), linear-gradient(170deg, #fbefb4 0%, #f6e39b 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .25), 0 30px 60px -12px rgba(20, 8, 0, .6); transform: rotate(-.6deg); animation: welcome-in .28s cubic-bezier(.2, .7, .2, 1); }
+.welcome-card::before { content: ""; position: absolute; top: -15px; left: 50%; width: 150px; height: 34px; transform: translateX(-50%) rotate(2deg);
+  background: var(--tape-image, linear-gradient(180deg, rgba(232, 222, 196, .92), rgba(214, 203, 175, .9))) center / 100% 100% no-repeat; }
+.welcome-close { position: absolute; top: 12px; right: 16px; border: 0; background: none; font: 300 32px/1 var(--ui-font); color: #2d2a24; cursor: pointer; }
+.welcome .card-h { display: table; position: relative; margin: 4px 40px 10px 2px; font: 700 26px/1.15 var(--ui-font); }
+.welcome .card-h::after { content: ""; position: absolute; left: -3px; right: -6px; bottom: -4px; height: 3px; border-radius: 3px; background: #c8372b; transform: rotate(-1.2deg); }
+.welcome-intro { margin: 14px 0 16px; color: #4f493f; }
+.welcome-options { display: grid; gap: 10px; }
+.welcome-option { display: grid; gap: 2px; text-align: left; padding: 10px 16px; border-radius: 12px; border: 2px solid #2b2621; background: #f7ecd2 var(--grain);
+  color: #2d2a24; cursor: pointer; font: inherit; }
+.welcome-option b { font: 700 22px/1.2 var(--ui-font); }
+.welcome-option span { font-size: 16.5px; line-height: 1.35; color: rgba(43, 41, 37, .72); }
+.welcome-option:hover, .welcome-option:focus-visible { background-color: #f1e3c2; outline: none; box-shadow: 0 0 0 3px rgba(43, 41, 37, .15); }
+.welcome-chat { margin: 16px 0 0; font-size: 16.5px; color: rgba(43, 41, 37, .72); }
+.welcome-chat button { border: 0; background: none; padding: 0; font: inherit; color: #2c5fc9; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.chat-demo { display: flex; align-items: center; min-height: 58px; margin: 0 0 12px; padding: 10px 10px 10px 18px; border-radius: 18px; background: #fffdf7;
+  border: 1.6px solid rgba(43, 41, 37, .3); box-shadow: inset 0 1px 3px rgba(0, 0, 0, .08); font: 23px/1.3 var(--ui-font); }
+.chat-demo .caret { width: 2px; height: 1.1em; margin-left: 1px; background: #2d2a24; animation: caret 1s steps(1) infinite; }
+.chat-demo .send { display: grid; place-items: center; width: 34px; height: 34px; margin-left: auto; border-radius: 50%; background: #2b2a27; color: #fbf4dc; }
+.chat-demo .send svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.welcome-examples { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
+.welcome-examples span { padding: 3px 12px; border-radius: 999px; background: rgba(255, 252, 236, .7); border: 1px solid rgba(120, 96, 40, .25); font-size: 18px; }
+.welcome-note { margin: 0 0 18px; font-size: 16px; color: rgba(43, 41, 37, .72); }
+.welcome-done { display: block; width: 100%; padding: 12px 18px; border: 0; border-radius: 10px; cursor: pointer; color: #fbf4dc; font: 22px/1.2 var(--ui-font);
+  background: #24221f var(--grain); box-shadow: 0 0 0 2px #efe2c4, 0 0 0 3px rgba(60, 48, 30, .25), 0 3px 6px rgba(0, 0, 0, .3); }
+.welcome-done:hover { background-color: #34312c; }
+.welcome-done:focus { outline: none; }
+.welcome-done:focus-visible { box-shadow: 0 0 0 2px #efe2c4, 0 0 0 5px rgba(43, 41, 37, .35); }
+@keyframes caret { 50% { opacity: 0; } }
+@keyframes welcome-in { from { opacity: 0; transform: translateY(10px) rotate(-.6deg); } }
+@media (prefers-reduced-motion: reduce) { .welcome-card, .chat-demo .caret { animation: none; } }
+@media print { .welcome { display: none !important; } }
+
 /* the texture pack: tape and highlighter images when the page has them, drawn shapes when not */
 .sticky-note::before { background: var(--tape-image, linear-gradient(180deg, rgba(232, 222, 196, .92), rgba(214, 203, 175, .9))) center / 100% 100% no-repeat; }
 .divider { background: var(--marker-image, none) center / 100% 15px no-repeat; }
@@ -720,6 +760,14 @@ body { background: radial-gradient(ellipse at 40% 30%, rgba(255, 214, 160, .10),
         <button class="option" type="button" data-theme-pick="dark">{{settings.theme_dark}}</button>
       </div>
     </div>
+    <div class="setting-row" id="preview-section" hidden>
+      <span class="setting-name">{{settings.preview}}</span>
+      <div class="setting-options">
+        <button class="option" type="button" data-preview-pick="always">{{settings.preview_always}}</button>
+        <button class="option" type="button" data-preview-pick="ask">{{settings.preview_ask}}</button>
+        <button class="option" type="button" data-preview-pick="request">{{settings.preview_request}}</button>
+      </div>
+    </div>
     <div class="setting-row" id="engine-section" hidden>
       <span class="setting-name">{{settings.suggestions}}</span>
       <div class="setting-options">
@@ -733,6 +781,29 @@ body { background: radial-gradient(ellipse at 40% 30%, rgba(255, 214, 160, .10),
     <div class="setting-row full">
       <span class="setting-name">{{settings.about}}</span>
       <p class="setting-note" id="meta"></p>
+    </div>
+  </div>
+  <div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title" hidden>
+    <div class="welcome-card">
+      <button class="welcome-close" id="welcome-close" type="button" aria-label="{{common.close}}">×</button>
+      <div id="welcome-ask">
+        <h2 class="card-h" id="welcome-title">{{welcome.title}}</h2>
+        <p class="welcome-intro">{{welcome.intro}}</p>
+        <div class="welcome-options">
+          <button class="welcome-option" type="button" data-preview-choice="always"><b>{{welcome.always}}</b><span>{{welcome.always_hint}}</span></button>
+          <button class="welcome-option" type="button" data-preview-choice="ask"><b>{{welcome.ask}}</b><span>{{welcome.ask_hint}}</span></button>
+          <button class="welcome-option" type="button" data-preview-choice="request"><b>{{welcome.request}}</b><span>{{welcome.request_hint}}</span></button>
+        </div>
+        <p class="welcome-chat" id="welcome-chat" hidden>{{welcome.chat}} <button type="button" data-preview-chat="on">{{welcome.chat_on}}</button> · <button type="button" data-preview-chat="off">{{welcome.chat_off}}</button></p>
+      </div>
+      <div id="welcome-how" hidden>
+        <h2 class="card-h">{{welcome.how_title}}</h2>
+        <p class="welcome-intro">{{welcome.how_intro}}</p>
+        <div class="chat-demo" aria-hidden="true"><span id="chat-typed"></span><span class="caret"></span><span class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></div>
+        <div class="welcome-examples" id="welcome-examples"></div>
+        <p class="welcome-note">{{welcome.how_note}}</p>
+        <button class="welcome-done" id="welcome-done" type="button">{{welcome.done}}</button>
+      </div>
     </div>
   </div>
   <footer class="page-foot" id="page-foot" aria-label="{{dock.label}}">
@@ -790,7 +861,8 @@ body { background: radial-gradient(ellipse at 40% 30%, rgba(255, 214, 160, .10),
 
   // preferences (paper, font, theme, suggestion engine) belong to the user, not the document: valid on every page and live session
   var PREF_KEY = PRODUCT.slug + ":preferences";
-  var VALID = { paper: ["lined", "grid", "plain"], type: ["hand", "airy", "soft", "book"], theme: ["", "light", "dark"], engine: ["auto", "agent", "fork", "stateless"] };
+  var VALID = { paper: ["lined", "grid", "plain"], type: ["hand", "airy", "soft", "book"], theme: ["", "light", "dark"], engine: ["auto", "agent", "fork", "stateless"],
+    preview: ["always", "ask", "request"] };
   function cleanPrefs(p) {
     var c = {};
     if (!p || typeof p !== "object") return c;
@@ -2010,7 +2082,62 @@ body { background: radial-gradient(ellipse at 40% 30%, rgba(255, 214, 160, .10),
   }
   document.querySelectorAll("[data-theme-pick]").forEach(function (b) { b.addEventListener("click", function () { prefs.theme = b.getAttribute("data-theme-pick"); savePrefs(); applyTheme(); }); });
 
+  // how the page opens after a rewrite. The agent reads it from the preferences file (bridge.py preview) before it opens the
+  // next page, so it is only offered with the bridge, which writes that file
+  function applyPreview() { markPicked("data-preview-pick", prefs.preview || ""); }
+  document.querySelectorAll("[data-preview-pick]").forEach(function (b) {
+    b.addEventListener("click", function () { prefs.preview = b.getAttribute("data-preview-pick"); savePrefs(); applyPreview(); });
+  });
+  if (LIVE) $("preview-section").hidden = false;
+  applyPreview();
+  // the first page opens on its own and asks once. Closing it without an answer keeps the old way: ask in the chat
+  var welcome = $("welcome"), typing = null;
+  function closeWelcome() {
+    if (welcome.hidden) return;
+    if (!prefs.preview) { prefs.preview = "ask"; savePrefs(); applyPreview(); }
+    welcome.hidden = true; clearTimeout(typing);
+  }
+  // "only when I ask": a chat box types the ways to ask, one after the other
+  function showHow() {
+    $("welcome-ask").hidden = true; $("welcome-how").hidden = false;
+    var examples = msg("welcome.examples").split("|"), typed = $("chat-typed"), list = $("welcome-examples");
+    list.textContent = "";
+    examples.forEach(function (x) { list.appendChild(el("span", "", x)); });
+    $("welcome-done").focus();
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) { typed.textContent = examples[0]; return; }
+    var i = 0, n = 0, erasing = false;
+    (function tick() {
+      var word = examples[i];
+      n += erasing ? -1 : 1;
+      typed.textContent = word.slice(0, n);
+      if (!erasing && n === word.length) { erasing = true; typing = setTimeout(tick, 1600); }
+      else if (erasing && n === 0) { erasing = false; i = (i + 1) % examples.length; typing = setTimeout(tick, 500); }
+      else typing = setTimeout(tick, erasing ? 32 : 80 + Math.random() * 70);
+    })();
+  }
+  document.querySelectorAll("[data-preview-choice]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      prefs.preview = b.getAttribute("data-preview-choice"); savePrefs(); applyPreview();
+      if (prefs.preview === "request") showHow(); else { closeWelcome(); toast(msg("welcome.saved"), 3200); }
+    });
+  });
+  document.querySelectorAll("[data-preview-chat]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var choice = b.getAttribute("data-preview-chat");
+      api("/api/preview-chat", { method: "POST", body: JSON.stringify({ choice: choice }) }).catch(function () {});
+      if (choice === "off") showHow(); else { closeWelcome(); toast(msg("welcome.saved_chat"), 3200); }
+    });
+  });
+  $("welcome-close").addEventListener("click", closeWelcome);
+  $("welcome-done").addEventListener("click", closeWelcome);
+  welcome.querySelector(".welcome-card").addEventListener("click", function (e) { e.stopPropagation(); });
+  if (LIVE && !(LIVE.preferences && LIVE.preferences.preview)) {
+    $("welcome-chat").hidden = !LIVE.has_session;
+    setTimeout(function () { welcome.hidden = false; welcome.querySelector(".welcome-option").focus(); }, 500);
+  }
+
   document.addEventListener("keydown", function (e) {
+    if (!welcome.hidden) { if (e.key === "Escape") closeWelcome(); return; }
     var t = e.target.tagName;
     if (t === "TEXTAREA" || t === "INPUT" || t === "SELECT" || e.metaKey || e.ctrlKey || e.altKey) { if (e.key === "Escape") e.target.blur(); return; }
     if (e.key === "p") { e.preventDefault(); setClean(!clean); return; }

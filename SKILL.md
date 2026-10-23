@@ -121,9 +121,24 @@ Kendi tiklerine de bak:
 - Bütün kapanışlar soruyla mı bağlanıyor?
 - Bilgi sadakatini bozan bir ekleme yaptın mı?
 
-**5. Teslim et ve önizlemeyi sor.** Önce metni çıktı biçimiyle teslim et (bkz. aşağıda). Kullanıcıyı hiçbir şey için bekletme: Metin ve tablo her durumda hemen gelir.
+**5. Teslim et, sonra önizlemeye karar ver.** Önce metni çıktı biçimiyle teslim et (bkz. aşağıda). Kullanıcıyı hiçbir şey için bekletme: Metin ve tablo her durumda hemen gelir.
 
-Hafif dokunuş ya da tam yeniden yazım yaptıysan teslimin ardından, sohbette, inceleme sayfasını görmek isteyip istemediğini seçenekli olarak sor:
+Hafif dokunuş ya da tam yeniden yazım yaptıysan teslimin ardından kullanıcının önizleme tercihine bak:
+```bash
+python3 <skill-dizini>/scripts/bridge.py preview
+```
+Betik tek kelime yazar:
+
+| Çıktı | Ne yaparsın |
+|---|---|
+| `first` | Skill ilk kez kullanılıyor. Sormadan sayfayı canlı aç (bkz. İnceleme sayfası) ve sohbete yaz: "İlk kez kullandığın için önizleme sayfasını kendiliğinden açtım. Bundan sonra ne olacağını sayfadaki notta seçebilirsin." Sayfa bu seçimi kendisi sorar. |
+| `always` | Sormadan sayfayı canlı aç, adresini sohbete yaz. |
+| `ask` | Aşağıdaki seçenekli soruyu sor. Ama metin 300 kelimeyi geçiyorsa, 8'den çok değişiklik varsa ya da kullanıcının karar vermesi gereken yer çoksa (köşeli parantezli sorular, birbirine yakın seçenekler) sormadan aç ve nedenini tek satırla söyle: "Metin uzun, değişikliklere sayfada bakmak daha kolay olur diye açtım." |
+| `request` | Açma, sorma. Sayfa yalnız kullanıcı isteyince açılır. |
+
+Betik çalışmazsa (Python yoksa) `ask` gibi davran.
+
+Seçenekli soru:
 - **Seçenekli soru aracın varsa** (Claude Code'da AskUserQuestion) onu kullan. Soru: "Değişiklikleri önizleme sayfasında görmek ister misin?" Seçenekler sırasıyla:
   - "Önizle (Önerilen)": İnceleme sayfası tarayıcıda açılır, kararlarını orada verirsin.
   - "Gerek yok": Metin bu haliyle kalır.
@@ -131,8 +146,15 @@ Hafif dokunuş ya da tam yeniden yazım yaptıysan teslimin ardından, sohbette,
 
 "Önizle" seçilirse ya da kullanıcı sonradan "önizle" yazarsa sayfayı canlı aç (bkz. İnceleme sayfası) ve adresini sohbete yaz, sonra dinlemeye geç. "Gerek yok" seçilirse ya da kullanıcı başka bir şeyle devam ederse soruyu tekrarlama.
 
-Şu durumlarda sorma:
-- Kullanıcı sayfayı zaten istedi ("sayfada göster", "önizle"). Doğrudan sayfayla teslim et.
+Kullanıcı tercihini sohbette de değiştirebilir. Bunu duyunca aynı betiği çalıştır, sonra tek satırla onayla:
+- "önizleme hep açılsın": `bridge.py preview --set always`
+- "önizlemeyi önce bana sor": `bridge.py preview --set ask`
+- "önizlemeyi ben isteyince aç", "önizleme açılmasın": `bridge.py preview --set request`
+- "bu sohbette hep aç": `bridge.py preview --chat on`. "Bu sohbette önizleme açma": `bridge.py preview --chat off`. Bunlar yalnız bu sohbeti etkiler. Betik sohbeti tanıyamazsa (Gemini CLI) hata verir, o zaman seçimi bu sohbet boyunca kendin hatırla.
+
+Tercih ne olursa olsun kullanıcı "önizle", "sayfada göster" ya da "değişiklikleri sayfada aç" derse sayfayı aç. Sayfayı zaten istediyse tercihe bakmadan doğrudan sayfayla teslim et.
+
+Şu durumlarda sayfayı açma, soru da sorma:
 - Kullanıcı sayfa istemediğini söyledi ya da yalnızca metni istiyor.
 - Mod teşhis, sıfırdan yazım ya da geri bildirim turu.
 
@@ -351,7 +373,7 @@ Varsayılan teslim biçimi aşağıda. Kullanıcı yalnız metni isterse yalnız
 
 ## İnceleme sayfası
 
-Kullanıcı teslimden sonraki soruda "Önizle"yi seçtiyse, sayfayı kendisi istediyse ya da sonradan "önizle" yazdıysa etkileşimli bir inceleme sayfası üret. Bunun için Python çalıştırabilmen ve dosya yazabilmen gerekir.
+5. adımdaki tercih sayfayı açtırıyorsa, kullanıcı teslimden sonraki soruda "Önizle"yi seçtiyse, sayfayı kendisi istediyse ya da sonradan "önizle" yazdıysa etkileşimli bir inceleme sayfası üret. Bunun için Python çalıştırabilmen ve dosya yazabilmen gerekir.
 
 Sayfa tek bir HTML dosyası ve görünüşü ahşap masada duran bir defter yaprağı:
 - Metinde değişen kelimelerin arkasında yeşil bir fosforlu kalem var. Kullanıcının onayladığı değişikliğin eski hali üstü çizili olarak yeni halin üstünde kalıyor. Silinen yerde küçük bir "[silindi]" notu duruyor. Köşeli parantezli sorular turuncu.
@@ -498,7 +520,7 @@ Bu örnekte hitap ("Değerli ekip arkadaşlarım") olduğu gibi kaldı. Yazarın
 | `references/idioms.md` | Deyim ya da atasözü kullanmadan önce, çeviri kokan bir deyim gördüğünde |
 | `references/sources.md` | Kuralların nereden geldiğini merak eden kullanıcıya göstermek için |
 | `scripts/audit.py` | Ölçüm, metin tanımı tahmini, tür ve alan rehberi (1. adım), önce/sonra karşılaştırması (4. adım). `--save` metni saklar, `--guide` rehberi verir, `--profile` yalnız tahmini verir |
-| `scripts/review.py` | Etkileşimli inceleme sayfası (5. adımdaki soruya "Önizle" denirse), `--live` ile köprülü |
-| `scripts/bridge.py` | Canlı köprü: `wait`, `reply`, `status`, `close` |
+| `scripts/review.py` | Etkileşimli inceleme sayfası (5. adımdaki tercih ya da kullanıcının isteğiyle), `--live` ile köprülü |
+| `scripts/bridge.py` | Canlı köprü: `wait`, `reply`, `status`, `close`. `preview` önizleme tercihini söyler ve değiştirir (5. adım) |
 | `scripts/install.py` | Kurulum: skill'i ajanlara bağlar, köprüyü ayarlar, dener |
 | `notebook/`, `notebook.json` | İnceleme sayfasının ve köprünün ortak çekirdeği, skill'in kimliği. notebook-review deposundan kopyalanır, okuman ya da değiştirmen gerekmez. `review.py` ve `bridge.py` bunları kullanır |

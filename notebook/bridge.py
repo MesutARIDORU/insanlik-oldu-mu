@@ -18,6 +18,8 @@ Commands (run by the agent):
   python3 bridge.py reply --request N --suggestion "..." [--suggestion "..."]
   python3 bridge.py status
   python3 bridge.py close
+  python3 bridge.py preview [--set always|ask|request] [--chat on|off|clear]
+             prints what to do with the page after a rewrite: first, always, ask or request
 
 Security: the server binds to 127.0.0.1 only, requires a per-session token on every request
 and checks the Host header. Forked and stateless calls cannot use tools (--tools "" for Claude,
@@ -45,7 +47,9 @@ import urllib.request
 import webbrowser
 
 VALID_PREFERENCES = {"paper": {"lined", "grid", "plain"}, "type": {"hand", "airy", "soft", "book"},
-                     "theme": {"", "light", "dark"}, "engine": {"auto", "agent", "fork", "stateless"}}
+                     "theme": {"", "light", "dark"}, "engine": {"auto", "agent", "fork", "stateless"},
+                     "preview": {"always", "ask", "request"}}
+PREVIEW_CHATS = 30           # choices made for single chat sessions that are kept, newest last
 ENGINES = ("agent", "fork", "stateless")
 IDLE_SHUTDOWN = 3 * 60 * 60  # seconds
 LISTENING_GRACE = 25         # the agent counts as listening for this many seconds after its last wait call
@@ -88,20 +92,58 @@ def read_preferences():
 PREFERENCES_LOCK = threading.Lock()
 
 
+def _store_preferences(data):
+    os.makedirs(os.path.dirname(PREFERENCES_FILE), exist_ok=True)
+    tmp = PREFERENCES_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)
+    os.replace(tmp, PREFERENCES_FILE)
+
+
+def _known(current):
+    """The stored preferences without keys an older version left behind."""
+    keep = set(VALID_PREFERENCES) | {"time", "preview_chats"}
+    return {k: v for k, v in (current or {}).items() if k in keep}
+
+
 def write_preferences(data):
-    """Writes the preferences. Looks at the timestamp so an older request never overwrites a newer one."""
+    """Writes the preferences the page sends. Keys it leaves out keep their stored value, and the timestamp makes sure
+    an older request never overwrites a newer one."""
     clean = {k: data[k] for k, allowed in VALID_PREFERENCES.items() if data.get(k) in allowed}
     clean["time"] = data["time"] if isinstance(data.get("time"), (int, float)) else time.time() * 1000
     with PREFERENCES_LOCK:
-        current = read_preferences() or {}
+        current = _known(read_preferences())
         if (current.get("time") or 0) > clean["time"]:
             return current
-        os.makedirs(os.path.dirname(PREFERENCES_FILE), exist_ok=True)
-        tmp = PREFERENCES_FILE + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(clean, f, ensure_ascii=False)
-        os.replace(tmp, PREFERENCES_FILE)
-    return clean
+        current.update(clean)
+        _store_preferences(current)
+    return current
+
+
+def set_preview(mode=None, chat=None, choice=None):
+    """Saves what happens with the review page after a rewrite: the default (always, ask or request), or a choice for
+    one chat session only (on or off; None forgets it)."""
+    with PREFERENCES_LOCK:
+        current = _known(read_preferences())
+        if mode:
+            current["preview"] = mode
+            current["time"] = time.time() * 1000
+        if chat:
+            chats = {k: v for k, v in (current.get("preview_chats") or {}).items() if k != chat}
+            if choice:
+                chats[chat] = choice
+            current["preview_chats"] = dict(list(chats.items())[-PREVIEW_CHATS:])
+        _store_preferences(current)
+    return current
+
+
+def preview_mode(chat=None):
+    """first (nothing chosen yet), always, ask or request. A choice made for this chat session comes before the default."""
+    prefs = read_preferences() or {}
+    choice = (prefs.get("preview_chats") or {}).get(chat) if chat else None
+    if choice in ("on", "off"):
+        return "always" if choice == "on" else "request"
+    return prefs.get("preview") if prefs.get("preview") in VALID_PREFERENCES["preview"] else "first"
 
 
 def read_config():
@@ -404,6 +446,15 @@ def make_server(info, page_html):
                     return self._json(200, write_preferences(data))
                 except Exception as e:
                     return self._json(500, {"error": str(e)})
+            if path == "/api/preview-chat":
+                if not info.get("session"):
+                    return self._json(409, {"error": t("bridge.preview_no_chat")})
+                choice = data.get("choice") if data.get("choice") in ("on", "off") else None
+                try:
+                    set_preview(chat=info["session"], choice=choice)
+                    return self._json(200, {"choice": choice})
+                except Exception as e:
+                    return self._json(500, {"error": str(e)})
             if path == "/api/close":
                 self._json(200, {"status": "closing"})
                 threading.Thread(target=self.server.shutdown, daemon=True).start()
@@ -599,12 +650,25 @@ def main(argv=None):
     p.add_argument("--session")
     p = sub.add_parser("close", help="close the bridge")
     p.add_argument("--session")
+    p = sub.add_parser("preview", help="what to do with the review page after a rewrite: first, always, ask or request")
+    p.add_argument("--set", choices=sorted(VALID_PREFERENCES["preview"]), help="save the default")
+    p.add_argument("--chat", choices=["on", "off", "clear"], help="open always (on) or never (off) in this chat session only")
     p = sub.add_parser("_serve")
     p.add_argument("folder")
     a = ap.parse_args(argv)
 
     if a.command == "_serve":
         return _serve(a.folder)
+    if a.command == "preview":
+        chat = session_id(guess_agent(), os.getcwd())
+        if a.set:
+            set_preview(mode=a.set)
+        if a.chat:
+            if not chat:
+                sys.exit(t("bridge.preview_no_chat"))
+            set_preview(chat=chat, choice=None if a.chat == "clear" else a.chat)
+        print(preview_mode(chat))
+        return
     if a.command == "start":
         info, address = start(a.page, a.agent, a.session_id, a.open)
         print(t("cli.live", address=address))

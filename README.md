@@ -79,7 +79,12 @@ Skill önce iskeleti değiştirir, sonra boşalan yere Türkçenin kendi ritmini
 
 **Her değişikliğin gerekçesi var.** Teslimle birlikte bir değişiklik tablosu gelir: önce, sonra, neden. Gerekçeler kodlu kalıp kataloğundan geldiği için tutarlı.
 
-**Son söz senin.** Metin ve değişiklik tablosu hemen gelir. Ardından skill sohbette sorar: "Değişiklikleri önizleme sayfasında görmek ister misin?" Seçenekler "Önizle" ve "Gerek yok". Claude Code bunu tıklanabilir seçenekler olarak gösterir. Codex ve Gemini CLI'da cevabı yazman yeterli.
+**Son söz senin.** Metin ve değişiklik tablosu hemen gelir. Skill'i ilk kullandığında önizleme sayfası da kendiliğinden açılır ve sayfadaki bir not bundan sonrasını sorar:
+- **Her seferinde aç:** Sayfa her yeniden yazımdan sonra açılır.
+- **Önce bana sor:** Skill sohbette "Değişiklikleri önizleme sayfasında görmek ister misin?" diye sorar. Claude Code bunu tıklanabilir seçenekler olarak gösterir, Codex ve Gemini CLI'da cevabı yazman yeterli. Metin uzunsa ya da değişiklik çoksa sormadan açar.
+- **Ben isteyince aç:** Sayfa kendiliğinden açılmaz. Sohbete "önizle", "sayfada göster" ya da "değişiklikleri sayfada aç" yazınca açılır. Not bunu küçük bir yazma animasyonuyla gösterir.
+
+Yalnız o sohbet için "bu sohbette hep aç" ya da "bu sohbette açma" da diyebilirsin. Seçimin `~/.config/insanlik-oldu-mu/preferences.json` dosyasında durur. Sayfanın ayarlarındaki Önizleme satırından ya da sohbette "önizleme hep açılsın" gibi bir cümleyle istediğin zaman değiştirirsin.
 
 Önizlemeyi seçersen değişiklikler ahşap bir masada duran defter yaprağında açılıyor:
 - Değişen kelimelerin arkasında yeşil bir fosforlu kalem var. Onayladığın değişikliğin eski hali, üstü çizili olarak yeni halin hemen üstünde kalıyor. Silinen yerde küçük bir "[silindi]" notu duruyor.

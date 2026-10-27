@@ -20,6 +20,10 @@ Commands (run by the agent):
   python3 bridge.py close
   python3 bridge.py preview [--set always|ask|request] [--chat on|off|clear]
              prints what to do with the page after a rewrite: first, always, ask or request
+  python3 bridge.py update [--now] [--apply] [--revert]
+             once a day, compares the installed version with the newest GitHub release and prints
+             checked (already looked today), current, available or unknown; --apply updates,
+             --revert goes back to the version the last update replaced
 
 Security: the server binds to 127.0.0.1 only, requires a per-session token on every request
 and checks the Host header. Forked and stateless calls cannot use tools (--tools "" for Claude,
@@ -37,11 +41,13 @@ import re
 import secrets
 import shutil
 import socketserver
+import ssl
 import subprocess
 import sys
 import tempfile
 import threading
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import webbrowser
@@ -54,6 +60,8 @@ ENGINES = ("agent", "fork", "stateless")
 IDLE_SHUTDOWN = 3 * 60 * 60  # seconds
 LISTENING_GRACE = 25         # the agent counts as listening for this many seconds after its last wait call
 ENGINE_TIMEOUT = 240
+UPDATE_TIMEOUT = 4           # seconds to wait for GitHub on the daily update check
+APPLY_TIMEOUT = 180          # seconds an update through npx skills or git may take
 
 # set by configure()
 PRODUCT = None
@@ -144,6 +152,202 @@ def preview_mode(chat=None):
     if choice in ("on", "off"):
         return "always" if choice == "on" else "request"
     return prefs.get("preview") if prefs.get("preview") in VALID_PREFERENCES["preview"] else "first"
+
+
+# ---------------------------------------------------------------- daily update check
+
+def _update_file():
+    return os.path.join(PRODUCT.config_dir, "update.json")
+
+
+def version_key(version):
+    """1.7.10 sorts after 1.7.9."""
+    return tuple(int(x) for x in re.findall(r"\d+", version or ""))
+
+
+# Python from python.org on macOS has no root certificates until "Install Certificates" is run, so a failed
+# certificate check is retried with the system's own bundle, then with curl
+SYSTEM_CA_FILES = ("/etc/ssl/cert.pem", "/etc/ssl/certs/ca-certificates.crt", "/etc/pki/tls/certs/ca-bundle.crt")
+
+
+def _get_json(url, timeout):
+    headers = {"Accept": "application/vnd.github+json", "User-Agent": PRODUCT.slug}
+    contexts = [None] + [ssl.create_default_context(cafile=p) for p in SYSTEM_CA_FILES if os.path.exists(p)]
+    error = None
+    for context in contexts:
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=timeout, context=context) as r:
+                return json.loads(r.read().decode("utf-8"))
+        except urllib.error.URLError as e:
+            error = e
+            if not isinstance(e.reason, ssl.SSLError):
+                break  # offline or refused: another certificate file won't help
+    curl = shutil.which("curl")
+    if curl:
+        cmd = [curl, "-fsSL", "--max-time", str(timeout)] + [x for k, v in headers.items() for x in ("-H", f"{k}: {v}")] + [url]
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 2, stdin=subprocess.DEVNULL)
+        if r.returncode == 0:
+            return json.loads(r.stdout)
+    raise error
+
+
+def latest_release(timeout=UPDATE_TIMEOUT):
+    """The newest release of the product's GitHub repository: {version, name, url}. Raises when it can't be read."""
+    data = _get_json(f"https://api.github.com/repos/{PRODUCT.repo}/releases/latest", timeout)
+    tag = data["tag_name"]
+    return {"version": tag.lstrip("vV"), "name": data.get("name") or tag, "url": data.get("html_url") or ""}
+
+
+def check_update(now=False, today=None, fetch=None):
+    """Compares the installed version with the newest release, at most once a day unless now is set.
+
+    Returns (status, state). status is checked (already looked today), current, available, or unknown
+    (no repository, no version, or GitHub out of reach). Every look is recorded with the day, so a
+    "not now" from the user or a failed request waits until the next day.
+    """
+    today = today or time.strftime("%Y-%m-%d")
+    try:
+        with open(_update_file(), encoding="utf-8") as f:
+            state = json.load(f)
+    except Exception:
+        state = {}
+    if state.get("checked") == today and not now:
+        return "checked", state
+    installed = PRODUCT.version
+    try:
+        latest = (fetch or latest_release)() if PRODUCT.repo else None
+    except Exception:
+        latest = None
+    # previous: the version a revert goes back to; reverted_from: a release the user went back from, never applied unasked
+    state = {"checked": today, "installed": installed, "previous": state.get("previous"), "reverted_from": state.get("reverted_from")}
+    if latest:
+        state.update(latest=latest["version"], name=latest["name"], url=latest["url"])
+    os.makedirs(PRODUCT.config_dir, exist_ok=True)
+    tmp = _update_file() + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False)
+    os.replace(tmp, _update_file())
+    if not latest or not installed:
+        return "unknown", state
+    return ("available" if version_key(latest["version"]) > version_key(installed) else "current"), state
+
+
+def install_kind():
+    """How this copy of the skill was installed: npx (the shared ~/.agents/skills folder), git (a clone) or manual."""
+    root = os.path.realpath(PRODUCT.root or "")
+    shared = os.path.realpath(os.path.join(os.path.expanduser("~"), ".agents", "skills", PRODUCT.slug))
+    if PRODUCT.root and root == shared:
+        return "npx"
+    if PRODUCT.root and os.path.isdir(os.path.join(root, ".git")):
+        return "git"
+    return "manual"
+
+
+def _read_update_state():
+    try:
+        with open(_update_file(), encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _remember(**values):
+    state = dict(_read_update_state(), **values)
+    os.makedirs(PRODUCT.config_dir, exist_ok=True)
+    tmp = _update_file() + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False)
+    os.replace(tmp, _update_file())
+
+
+def _npx_add(source):
+    """npx skills add for this skill, into the shared folder and the agents linked to it now."""
+    agents = ["codex"]  # puts the copy in ~/.agents/skills, which Codex, Gemini CLI and the other universal agents read
+    claude = os.path.join(os.path.expanduser("~"), ".claude", "skills", PRODUCT.slug)
+    if os.path.islink(claude) or os.path.isdir(claude):
+        agents.append("claude-code")
+    return [shutil.which("npx"), "-y", "skills", "add", source, "-g", "-y", "-a"] + agents
+
+
+def _run(cmd):
+    """Runs an update command; returns None, or the end of its error output."""
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=APPLY_TIMEOUT, cwd=os.path.expanduser("~"),
+                           stdin=subprocess.DEVNULL)
+    except Exception as e:
+        return str(e)
+    return None if r.returncode == 0 else (r.stderr or r.stdout or "exit code %d" % r.returncode).strip()[-400:]
+
+
+def _shown(cmd):
+    return " ".join(["npx"] + cmd[1:]) if cmd[0] == shutil.which("npx") else " ".join(cmd)
+
+
+def apply_update():
+    """Updates the skill in place. Returns (status, details): updated, current, failed or manual.
+
+    In the shared folder it runs npx skills update; a copy pinned to an older release (after a revert) stays
+    where it is with update, so it is then added again from the repository's default branch. A clone is
+    fast-forwarded with git pull.
+    """
+    kind, before = install_kind(), PRODUCT.version
+    if kind == "npx" and shutil.which("npx"):
+        cmds = [[shutil.which("npx"), "-y", "skills", "update", "-g", PRODUCT.slug]]
+        if PRODUCT.repo:
+            cmds.append(_npx_add(PRODUCT.repo))
+    elif kind == "git":
+        cmds = [["git", "-C", os.path.realpath(PRODUCT.root), "pull", "--ff-only"]]
+    else:
+        return "manual", {"installed": before}
+    error, used = None, []
+    for cmd in cmds:
+        used.append(_shown(cmd))
+        error = _run(cmd)
+        if error is None and version_key(PRODUCT.version) > version_key(before):
+            break
+    after = PRODUCT.version
+    details = {"installed": after, "before": before, "command": " && ".join(used)}
+    if version_key(after) > version_key(before):
+        _remember(previous=before, installed=after, reverted_from=None)
+        return "updated", details
+    if error:
+        return "failed", dict(details, error=error)
+    return "current", details
+
+
+def revert_update():
+    """Goes back to the version the last update replaced. Returns (status, details): reverted, failed or manual."""
+    previous, current = _read_update_state().get("previous"), PRODUCT.version
+    if not previous or not PRODUCT.repo:
+        return "failed", {"installed": current, "error": "no earlier version is recorded"}
+    kind = install_kind()
+    if kind == "npx" and shutil.which("npx"):
+        cmd = _npx_add(f"https://github.com/{PRODUCT.repo}/tree/v{previous}")
+        error = _run(cmd)
+        details = {"installed": PRODUCT.version, "before": current, "command": _shown(cmd)}
+        if PRODUCT.version == previous:
+            _remember(previous=None, installed=previous, reverted_from=current)
+            return "reverted", details
+        return "failed", dict(details, error=error or "the version did not change")
+    # a clone may hold the user's own work: going back is left to them
+    details = {"installed": current, "previous": previous}
+    if kind == "git":
+        details["git"] = f"git -C {os.path.realpath(PRODUCT.root)} checkout v{previous}"
+    return "manual", details
+
+
+def print_update(status, data):
+    """The update command's output: the status on the first line, then key: value lines for the agent."""
+    print(status)
+    keys = ("installed", "latest", "name", "url", "before", "previous", "reverted_from", "command", "git", "error")
+    for key in keys:
+        if data.get(key):
+            print(f"{key}: {data[key]}")
+    if status == "manual" and PRODUCT.repo:
+        version = data.get("previous")
+        print(f"npx: npx skills add https://github.com/{PRODUCT.repo}/tree/v{version} -g" if version
+              else f"npx: npx skills add {PRODUCT.repo} -g")
+        print(f"download: https://github.com/{PRODUCT.repo}/releases/" + (f"tag/v{version}" if version else "latest"))
 
 
 def read_config():
@@ -653,6 +857,10 @@ def main(argv=None):
     p = sub.add_parser("preview", help="what to do with the review page after a rewrite: first, always, ask or request")
     p.add_argument("--set", choices=sorted(VALID_PREFERENCES["preview"]), help="save the default")
     p.add_argument("--chat", choices=["on", "off", "clear"], help="open always (on) or never (off) in this chat session only")
+    p = sub.add_parser("update", help="once a day: is there a newer release? checked, current, available or unknown")
+    p.add_argument("--now", action="store_true", help="look now even if today's look is done")
+    p.add_argument("--apply", action="store_true", help="update the skill (npx skills or git pull)")
+    p.add_argument("--revert", action="store_true", help="go back to the version the last update replaced")
     p = sub.add_parser("_serve")
     p.add_argument("folder")
     a = ap.parse_args(argv)
@@ -668,6 +876,9 @@ def main(argv=None):
                 sys.exit(t("bridge.preview_no_chat"))
             set_preview(chat=chat, choice=None if a.chat == "clear" else a.chat)
         print(preview_mode(chat))
+        return
+    if a.command == "update":
+        print_update(*(apply_update() if a.apply else revert_update() if a.revert else check_update(now=a.now)))
         return
     if a.command == "start":
         info, address = start(a.page, a.agent, a.session_id, a.open)

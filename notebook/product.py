@@ -2,13 +2,15 @@
 """Notebook review · the product a page and a bridge belong to
 
 Every skill that uses the notebook describes itself in a product file (notebook.json at the skill
-root): its name, slug and language, the pattern names its notes refer to, and any text it wants
-to say differently. The notebook's own texts come from strings/<language>.json; a key in the
-product's "strings" overrides the default.
+root): its name, slug and language, the GitHub repository its releases come from, the pattern names
+its notes refer to, and any text it wants to say differently. The notebook's own texts come from
+strings/<language>.json; a key in the product's "strings" overrides the default. The installed
+version is read from the skill's SKILL.md (metadata: version).
 
   {
     "name": "Still Human?",
     "slug": "still-human",
+    "repo": "MesutARIDORU/still-human",
     "language": "en",
     "title_html": "Still Human<b>?</b>",
     "date_format": "%Y-%m-%d %H:%M",
@@ -23,6 +25,7 @@ Uses only the Python 3 standard library.
 import html
 import json
 import os
+import re
 import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -43,6 +46,7 @@ class Product:
         self.root = root
         self.name = data["name"]
         self.slug = data["slug"]
+        self.repo = data.get("repo")
         self.language = data.get("language") or "en"
         self.title_html = data.get("title_html") or html.escape(self.name)
         self.date_format = data.get("date_format") or "%Y-%m-%d %H:%M"
@@ -55,6 +59,17 @@ class Product:
     @property
     def config_dir(self):
         return os.path.join(os.path.expanduser("~"), ".config", self.slug)
+
+    @property
+    def version(self):
+        """The installed version from the skill's SKILL.md (metadata: version), or None."""
+        try:
+            with open(os.path.join(self.root, "SKILL.md"), encoding="utf-8") as f:
+                head = f.read(4000)
+        except (OSError, TypeError):
+            return None
+        m = re.search(r'(?m)^\s+version:\s*["\']?([0-9][0-9A-Za-z.\-]*)', head)
+        return m.group(1) if m else None
 
     @property
     def temp_dir(self):

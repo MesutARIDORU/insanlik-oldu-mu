@@ -40,6 +40,10 @@ Komut önce skill'i bulur ve açıklamasını gösterir, sonra sırayla şunlar�
 
 ### Güncelleme
 
+Skill günde bir kez, o gün ilk çalıştığında `api.github.com` üzerinden son sürüme bakar. Yeni sürüm varsa ve teslim ettiği metin 250 karakterden uzunsa önce kendini şu komutla günceller, sonra "Tamam" ya da "Eski sürüme dön" diye sorar. Metin kısaysa önce sorar: "Güncelle" denirse günceller, "şimdi değil" denirse ertesi gün yeniden sorar. Eski sürüme dönüş, `npx skills add` ile o sürümün etiketini yeniden kurar. Geri çevrilen sürüm bir daha sorulmadan kurulmaz. Baktığı gün `~/.config/insanlik-oldu-mu/update.json` dosyasında durur. Skill bir git klonundan çalışıyorsa güncellemeyi `git pull --ff-only` ile yapar. ZIP olarak yüklendiyse yeni ZIP'in indirileceği sürüm sayfasını verir.
+
+Elle güncellemek için:
+
 ```bash
 npx skills update -g insanlik-oldu-mu
 ```

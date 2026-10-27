@@ -13,7 +13,7 @@ description: >
   kullanma.
 license: MIT
 metadata:
-  version: "1.7.2"
+  version: "1.8.0"
   gorunen-ad: "İnsanlık öldü mü?"
 compatibility: Dosya okuyabilen her ajan. Betikler için Python 3 gerekir, Python yoksa ölçümler elle yapılır.
 allowed-tools:
@@ -140,10 +140,10 @@ Betik tek kelime yazar:
 Betik çalışmazsa (Python yoksa) `ask` gibi davran. Bulutta, kullanıcının tarayıcısının ulaşamadığı bir ortamda çalışıyorsan (bkz. İnceleme sayfası) tercih orada saklanmaz: `first` çıktısını da `ask` say.
 
 Seçenekli soru:
-- **Seçenekli soru aracın varsa** (Claude Code'da AskUserQuestion) onu kullan. Soru: "Değişiklikleri önizleme sayfasında görmek ister misin?" Seçenekler sırasıyla:
+- **Seçenekli soru aracın varsa** onu kullan: Claude Code'da AskUserQuestion, Gemini CLI'da ask_user, Codex'te Plan modundaysan request_user_input. Soru: "Değişiklikleri önizleme sayfasında görmek ister misin?" Seçenekler sırasıyla:
   - "Önizle (Önerilen)": İnceleme sayfası tarayıcıda açılır, kararlarını orada verirsin.
   - "Gerek yok": Metin bu haliyle kalır.
-- **Böyle bir araç yoksa** (Codex, Gemini CLI) teslimin son satırına şunu yaz: "Önizleme sayfasını açayım mı? **Önizle** ya da **gerek yok** yazman yeterli."
+- **Böyle bir araç yoksa** (örneğin Codex'in normal modunda) teslimin son satırına şunu yaz: "Önizleme sayfasını açayım mı? **Önizle** ya da **gerek yok** yazman yeterli."
 
 "Önizle" seçilirse ya da kullanıcı sonradan "önizle" yazarsa sayfayı canlı aç (bkz. İnceleme sayfası) ve adresini sohbete yaz, sonra dinlemeye geç. "Gerek yok" seçilirse ya da kullanıcı başka bir şeyle devam ederse soruyu tekrarlama.
 
@@ -158,6 +158,52 @@ Tercih ne olursa olsun kullanıcı "önizle", "sayfada göster" ya da "değişik
 Şu durumlarda sayfayı açma, soru da sorma:
 - Kullanıcı sayfa istemediğini söyledi ya da yalnızca metni istiyor.
 - Mod teşhis, sıfırdan yazım ya da geri bildirim turu.
+
+**6. Günde bir kez güncellemeye bak.** Her modda, teslimden sonra şunu çalıştır:
+```bash
+python3 <skill-dizini>/scripts/bridge.py update
+```
+Betik GitHub'daki son sürüme günde en çok bir kez bakar ve baktığı günü saklar. İlk satır tek kelimedir:
+
+| Çıktı | Ne yaparsın |
+|---|---|
+| `available` | Yeni bir sürüm çıkmış. Aşağıdaki gibi davran. |
+| `current` | Sürüm güncel. Bir şey söyleme. |
+| `checked` | Bugün zaten bakıldı. Bir şey söyleme. |
+| `unknown` | GitHub'a ulaşılamadı ya da sürüm okunamadı. Bir şey söyleme. |
+
+Sonraki satırlar: `installed` kullanıcıdaki sürüm, `latest` yeni sürüm, `url` sürüm notlarının adresi. `reverted_from` satırı varsa ve `latest` ile aynıysa kullanıcı bu sürümden daha önce eski sürüme dönmüştür.
+
+`available` çıktığında ne yapacağın, teslim ettiğin metnin uzunluğuna bağlı. Teşhis modunda kullanıcının metnine bak.
+- **250 karakterden uzunsa önce güncelle, sonra sor.** Kullanıcı uzun bir metni okurken soruyu kaçırabilir, bu yüzden önerilen seçenek beklemeden uygulanır. Sormadan `bridge.py update --apply` çalıştır. Çıktı `updated` ise seçenekli soru sor: "İnsanlık öldü mü?'yü güncelledim: [before] → [installed]. Yeni sürüm bir sonraki kullanımda devreye girer. Sürüm notları: [url]" Seçenekler sırasıyla:
+  - "Tamam (Önerilen)": Yeni sürüm kalır.
+  - "Eski sürüme dön": [before] sürümüne geri dönerim.
+
+  Kullanıcı cevap vermezse ya da başka bir şeyle devam ederse yeni sürüm kalır. Çıktı `updated` değilse aşağıdaki "Güncelle" seçeneğindeki gibi davran. `reverted_from` satırı `latest` ile aynıysa önce güncelleme: kullanıcı bu sürümü bir kez geri çevirdi, metin uzun olsa da önce sor.
+- **250 karakter ya da daha kısaysa önce sor.** Seçenekli soru: "İnsanlık öldü mü?'nün yeni sürümü çıktı: [latest] (sende [installed]). Şimdi güncelleyeyim mi? Sürüm notları: [url]" Seçenekler sırasıyla:
+  - "Güncelle (Önerilen)": Yeni sürüm kurulur, bir sonraki kullanımda devreye girer.
+  - "Şimdi değil": Yarın yeniden sorarım.
+
+Soruyu önizleme sorusuyla aynı araçla sor. Önizleme sorusu da sorulacaksa ikisini aynı çağrıda iki ayrı soru olarak sor. Seçenekli soru aracın yoksa soruyu teslimin son satırına yaz ve cevabın nasıl yazılacağını kalın göster: "**Tamam** ya da **eski sürüme dön** yazman yeterli." ya da "**Güncelle** ya da **şimdi değil** yazman yeterli."
+
+"Güncelle" seçilirse:
+```bash
+python3 <skill-dizini>/scripts/bridge.py update --apply
+```
+- `updated`: "Güncelledim: [before] → [installed]. Yeni sürüm bir sonraki kullanımda devreye girer." de.
+- `current`: Skill'in zaten güncel olduğunu söyle.
+- `failed`: Hatayı tek satırla söyle ve elle güncelleme komutunu ver: `npx skills update -g insanlik-oldu-mu`.
+- `manual`: Skill `npx skills` ya da git ile kurulmamış, örneğin Claude sohbetine ZIP olarak yüklenmiş. `download` satırındaki sürüm sayfasını ver: Yeni ZIP'i oradan indirip yeniden yüklemesi gerekir.
+
+"Eski sürüme dön" seçilirse:
+```bash
+python3 <skill-dizini>/scripts/bridge.py update --revert
+```
+- `reverted`: "[installed] sürümüne döndüm. [before] sürümünü yarın yeniden sorarım, kendiliğinden kurmam." de.
+- `failed`: Hatayı tek satırla söyle.
+- `manual`: Skill bir git klonundan çalışıyor ya da elle kurulmuş. Klonda yerel değişiklikler olabileceği için betik geri dönmez. `git` satırındaki komutu ya da `npx` ve `download` satırlarını ver.
+
+"Şimdi değil" seçilirse ya da kullanıcı başka bir şeyle devam ederse bir şey yapma. Betik o gün baktığını sakladığı için aynı gün yeniden sorulmaz, ertesi gün skill ilk çalıştığında yeniden sorulur. Kullanıcı "güncelleme var mı?" diye sorarsa `bridge.py update --now` çalıştır, günü beklemeden bakar.
 
 
 ## Metin tanımları
@@ -524,6 +570,6 @@ Bu örnekte hitap ("Değerli ekip arkadaşlarım") olduğu gibi kaldı. Yazarın
 | `references/sources.md` | Kuralların nereden geldiğini merak eden kullanıcıya göstermek için |
 | `scripts/audit.py` | Ölçüm, metin tanımı tahmini, tür ve alan rehberi (1. adım), önce/sonra karşılaştırması (4. adım). `--save` metni saklar, `--guide` rehberi verir, `--profile` yalnız tahmini verir |
 | `scripts/review.py` | Etkileşimli inceleme sayfası (5. adımdaki tercih ya da kullanıcının isteğiyle), `--live` ile köprülü |
-| `scripts/bridge.py` | Canlı köprü: `wait`, `reply`, `status`, `close`. `preview` önizleme tercihini söyler ve değiştirir (5. adım) |
+| `scripts/bridge.py` | Canlı köprü: `wait`, `reply`, `status`, `close`. `preview` önizleme tercihini söyler ve değiştirir (5. adım). `update` günde bir kez yeni sürüme bakar, `--apply` günceller (6. adım) |
 | `scripts/install.py` | Kurulum: skill'i ajanlara bağlar, köprüyü ayarlar, dener |
 | `notebook/`, `notebook.json` | İnceleme sayfasının ve köprünün ortak çekirdeği, skill'in kimliği. notebook-review deposundan kopyalanır, okuman ya da değiştirmen gerekmez. `review.py` ve `bridge.py` bunları kullanır |

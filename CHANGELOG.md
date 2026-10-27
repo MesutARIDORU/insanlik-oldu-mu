@@ -1,5 +1,15 @@
 # Değişiklik günlüğü
 
+## 1.8.0 · Günlük güncelleme denetimi
+
+- **Yeni sürüm denetimi:** Skill günde bir kez, o gün ilk çalıştığında GitHub'daki son sürüme bakar. Yeni sürüm varsa metni teslim ettikten sonra sohbette güncellemek isteyip istemediğini sorar: "Güncelle" ya da "Şimdi değil". "Şimdi değil" dersen aynı gün yeniden sormaz, ertesi gün ilk çalışmada sorar. Baktığı gün `~/.config/insanlik-oldu-mu/update.json` dosyasında durur.
+- **Uzun metinde önce güncelleme:** Teslim edilen metin 250 karakterden uzunsa skill sormadan güncellenir, sonra "Tamam" ya da "Eski sürüme dön" diye sorar. Cevap gelmezse yeni sürüm kalır. "Eski sürüme dön" önceki sürümün etiketini yeniden kurar. Geri çevrilen sürüm bir daha sorulmadan kurulmaz.
+- **Tıklanabilir sorular:** Önizleme ve güncelleme soruları Claude Code'da AskUserQuestion, Gemini CLI'da ask_user, Codex'te Plan modundayken request_user_input ile seçenekli gelir. Codex'in normal modunda soru yazılı kalır.
+- **Kendini güncelleme:** "Güncelle" denince skill `npx skills` ile kurulduysa `npx skills update -g insanlik-oldu-mu` komutunu, git klonundan çalışıyorsa `git pull --ff-only` komutunu kendisi çalıştırır. Eski bir sürüme sabitlenmiş kopyayı depodan yeniden kurar. Yeni sürüm bir sonraki kullanımda devreye girer. Claude sohbetine ZIP olarak yüklendiyse yeni ZIP'in indirileceği sürüm sayfasını verir.
+- **Sohbette sormak:** "Güncelleme var mı?" diye sorarsan skill günü beklemeden hemen bakar.
+- **İnternet yoksa:** GitHub'a ulaşılamazsa skill hiçbir şey söylemez. İstek 4 saniyede vazgeçer, python.org'dan kurulan ve sertifikaları eksik Python'larda sistemin sertifikalarıyla ya da `curl` ile yeniden dener.
+- **Ortak defter 1.4.0:** Denetim `bridge.py update` komutuyla notebook-review'dan geliyor, `notebook.json` dosyasına skill'in GitHub deposu (`repo`) eklendi.
+
 ## 1.7.2 · Daha kolay okunan README
 
 - **README baştan yazıldı:** Örnek artık girişin hemen altında, okur skill'in ne yaptığını önce görüyor. Her ilkenin kendi başlığı var: "Metne bilgi eklemez", "Metnin türüne göre yazar", "Önce cümlenin kuruluşunu düzeltir", "Her değişikliği gerekçesiyle gösterir" ve "Sağlam metni bozmaz".

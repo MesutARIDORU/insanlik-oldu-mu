@@ -1,6 +1,7 @@
 {
   "name": "İnsanlık öldü mü?",
   "slug": "insanlik-oldu-mu",
+  "repo": "MesutARIDORU/insanlik-oldu-mu",
   "language": "tr",
   "title_html": "İnsanlık öldü mü<b>?</b>",
   "date_format": "%d.%m.%Y %H:%M",

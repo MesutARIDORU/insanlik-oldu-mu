@@ -152,7 +152,7 @@ Metin ve tablo her durumda önce sohbete gelir, sayfa için seni bekletmez. Skil
 | Önce bana sor | Skill sohbette "Değişiklikleri önizleme sayfasında görmek ister misin?" diye sorar. Metin uzunsa ya da değişiklik çoksa sormadan açar. |
 | Ben isteyince aç | Sayfa kendiliğinden açılmaz. Sohbete "önizle", "sayfada göster" ya da "değişiklikleri sayfada aç" yazınca açılır. Bu seçimden sonra not, yazabileceğin bu cümleleri küçük bir yazma animasyonuyla gösterir. |
 
-Claude Code soruyu tıklanabilir seçeneklerle sorar. Codex'te ve Gemini CLI'da cevabı yazman yeterli.
+Claude Code ve Gemini CLI soruyu tıklanabilir seçeneklerle sorar. Codex de Plan modundaysa seçenek gösterir, normal modda cevabı yazman yeterli.
 
 Seçimini istediğin zaman değiştirebilirsin: sayfanın ayarlarındaki Önizleme satırından ya da sohbette "önizleme hep açılsın" gibi bir cümleyle. Yalnız o sohbet için "bu sohbette hep aç" ya da "bu sohbette açma" da diyebilirsin. Seçim `~/.config/insanlik-oldu-mu/preferences.json` dosyasında saklanır.
 
@@ -264,7 +264,13 @@ Ajana Türkçe bir metin ver ve "doğallaştır" de. Skill devreye girdiyse sohb
 
 ### Güncelleme ve kaldırma
 
-Güncellemek için:
+Skill günde bir kez, o gün ilk çalıştığında GitHub'da yeni bir sürüm çıkıp çıkmadığına bakar. Yeni sürüm varsa metni teslim ettikten sonra şunu yapar:
+- **Metin 250 karakterden uzunsa** beklemeden kendini günceller, sonra sorar: "Tamam" ya da "Eski sürüme dön". Cevap vermezsen yeni sürüm kalır. Uzun bir metni okurken soruyu kaçırsan da güncelleme yapılmış olur.
+- **Metin kısaysa** önce sorar: "Güncelle" ya da "Şimdi değil". "Şimdi değil" dersen ertesi gün yeniden sorar.
+
+Yeni sürüm bir sonraki kullanımda devreye girer. Eski sürüme döndüysen o sürümü bir daha kendiliğinden kurmaz, önce sorar. Bunun için günde bir kez GitHub'a kısa bir istek gider. İnternet yoksa skill hiçbir şey söylemez.
+
+Kendin güncellemek için:
 
 ```bash
 npx skills update -g insanlik-oldu-mu

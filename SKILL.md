@@ -13,7 +13,7 @@ description: >
   kullanma.
 license: MIT
 metadata:
-  version: "1.7.1"
+  version: "1.7.2"
   gorunen-ad: "İnsanlık öldü mü?"
 compatibility: Dosya okuyabilen her ajan. Betikler için Python 3 gerekir, Python yoksa ölçümler elle yapılır.
 allowed-tools:

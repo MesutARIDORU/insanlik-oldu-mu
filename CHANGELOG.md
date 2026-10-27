@@ -1,5 +1,14 @@
 # Değişiklik günlüğü
 
+## 1.7.2 · Daha kolay okunan README
+
+- **README baştan yazıldı:** Örnek artık girişin hemen altında, okur skill'in ne yaptığını önce görüyor. Her ilkenin kendi başlığı var: "Metne bilgi eklemez", "Metnin türüne göre yazar", "Önce cümlenin kuruluşunu düzeltir", "Her değişikliği gerekçesiyle gösterir" ve "Sağlam metni bozmaz".
+- **"Bilgi uydurmaz" paragrafı:** "Okur bunu yayımlar" cümlesi kimin neyi yayımladığını söylemiyordu. Paragraf artık araçların neyi uydurduğunu, metni kimin fark etmeden yayımladığını ve skill'in eksik bilgi karşısında yaptığı üç şeyi ayrı ayrı anlatıyor.
+- **İnceleme sayfası:** Sayfanın ne zaman açıldığı bir tabloda, sayfada ne yapılacağı kısa bir listede. Kart konumu ve seçenek balonu gibi ince ayrıntılar açılır-kapanır bir bölümde.
+- **Kullanım tablosu:** İstekler okurun kendi diliyle yazıldı ("Metni baştan kurması"), teslimde göreceği mod adı parantezde.
+
+Skill'in davranışı değişmedi, yalnızca README yenilendi.
+
 ## 1.7.1 · Daha çok araçta
 
 - **Açıklama:** Skill'in açıklaması artık tetikleyici kelimelerle başlıyor ("Türkçe metni doğallaştırır ve insanlaştırır"), adı sonda. Codex çok sayıda skill yüklüyken açıklamaları kısaltıyor ve tetikleyici kelimeler kesilen kısımda kalıyordu. 230 skill yüklü bir bilgisayarda Codex skill'i artık adı verilmeden seçiyor.
